@@ -1,21 +1,11 @@
 import { useReducer, ReactNode, useEffect, useState } from "react";
-import { AuthAction, AuthContextValue, AuthState } from "../types/authTypes";
+import { AuthContextValue } from "../types/authTypes";
 import { authContext } from "../constants/constant";
 import { auth } from "../firebase";
-
-const reducerAuth = (state: AuthState, action: AuthAction): AuthState => {
-    switch (action.type) {
-        case "LOGIN":
-            return { authUser: true };
-        case "LOGOUT":
-            return { authUser: false };
-        default:
-            return state;
-    }
-};
+import { authReducer } from "../reducers/authReducer";
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-    const [state, dispatch] = useReducer(reducerAuth, { authUser: false });
+    const [state, dispatch] = useReducer(authReducer, { authUser: false });
     const [isLoaded, setIsLoaded] = useState(false);
     console.log("auth user:", state);
 
