@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema(
     {
-        title: {
+        name: {
             type: String,
             required: true,
         },
@@ -12,6 +12,10 @@ const taskSchema = new mongoose.Schema(
         listId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "List",
+            required: true,
+        },
+        createdBy: {
+            type: String,
             required: true,
         },
     },

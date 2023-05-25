@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const workspaceSchema = new mongoose.Schema(
     {
@@ -14,7 +14,7 @@ const workspaceSchema = new mongoose.Schema(
             required: true,
         },
     },
-    { timeStamps: true }
+    { timestamps: true }
 );
 
 const Workspace = mongoose.model("Workspace", workspaceSchema);
