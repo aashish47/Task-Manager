@@ -1,7 +1,7 @@
 import { useReducer, ReactNode, useEffect, useState } from "react";
 import { AuthContextValue } from "../types/authTypes";
 import { authContext } from "../constants/constant";
-import { auth } from "../firebase";
+import { auth } from "../config/firebase";
 import { authReducer } from "../reducers/authReducer";
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
