@@ -5,76 +5,28 @@ import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import NavBar from "./components/NavBar";
 import NavBarAuth from "./components/NavBarAuth";
-import { ThemeProvider, createTheme } from "@mui/material";
-import { grey } from "@mui/material/colors";
-
-const defaultTheme = createTheme({});
-
-const theme = createTheme({
-    components: {
-        MuiButton: {
-            styleOverrides: {
-                text: {
-                    "&:hover": {
-                        backgroundColor: grey[200],
-                    },
-                },
-            },
-        },
-        MuiIconButton: {
-            styleOverrides: {
-                root: {
-                    "&:hover": {
-                        backgroundColor: grey[200],
-                    },
-                },
-            },
-        },
-        MuiListItemButton: {
-            styleOverrides: {
-                // Name of the slot
-                root: {
-                    // Some CSS
-                    color: "rgba(0, 0, 0, 0.7)",
-                    "&:hover": {
-                        backgroundColor: grey[200],
-                    },
-
-                    "&.Mui-selected": {
-                        backgroundColor: defaultTheme.palette.primary.main,
-                        color: "white",
-                        "&:hover": {
-                            backgroundColor: defaultTheme.palette.primary.main,
-                        },
-                    },
-                },
-            },
-        },
-        MuiListItemIcon: {
-            styleOverrides: {
-                root: {
-                    minWidth: 30,
-                    color: "inherit",
-                },
-            },
-        },
-    },
-});
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { useState } from "react";
+import { createCustomTheme } from "./Theme/theme";
 
 const App = () => {
+    const [darkmode, setDarkmode] = useState(false);
     const { authUser } = useAuthContext();
+    const theme = createCustomTheme(darkmode);
+
     return (
-        <main>
-            <BrowserRouter>
-                <ThemeProvider theme={theme}>
-                    {authUser ? <NavBarAuth /> : <NavBar />}
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <main>
+                <BrowserRouter>
+                    {authUser ? <NavBarAuth darkmode={darkmode} setDarkmode={setDarkmode} /> : <NavBar />}
                     <Routes>
                         <Route path="/login" element={!authUser ? <Login /> : <Navigate to="/" />} />
                         <Route path="/" element={!authUser ? <Landing /> : <Home />} />
                     </Routes>
-                </ThemeProvider>
-            </BrowserRouter>
-        </main>
+                </BrowserRouter>
+            </main>
+        </ThemeProvider>
     );
 };
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
+import { alpha, styled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -20,13 +20,15 @@ import RecentMenu from "./RecentMenu";
 import StarredMenu from "./StarredMenu";
 import CreateMenu from "./CreateMenu";
 import DrawerLeft from "./DrawerLeft";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: grey[100],
+    backgroundColor: alpha(theme.palette.grey[500], 0.15),
     "&:hover": {
-        backgroundColor: grey[200],
+        backgroundColor: alpha(theme.palette.grey[500], 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -61,7 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({ darkmode, setDarkmode }: { darkmode: boolean; setDarkmode: (value: boolean) => void }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -151,8 +153,8 @@ export default function PrimarySearchAppBar() {
 
     return (
         <Box sx={{ flexShrink: 1 }}>
-            <AppBar position="static" sx={{ backgroundColor: "white" }}>
-                <Toolbar sx={{ color: "rgba(0,0,0,1)" }}>
+            <AppBar position="static">
+                <Toolbar>
                     <DrawerLeft />
 
                     <Typography variant="h6" component="div" sx={{ mr: 2 }}>
@@ -172,6 +174,10 @@ export default function PrimarySearchAppBar() {
                         </SearchIconWrapper>
                         <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
                     </Search>
+
+                    <IconButton sx={{ ml: 1 }} onClick={() => setDarkmode(!darkmode)} color="inherit">
+                        {darkmode ? <Brightness7Icon /> : <Brightness4Icon />}
+                    </IconButton>
 
                     <Box sx={{ display: { xs: "none", md: "flex" } }}>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
