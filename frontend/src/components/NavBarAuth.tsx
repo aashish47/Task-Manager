@@ -14,7 +14,6 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { grey } from "@mui/material/colors";
 import WorkspaceMenu from "./WorkspaceMenu";
 import RecentMenu from "./RecentMenu";
 import StarredMenu from "./StarredMenu";
@@ -157,7 +156,7 @@ export default function PrimarySearchAppBar({ darkmode, setDarkmode }: { darkmod
                 <Toolbar>
                     <DrawerLeft />
 
-                    <Typography variant="h6" component="div" sx={{ mr: 2 }}>
+                    <Typography variant="h6" component="div">
                         MUI
                     </Typography>
                     <Box sx={{ flexGrow: 1, gap: 1.2, display: "flex", ml: 2 }}>

@@ -5,6 +5,7 @@ import SidebarRight from "../components/SidebarRight";
 import { auth } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import HomeTasksCards from "../components/HomeTasksCards";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Home = () => {
 
     return (
         <>
-            <Box sx={{ display: "flex", justifyContent: "center", mt: "50px", gap: "20px" }}>
+            <Box sx={{ display: "flex", justifyContent: "center", mt: "50px", gap: "50px" }}>
                 {/* <button onClick={handleLogout}>Logout</button> */}
 
                 <SidebarLeft />
@@ -27,7 +28,8 @@ const Home = () => {
                     sx={{ width: "100%", maxWidth: 500 }}
                     aria-labelledby="nested-list-subheader"
                     subheader={
-                        <ListSubheader component="div" id="nested-list-subheader">
+                        <ListSubheader component="div" id="nested-list-subheader" sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                            <AccessTimeIcon fontSize="small" />
                             Up next
                         </ListSubheader>
                     }

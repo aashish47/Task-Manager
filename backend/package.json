@@ -4,6 +4,7 @@
     "description": "",
     "main": "src/app.ts",
     "scripts": {
+        "dev": "nodemon",
         "start": "node dist/app.js",
         "build": "rimraf dist && tsc"
     },
