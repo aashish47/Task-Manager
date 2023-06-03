@@ -25,9 +25,10 @@ const deleteWorkspace = async (req: Request, res: Response) => {
     }
 };
 
-const getAllWorkspaces = async (_req: Request, res: Response) => {
+const getAllWorkspaces = async (req: Request, res: Response) => {
+    const createdBy = req.query.uid as string | undefined;
     try {
-        const workspaces = await workspaceService.getAllWorkspaces();
+        const workspaces = await workspaceService.getAllWorkspaces(createdBy);
         res.json(workspaces);
     } catch (error: any) {
         res.status(500).json({ error: error.message });

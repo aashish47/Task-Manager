@@ -18,18 +18,19 @@ const stylesMenu = {
 
 export default function CreateMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-
     const [openCreateWorkspace, setOpenCreateWorkspace] = React.useState(false);
     const [openCreateBoard, setOpenCreateBoard] = React.useState(false);
-    // const [anchorElBoard, setAnchorElBoard] = React.useState<null | HTMLElement>(null);
+
+    const open = Boolean(anchorEl);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     const handleCreateWokspace = () => {
         setOpenCreateWorkspace(true);
         handleClose();
@@ -38,7 +39,6 @@ export default function CreateMenu() {
     const handleCreateBoard = () => {
         setOpenCreateBoard(true);
         handleClose();
-        console.log("click");
     };
 
     return (
@@ -84,8 +84,8 @@ export default function CreateMenu() {
                     </Typography>
                 </MenuItem>
             </Menu>
-            <CreateWorkspace open={openCreateWorkspace} setOpen={setOpenCreateWorkspace} />
-            <CreateBoard open={openCreateBoard} setOpen={setOpenCreateBoard} />
+            {openCreateWorkspace && <CreateWorkspace open={openCreateWorkspace} setOpen={setOpenCreateWorkspace} />}
+            {openCreateBoard && <CreateBoard open={openCreateBoard} setOpen={setOpenCreateBoard} />}
         </div>
     );
 }

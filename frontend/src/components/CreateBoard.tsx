@@ -12,35 +12,51 @@ import {
     SelectChangeEvent,
     Divider,
 } from "@mui/material";
+
 import React from "react";
+import useWorkspaceData from "../hooks/useWorkspaceContext";
 
 const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+    const [board, setBoard] = React.useState("");
+    const [workspace, setWorkspace] = React.useState("");
+
+    const logMessage = `Workspace: ${workspace}, Board: ${board}`;
+    console.log(logMessage);
+
+    const handleChangeBoard = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setBoard(event.target.value);
+    };
+
+    const handleChangeWorkspace = (event: SelectChangeEvent) => {
+        setWorkspace(event.target.value);
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    };
+
     const handleClose = () => {
         setOpen(false);
         setWorkspace("");
+        setBoard("");
     };
-    const [workspace, setWorkspace] = React.useState("");
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setWorkspace(event.target.value as string);
-    };
+    const workspaces = useWorkspaceData();
+    console.log(workspaces);
 
     return (
         <Dialog scroll="body" open={open} onClose={handleClose} aria-labelledby="scroll-dialog-title" aria-describedby="scroll-dialog-description">
             <DialogTitle align="center">Create Board</DialogTitle>
+
             <Divider variant="middle" />
+
             <div style={{ textAlign: "center", margin: "28px 0px 8px 0px" }}>
                 <img src="board.svg" alt="" />
             </div>
-            <form
-                autoComplete="off"
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    console.log("hello");
-                }}
-            >
+
+            <form autoComplete="off" onSubmit={handleSubmit}>
                 <DialogContent sx={{ width: "350px" }}>
-                    <TextField required id="Board Name" label="Board Name" fullWidth sx={{ mb: 2 }} />
+                    <TextField value={board} onChange={handleChangeBoard} required id="Board Name" label="Board Name" fullWidth sx={{ mb: 2 }} />
 
                     <FormControl fullWidth>
                         <InputLabel id="workspace-label">Workspace *</InputLabel>
@@ -51,11 +67,14 @@ const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch
                             id="workspace-select"
                             value={workspace}
                             label="Workspace*"
-                            onChange={handleChange}
+                            onChange={handleChangeWorkspace}
                         >
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            {workspaces &&
+                                workspaces.map((workspace, index) => (
+                                    <MenuItem key={index} value={workspace.name}>
+                                        {workspace.name}
+                                    </MenuItem>
+                                ))}
                         </Select>
                     </FormControl>
 

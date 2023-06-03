@@ -6,9 +6,15 @@ import { auth } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import HomeTasksCards from "../components/HomeTasksCards";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { useQuery } from "@tanstack/react-query";
+import { fetchWorkspaces } from "../api/api";
+import useAuthContext from "../hooks/useAuthContext";
 
 const Home = () => {
+    const user = useAuthContext();
+    useQuery({ queryKey: ["workspaces"], queryFn: () => fetchWorkspaces(user.uid) });
     const navigate = useNavigate();
+
     const handleLogout = async () => {
         try {
             await auth.signOut();

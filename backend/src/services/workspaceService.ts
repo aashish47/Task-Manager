@@ -9,8 +9,8 @@ const deleteWorkspace = async (id: string) => {
     return await Workspace.findByIdAndDelete(id);
 };
 
-const getAllWorkspaces = async () => {
-    return await Workspace.find();
+const getAllWorkspaces = async (uid: string | undefined) => {
+    return await Workspace.find({ createdBy: uid });
 };
 
 const updateWorkspace = async (id: string, name: string, description: string) => {

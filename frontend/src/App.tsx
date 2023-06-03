@@ -11,7 +11,7 @@ import { createCustomTheme } from "./Theme/theme";
 
 const App = () => {
     const [darkmode, setDarkmode] = useState(false);
-    const { authUser } = useAuthContext();
+    const user = useAuthContext();
     const theme = createCustomTheme(darkmode);
 
     return (
@@ -19,10 +19,10 @@ const App = () => {
             <CssBaseline />
             <main>
                 <BrowserRouter>
-                    {authUser ? <NavBarAuth darkmode={darkmode} setDarkmode={setDarkmode} /> : <NavBar />}
+                    {user ? <NavBarAuth darkmode={darkmode} setDarkmode={setDarkmode} /> : <NavBar />}
                     <Routes>
-                        <Route path="/login" element={!authUser ? <Login /> : <Navigate to="/" />} />
-                        <Route path="/" element={!authUser ? <Landing /> : <Home />} />
+                        <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+                        <Route path="/" element={!user ? <Landing /> : <Home />} />
                     </Routes>
                 </BrowserRouter>
             </main>

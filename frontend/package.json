@@ -15,6 +15,8 @@
         "@fontsource/roboto": "^5.0.0",
         "@mui/icons-material": "^5.11.16",
         "@mui/material": "^5.13.1",
+        "@tanstack/react-query": "^4.29.12",
+        "axios": "^1.4.0",
         "firebase": "^9.22.0",
         "firebaseui": "^6.0.2",
         "react": "^18.2.0",
@@ -23,6 +25,7 @@
         "react-router-dom": "^6.11.2"
     },
     "devDependencies": {
+        "@tanstack/eslint-plugin-query": "^4.29.9",
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.11",
         "@typescript-eslint/eslint-plugin": "^5.57.1",

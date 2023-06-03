@@ -1,39 +1,33 @@
-import { useReducer, ReactNode, useEffect, useState } from "react";
-import { AuthContextValue } from "../types/authTypes";
-import { authContext } from "../constants/constant";
+import { ReactNode, useEffect, useState } from "react";
+import { authContext } from "./authContext";
 import { auth } from "../config/firebase";
-import { authReducer } from "../reducers/authReducer";
+import { User } from "firebase/auth";
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-    const [state, dispatch] = useReducer(authReducer, { authUser: false });
+    const [user, setUser] = useState<User | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    console.log("auth user:", state);
+    console.log("User:", user);
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
-                dispatch({ type: "LOGIN" });
+                const token = await user.getIdToken();
+                localStorage.setItem("token", token);
+                setUser(user as User);
             } else {
-                dispatch({ type: "LOGOUT" });
+                setUser(null);
             }
             setIsLoaded(true);
         });
 
-        // Cleanup the event listener when component unmounts
         return () => unsubscribe();
     }, []);
 
     if (!isLoaded) {
-        // Render a loading indicator while the state is being loaded
         return <div>Loading...</div>;
     }
 
-    const authContextValue: AuthContextValue = {
-        ...state,
-        dispatch,
-    };
-
-    return <authContext.Provider value={authContextValue}>{children}</authContext.Provider>;
+    return <authContext.Provider value={user}>{children}</authContext.Provider>;
 };
 
 export default AuthContextProvider;

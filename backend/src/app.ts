@@ -6,6 +6,7 @@ import workspaceRoutes from "./routes/workspaceRoutes";
 import boardRoutes from "./routes/boardRoutes";
 import listRoutes from "./routes/listRoutes";
 import taskRoutes from "./routes/taskRoutes";
+import authenticateFirebaseToken from "./middlewares/authenticateFirebaseToken";
 
 const app = express();
 const PORT = config.server.port;
@@ -18,7 +19,7 @@ app.use((req, res, next) => {
     console.log(req.path, req.method, "\n");
     next();
 });
-
+app.use(authenticateFirebaseToken);
 app.use("/api/workspaces", workspaceRoutes);
 app.use("/api/boards", boardRoutes);
 app.use("/api/lists", listRoutes);

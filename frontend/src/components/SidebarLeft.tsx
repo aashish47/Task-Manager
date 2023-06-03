@@ -14,12 +14,18 @@ import { Divider } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
+import useWorkspaceContext from "../hooks/useWorkspaceContext";
 
 export default function NestedList() {
-    const [open, setOpen] = React.useState([false, false]);
+    const data = useWorkspaceContext();
+    const [open, setOpen] = React.useState<boolean[]>([]);
+
+    React.useEffect(() => {
+        const init = Array(data?.length).fill(false) as boolean[];
+        setOpen(init);
+    }, [data]);
+
     const [selectedIndex, setSelectedIndex] = React.useState(1);
-    const [workspaces, setWorkspaces] = React.useState(["Demo", "app dev"]);
-    console.log(open);
 
     const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
         setSelectedIndex(index);
@@ -65,14 +71,14 @@ export default function NestedList() {
                 </ListItemIcon>
             </ListItemButton>
 
-            {workspaces &&
-                workspaces.map((workspace, index) => (
+            {data &&
+                data.map((workspace, index) => (
                     <div key={index}>
                         <ListItemButton onClick={() => handleClick(index)}>
                             <ListItemIcon>
                                 <WorkspacesIcon />
                             </ListItemIcon>
-                            <ListItemText primary={workspace} />
+                            <ListItemText primary={workspace.name} />
                             {open[index] ? <ExpandLess /> : <ExpandMore />}
                         </ListItemButton>
                         <Collapse in={open[index]} timeout="auto" unmountOnExit>
