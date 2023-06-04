@@ -11,8 +11,10 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
-                const token = await user.getIdToken();
-                localStorage.setItem("token", token);
+                const idToken = await user.getIdToken();
+                const refreshToken = user.refreshToken;
+                localStorage.setItem("ID_TOKEN", idToken);
+                localStorage.setItem("REFRESH_TOKEN", refreshToken);
                 setUser(user as User);
             } else {
                 setUser(null);

@@ -15,15 +15,17 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
 import useWorkspaceContext from "../hooks/useWorkspaceContext";
+import useBoardsContext from "../hooks/useBoardsContext";
 
 export default function NestedList() {
-    const data = useWorkspaceContext();
+    const workspaces = useWorkspaceContext();
+    const boards = useBoardsContext();
     const [open, setOpen] = React.useState<boolean[]>([]);
 
     React.useEffect(() => {
-        const init = Array(data?.length).fill(false) as boolean[];
+        const init = Array(workspaces?.length).fill(false) as boolean[];
         setOpen(init);
-    }, [data]);
+    }, [workspaces]);
 
     const [selectedIndex, setSelectedIndex] = React.useState(1);
 
@@ -41,6 +43,11 @@ export default function NestedList() {
                 }
             })
         );
+    };
+
+    const handleClickBoards = (workspaceId: string) => {
+        const data = boards.filter((board) => board.workspaceId === workspaceId);
+        console.log(data, workspaceId);
     };
 
     return (
@@ -71,8 +78,8 @@ export default function NestedList() {
                 </ListItemIcon>
             </ListItemButton>
 
-            {data &&
-                data.map((workspace, index) => (
+            {workspaces &&
+                workspaces.map((workspace, index) => (
                     <div key={index}>
                         <ListItemButton onClick={() => handleClick(index)}>
                             <ListItemIcon>
@@ -83,7 +90,7 @@ export default function NestedList() {
                         </ListItemButton>
                         <Collapse in={open[index]} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding sx={{ fontWeight: "300", fontSize: "15px" }}>
-                                <ListItemButton sx={{ pl: 4 }}>
+                                <ListItemButton onClick={() => handleClickBoards(workspace._id)} sx={{ pl: 4 }}>
                                     <ListItemIcon>
                                         <DashboardIcon />
                                     </ListItemIcon>

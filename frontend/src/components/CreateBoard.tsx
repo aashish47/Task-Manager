@@ -15,34 +15,49 @@ import {
 
 import React from "react";
 import useWorkspaceData from "../hooks/useWorkspaceContext";
+import useAuthContext from "../hooks/useAuthContext";
+import { createBoard } from "../api/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
-    const [board, setBoard] = React.useState("");
+    const workspaces = useWorkspaceData();
+    const user = useAuthContext();
+
+    const [name, setName] = React.useState("");
     const [workspace, setWorkspace] = React.useState("");
 
-    const logMessage = `Workspace: ${workspace}, Board: ${board}`;
-    console.log(logMessage);
+    const queryClient = useQueryClient();
+    const createBoardMutation = useMutation({
+        mutationFn: createBoard,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["Boards"] });
+        },
+    });
 
-    const handleChangeBoard = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setBoard(event.target.value);
+    const handleChangeName = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setName(event.target.value);
     };
 
     const handleChangeWorkspace = (event: SelectChangeEvent) => {
         setWorkspace(event.target.value);
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const board = { name, workspaceId: workspace, createdBy: user.uid };
+        try {
+            await createBoardMutation.mutateAsync(board);
+            handleClose();
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
     };
 
     const handleClose = () => {
         setOpen(false);
         setWorkspace("");
-        setBoard("");
+        setName("");
     };
-
-    const workspaces = useWorkspaceData();
-    console.log(workspaces);
 
     return (
         <Dialog scroll="body" open={open} onClose={handleClose} aria-labelledby="scroll-dialog-title" aria-describedby="scroll-dialog-description">
@@ -56,7 +71,7 @@ const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch
 
             <form autoComplete="off" onSubmit={handleSubmit}>
                 <DialogContent sx={{ width: "350px" }}>
-                    <TextField value={board} onChange={handleChangeBoard} required id="Board Name" label="Board Name" fullWidth sx={{ mb: 2 }} />
+                    <TextField value={name} onChange={handleChangeName} required id="Board Name" label="Board Name" fullWidth sx={{ mb: 2 }} />
 
                     <FormControl fullWidth>
                         <InputLabel id="workspace-label">Workspace *</InputLabel>
@@ -71,7 +86,7 @@ const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch
                         >
                             {workspaces &&
                                 workspaces.map((workspace, index) => (
-                                    <MenuItem key={index} value={workspace.name}>
+                                    <MenuItem key={index} value={workspace._id}>
                                         {workspace.name}
                                     </MenuItem>
                                 ))}

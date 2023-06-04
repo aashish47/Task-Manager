@@ -12,13 +12,10 @@ const CreateWorkspace = ({ open, setOpen }: { open: boolean; setOpen: React.Disp
     const createWorkspaceMutation = useMutation({
         mutationFn: createWorkspace,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+            queryClient.invalidateQueries({ queryKey: ["Workspaces"] });
         },
     });
     const user = useAuthContext();
-
-    const logMessage = `Workspace: ${name}, Description: ${description}`;
-    console.log(logMessage);
 
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setName(event.target.value);

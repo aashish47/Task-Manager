@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import workspaceService from "../services/workspaceService";
+import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 
-const createWorkspace = async (req: Request, res: Response) => {
-    const { name, description, createdBy } = req.body;
+const createWorkspace = async (req: CustomRequest, res: Response) => {
+    const createdBy = req.user?.uid!;
+    const { name, description } = req.body;
     try {
         const newWorkspace = await workspaceService.createWorkspace(name, description, createdBy);
         res.json(newWorkspace);
@@ -25,8 +27,9 @@ const deleteWorkspace = async (req: Request, res: Response) => {
     }
 };
 
-const getAllWorkspaces = async (req: Request, res: Response) => {
-    const createdBy = req.query.uid as string | undefined;
+const getAllWorkspaces = async (req: CustomRequest, res: Response) => {
+    const createdBy = req.user?.uid!;
+
     try {
         const workspaces = await workspaceService.getAllWorkspaces(createdBy);
         res.json(workspaces);

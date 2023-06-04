@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import boardService from "../services/boardService";
+import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 
-const createBoard = async (req: Request, res: Response) => {
-    const { name, workspaceId, createdBy } = req.body;
+const createBoard = async (req: CustomRequest, res: Response) => {
+    const createdBy = req.user?.uid!;
+    const { name, workspaceId } = req.body;
+
     try {
         const newBoard = await boardService.createBoard(name, workspaceId, createdBy);
         res.json(newBoard);
@@ -25,9 +28,11 @@ const deleteBoard = async (req: Request, res: Response) => {
     }
 };
 
-const getAllBoards = async (_req: Request, res: Response) => {
+const getAllBoards = async (req: CustomRequest, res: Response) => {
+    const createdBy = req.user?.uid!;
+
     try {
-        const boards = await boardService.getAllBoards();
+        const boards = await boardService.getAllBoards(createdBy);
         res.json(boards);
     } catch (error: any) {
         res.status(500).json({ error: error.message });

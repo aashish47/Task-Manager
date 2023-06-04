@@ -2,14 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import * as admin from "firebase-admin";
 import * as serviceAccount from "../config/serviceAccountKey.json";
 
-// Initialize Firebase Admin SDK
 admin.initializeApp({
-    // Your Firebase admin SDK configuration
     credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
 });
 
-interface CustomRequest extends Request {
-    user?: any;
+export interface CustomRequest extends Request {
+    user?: admin.auth.DecodedIdToken;
 }
 
 const authenticateFirebaseToken = async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -23,12 +21,12 @@ const authenticateFirebaseToken = async (req: CustomRequest, res: Response, next
         const token = authorization.split(" ")[1];
         const decodedToken = await admin.auth().verifyIdToken(token);
 
-        req.user = decodedToken; // Attach the user object to the request
+        req.user = decodedToken;
 
         next();
     } catch (error: any) {
         console.error("Error authenticating Firebase token:", error);
-        return res.status(403).json({ message: "Forbidden" });
+        return res.status(403).json({ code: error.code, message: error.message });
     }
 };
 

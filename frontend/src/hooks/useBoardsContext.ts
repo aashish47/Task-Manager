@@ -1,18 +1,18 @@
 import { useQueryClient } from "@tanstack/react-query";
 
-const useWorkspaceContext = () => {
+const useBoardsContext = () => {
     const queryClient = useQueryClient();
-    const workspaceData = queryClient.getQueryData(["Workspaces"]) as Array<{
+    const BoardsData = queryClient.getQueryData(["Boards"]) as Array<{
         createdAt: string;
         createdBy: string;
-        description: string;
+        workspaceId: string;
         name: string;
         updatedAt: string;
         __v: number;
         _id: string;
     }>;
 
-    return workspaceData;
+    return BoardsData;
 };
 
-export default useWorkspaceContext;
+export default useBoardsContext;

@@ -9,8 +9,8 @@ const deleteBoard = async (id: string) => {
     return await Board.findByIdAndDelete(id);
 };
 
-const getAllBoards = async () => {
-    return await Board.find();
+const getAllBoards = async (createdBy: string) => {
+    return await Board.find({ createdBy });
 };
 
 const updateBoard = async (id: string, name: string, workspaceId: string) => {
