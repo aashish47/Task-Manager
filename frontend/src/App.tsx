@@ -8,6 +8,8 @@ import NavBarAuth from "./components/NavBarAuth";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useState } from "react";
 import { createCustomTheme } from "./Theme/theme";
+import WorkspaceHome from "./pages/WorkspaceHome";
+import LayoutHome from "./pages/LayoutHome";
 
 const App = () => {
     const [darkmode, setDarkmode] = useState(false);
@@ -22,7 +24,30 @@ const App = () => {
                     {user ? <NavBarAuth darkmode={darkmode} setDarkmode={setDarkmode} /> : <NavBar />}
                     <Routes>
                         <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
-                        <Route path="/" element={!user ? <Landing /> : <Home />} />
+                        <Route
+                            path="/"
+                            element={
+                                user ? (
+                                    <LayoutHome>
+                                        <Home />
+                                    </LayoutHome>
+                                ) : (
+                                    <Landing />
+                                )
+                            }
+                        />
+                        <Route
+                            path="/w/:wname/:id/home"
+                            element={
+                                user ? (
+                                    <LayoutHome>
+                                        <WorkspaceHome />
+                                    </LayoutHome>
+                                ) : (
+                                    <Navigate to="/login" />
+                                )
+                            }
+                        />
                     </Routes>
                 </BrowserRouter>
             </main>

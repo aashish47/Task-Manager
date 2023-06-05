@@ -3,51 +3,32 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import HomeIcon from "@mui/icons-material/Home";
 import AddSharpIcon from "@mui/icons-material/AddSharp";
-import WorkspacesIcon from "@mui/icons-material/Workspaces";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Divider } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import GroupsIcon from "@mui/icons-material/Groups";
-import useWorkspaceContext from "../hooks/useWorkspaceContext";
-import useBoardsContext from "../hooks/useBoardsContext";
+import { useNavigate } from "react-router-dom";
+import CollapseList from "./CollpaseList";
 
 export default function NestedList() {
-    const workspaces = useWorkspaceContext();
-    const boards = useBoardsContext();
-    const [open, setOpen] = React.useState<boolean[]>([]);
+    const navigate = useNavigate();
+    const [selectedIndex, setSelectedIndex] = React.useState("Boards");
 
-    React.useEffect(() => {
-        const init = Array(workspaces?.length).fill(false) as boolean[];
-        setOpen(init);
-    }, [workspaces]);
+    /*
+    currentTarget = Name of the Button
+    index = currentTarget
+    index is used to uniquely identiy the button for selecting 
+    */
 
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
-
-    const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
-        setSelectedIndex(index);
-    };
-
-    const handleClick = (index: number) => {
-        setOpen(
-            open.map((o, i) => {
-                if (i === index) {
-                    return !o;
-                } else {
-                    return o;
-                }
-            })
-        );
-    };
-
-    const handleClickBoards = (workspaceId: string) => {
-        const data = boards.filter((board) => board.workspaceId === workspaceId);
-        console.log(data, workspaceId);
+    const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const currentTarget = event.currentTarget.textContent;
+        currentTarget ? setSelectedIndex(currentTarget) : "";
+        console.log(currentTarget);
+        if (currentTarget === "Home") {
+            navigate("/");
+        } else if (currentTarget === "Boards") {
+            console.log("xxxxx");
+        }
     };
 
     return (
@@ -56,14 +37,14 @@ export default function NestedList() {
             component="nav"
             aria-labelledby="nested-list-subheader"
         >
-            <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 0)}>
+            <ListItemButton selected={selectedIndex === "Boards"} onClick={(event) => handleListItemClick(event)}>
                 <ListItemIcon>
                     <DashboardIcon />
                 </ListItemIcon>
                 <ListItemText primary="Boards" />
             </ListItemButton>
 
-            <ListItemButton selected={selectedIndex === 1} onClick={(event) => handleListItemClick(event, 1)}>
+            <ListItemButton selected={selectedIndex === "Home"} onClick={(event) => handleListItemClick(event)}>
                 <ListItemIcon>
                     <HomeIcon />
                 </ListItemIcon>
@@ -78,47 +59,7 @@ export default function NestedList() {
                 </ListItemIcon>
             </ListItemButton>
 
-            {workspaces &&
-                workspaces.map((workspace, index) => (
-                    <div key={index}>
-                        <ListItemButton onClick={() => handleClick(index)}>
-                            <ListItemIcon>
-                                <WorkspacesIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={workspace.name} />
-                            {open[index] ? <ExpandLess /> : <ExpandMore />}
-                        </ListItemButton>
-                        <Collapse in={open[index]} timeout="auto" unmountOnExit>
-                            <List component="div" disablePadding sx={{ fontWeight: "300", fontSize: "15px" }}>
-                                <ListItemButton onClick={() => handleClickBoards(workspace._id)} sx={{ pl: 4 }}>
-                                    <ListItemIcon>
-                                        <DashboardIcon />
-                                    </ListItemIcon>
-
-                                    <ListItemText disableTypography primary="Boards" />
-                                </ListItemButton>
-                                <ListItemButton sx={{ pl: 4 }}>
-                                    <ListItemIcon>
-                                        <FavoriteBorderIcon />
-                                    </ListItemIcon>
-                                    <ListItemText disableTypography primary="Highlights" />
-                                </ListItemButton>
-                                <ListItemButton sx={{ pl: 4 }}>
-                                    <ListItemIcon>
-                                        <GroupsIcon />
-                                    </ListItemIcon>
-                                    <ListItemText disableTypography primary="Memebers" />
-                                </ListItemButton>
-                                <ListItemButton sx={{ pl: 4 }}>
-                                    <ListItemIcon>
-                                        <SettingsIcon />
-                                    </ListItemIcon>
-                                    <ListItemText disableTypography primary="Settings" />
-                                </ListItemButton>
-                            </List>
-                        </Collapse>
-                    </div>
-                ))}
+            <CollapseList selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
         </List>
     );
 }
