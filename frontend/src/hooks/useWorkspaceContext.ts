@@ -1,18 +1,23 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { fetchWorkspaces } from "../api/api";
 
-const useWorkspaceContext = () => {
-    const queryClient = useQueryClient();
-    const workspaceData = queryClient.getQueryData(["Workspaces"]) as Array<{
-        createdAt: string;
-        createdBy: string;
-        description: string;
-        name: string;
-        updatedAt: string;
-        __v: number;
-        _id: string;
-    }>;
+const useWorkspacesContext = () => {
+    const { data: workspaces } = useQuery<
+        Array<{
+            createdAt: string;
+            createdBy: string;
+            description: string;
+            name: string;
+            updatedAt: string;
+            __v: number;
+            _id: string;
+        }>
+    >(
+        ["Workspaces"],
+        () => fetchWorkspaces() // Replace with your actual data fetching function
+    );
 
-    return workspaceData;
+    return workspaces;
 };
 
-export default useWorkspaceContext;
+export default useWorkspacesContext;

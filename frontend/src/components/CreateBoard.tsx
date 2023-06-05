@@ -66,7 +66,7 @@ const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch
             <Divider variant="middle" />
 
             <div style={{ textAlign: "center", margin: "28px 0px 8px 0px" }}>
-                <img src="board.svg" alt="" />
+                <img src="http://localhost:5173/board.svg" alt="" />
             </div>
 
             <form autoComplete="off" onSubmit={handleSubmit}>

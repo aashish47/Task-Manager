@@ -7,7 +7,6 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { ListItemButton, ListItemIcon, ListItemText, List } from "@mui/material";
-import useBoardsContext from "../hooks/useBoardsContext";
 import useWorkspaceContext from "../hooks/useWorkspaceContext";
 import { useNavigate } from "react-router-dom";
 import React from "react";
@@ -15,7 +14,6 @@ import React from "react";
 const CollapseList = ({ selectedIndex, setSelectedIndex }: { selectedIndex: string; setSelectedIndex: React.Dispatch<React.SetStateAction<string>> }) => {
     const [open, setOpen] = React.useState<boolean[]>([]);
     const workspaces = useWorkspaceContext();
-    const boards = useBoardsContext();
 
     const navigate = useNavigate();
 
@@ -35,9 +33,7 @@ const CollapseList = ({ selectedIndex, setSelectedIndex }: { selectedIndex: stri
             })
         );
     };
-    const handleClickBoards = (workspaceId: string | undefined, workspaceName: string | undefined) => {
-        const data = boards.filter((board) => board.workspaceId === workspaceId);
-        console.log(data, workspaceId);
+    const handleClickBoards = (workspaceId: string, workspaceName: string) => {
         navigate(`/w/${workspaceName}/${workspaceId}/home`);
     };
 
@@ -51,7 +47,6 @@ const CollapseList = ({ selectedIndex, setSelectedIndex }: { selectedIndex: stri
         const currentTarget = event.currentTarget.textContent;
         const index = `${workspaceId}${currentTarget}`;
         setSelectedIndex(index);
-        console.log(index);
 
         if (currentTarget === "Boards") {
             handleClickBoards(workspaceId, workspaceName);

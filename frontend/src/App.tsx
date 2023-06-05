@@ -12,7 +12,7 @@ import WorkspaceHome from "./pages/WorkspaceHome";
 import LayoutHome from "./pages/LayoutHome";
 
 const App = () => {
-    const [darkmode, setDarkmode] = useState(false);
+    const [darkmode, setDarkmode] = useState(true);
     const user = useAuthContext();
     const theme = createCustomTheme(darkmode);
 
