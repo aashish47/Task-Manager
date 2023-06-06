@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchBoards } from "../api/api";
 
 const useBoardsContext = () => {
-    const { data: boardsData } = useQuery<
+    const { data: boards } = useQuery<
         Array<{
             createdAt: string;
             createdBy: string;
@@ -14,7 +14,7 @@ const useBoardsContext = () => {
         }>
     >({ queryKey: ["Boards"], queryFn: () => fetchBoards() });
 
-    return boardsData;
+    return boards;
 };
 
 export default useBoardsContext;

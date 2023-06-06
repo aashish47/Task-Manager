@@ -1,5 +1,4 @@
 import Collapse from "@mui/material/Collapse";
-import WorkspacesIcon from "@mui/icons-material/Workspaces";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -8,12 +7,14 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { ListItemButton, ListItemIcon, ListItemText, List } from "@mui/material";
 import useWorkspaceContext from "../hooks/useWorkspaceContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
+import AvatarWorkspace from "./AvatarWorkspace";
 
 const CollapseList = ({ selectedIndex, setSelectedIndex }: { selectedIndex: string; setSelectedIndex: React.Dispatch<React.SetStateAction<string>> }) => {
     const [open, setOpen] = React.useState<boolean[]>([]);
     const workspaces = useWorkspaceContext();
+    const { id = "" } = useParams<{ id: string }>();
 
     const navigate = useNavigate();
 
@@ -67,9 +68,15 @@ const CollapseList = ({ selectedIndex, setSelectedIndex }: { selectedIndex: stri
 
                     return (
                         <div key={index}>
-                            <ListItemButton onClick={() => handleWorkspaceClick(index)}>
+                            <ListItemButton selected={!open[index] && id === workspaceId} onClick={() => handleWorkspaceClick(index)}>
                                 <ListItemIcon>
-                                    <WorkspacesIcon />
+                                    <AvatarWorkspace
+                                        wname={workspaceName}
+                                        size={{
+                                            width: 25,
+                                            height: 25,
+                                        }}
+                                    />
                                 </ListItemIcon>
                                 <ListItemText primary={workspaceName} />
                                 {open[index] ? <ExpandLess /> : <ExpandMore />}

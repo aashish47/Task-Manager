@@ -24,7 +24,7 @@ const Home = () => {
                 sx={{ width: "100%", maxWidth: 500 }}
                 aria-labelledby="nested-list-subheader"
                 subheader={
-                    <ListSubheader component="div" id="nested-list-subheader" sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                    <ListSubheader component="div" id="nested-list-subheader" sx={{ position: "static", display: "flex", alignItems: "center", gap: "5px" }}>
                         <AccessTimeIcon fontSize="small" />
                         Up next
                     </ListSubheader>

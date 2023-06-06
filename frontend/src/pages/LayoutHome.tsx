@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import SidebarLeft from "../components/SidebarLeft";
-import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 
 type LayoutHomeProps = {
     children: ReactNode;
@@ -8,11 +8,10 @@ type LayoutHomeProps = {
 
 const LayoutHome: React.FC<LayoutHomeProps> = ({ children }) => {
     return (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: "50px", gap: "50px" }}>
+        <Stack direction="row" justifyContent="center" sx={{ gap: "50px", mt: 5, mb: 5 }}>
             <SidebarLeft />
-
             {children}
-        </Box>
+        </Stack>
     );
 };
 
