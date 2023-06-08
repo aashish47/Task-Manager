@@ -18,6 +18,24 @@ export const createCustomTheme = (darkmode: boolean) => {
                     root: {
                         backgroundColor: darkmode ? "black" : "white",
                         color: textColor,
+                        boxShadow: "none",
+                    },
+                },
+            },
+            MuiLink: {
+                styleOverrides: {
+                    root: {
+                        textDecoration: "none",
+                    },
+                },
+            },
+            MuiCard: {
+                styleOverrides: {
+                    root: {
+                        transition: "transform 0.2s ease",
+                        "&:hover": {
+                            transform: "scale(1.05)",
+                        },
                     },
                 },
             },

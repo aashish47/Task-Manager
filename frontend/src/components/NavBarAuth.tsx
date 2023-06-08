@@ -21,6 +21,8 @@ import CreateMenu from "./CreateMenu";
 import DrawerLeft from "./DrawerLeft";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { Link } from "@mui/material";
+import { NavLink } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -155,10 +157,9 @@ export default function PrimarySearchAppBar({ darkmode, setDarkmode }: { darkmod
             <AppBar position="static">
                 <Toolbar>
                     <DrawerLeft />
-
-                    <Typography variant="h6" component="div">
-                        MUI
-                    </Typography>
+                    <Link component={NavLink} to={"/"}>
+                        <Typography variant="h6">MUI</Typography>
+                    </Link>
                     <Box sx={{ flexGrow: 1, gap: 1.2, display: "flex", ml: 2 }}>
                         <WorkspaceMenu />
                         <RecentMenu />

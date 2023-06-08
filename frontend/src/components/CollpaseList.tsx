@@ -14,7 +14,7 @@ import AvatarWorkspace from "./AvatarWorkspace";
 const CollapseList = ({ selectedIndex, setSelectedIndex }: { selectedIndex: string; setSelectedIndex: React.Dispatch<React.SetStateAction<string>> }) => {
     const [open, setOpen] = React.useState<boolean[]>([]);
     const workspaces = useWorkspaceContext();
-    const { id = "" } = useParams<{ id: string }>();
+    const { wid = "" } = useParams<{ wid: string }>();
 
     const navigate = useNavigate();
 
@@ -68,7 +68,7 @@ const CollapseList = ({ selectedIndex, setSelectedIndex }: { selectedIndex: stri
 
                     return (
                         <div key={index}>
-                            <ListItemButton selected={!open[index] && id === workspaceId} onClick={() => handleWorkspaceClick(index)}>
+                            <ListItemButton selected={!open[index] && wid === workspaceId} onClick={() => handleWorkspaceClick(index)}>
                                 <ListItemIcon>
                                     <AvatarWorkspace
                                         wname={workspaceName}

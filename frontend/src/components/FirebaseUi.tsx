@@ -11,11 +11,7 @@ const FirebaseUi = () => {
         const loadFirebaseUI = async () => {
             const uiConfig = {
                 callbacks: {
-                    signInSuccessWithAuthResult: function (authResult = auth, redirectUrl = "/") {
-                        // User successfully signed in.
-                        // Return type determines whether we continue the redirect automatically
-                        // or whether we leave that to developer to handle.
-                        console.log(authResult);
+                    signInSuccessWithAuthResult: function (redirectUrl = "/") {
                         navigate(redirectUrl);
                         return false;
                     },

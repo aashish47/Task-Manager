@@ -10,7 +10,7 @@ const WorkspaceDetailsBar: React.FC<WorkspaceDetailsBarProps> = ({ wname, descri
     return (
         <>
             <Stack direction="row">
-                <Box sx={{ mr: 2, mb: 1.6 }}>
+                <Box sx={{ mr: 2, mb: 1 }}>
                     <AvatarWorkspace wname={wname} size={{ width: 56, height: 56 }} />
                 </Box>
                 <Typography variant="h6">{wname}</Typography>

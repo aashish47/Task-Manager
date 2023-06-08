@@ -9,10 +9,14 @@ import AddSharpIcon from "@mui/icons-material/AddSharp";
 import { Divider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CollapseList from "./CollpaseList";
+import useAuthContext from "../hooks/useAuthContext";
+import { User } from "firebase/auth";
 
 export default function NestedList() {
     const navigate = useNavigate();
-    const [selectedIndex, setSelectedIndex] = React.useState("Boards");
+    const user = useAuthContext();
+    const { displayName } = user as User;
+    const [selectedIndex, setSelectedIndex] = React.useState("Home");
 
     /*
     currentTarget = Name of the Button
@@ -23,20 +27,26 @@ export default function NestedList() {
     const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const currentTarget = event.currentTarget.textContent;
         currentTarget ? setSelectedIndex(currentTarget) : "";
-        console.log(currentTarget);
         if (currentTarget === "Home") {
             navigate("/");
         } else if (currentTarget === "Boards") {
-            console.log("xxxxx");
+            navigate(`/u/${displayName}/boards`);
         }
     };
 
     return (
         <List
-            sx={{ p: 0, display: { xs: "none", sm: "block" }, width: "100%", maxWidth: 250, bgcolor: "background.paper" }}
+            sx={{ p: 0, display: { xs: "none", md: "block" }, width: "100%", maxWidth: 250, bgcolor: "background.paper" }}
             component="nav"
             aria-labelledby="nested-list-subheader"
         >
+            <ListItemButton selected={selectedIndex === "Home"} onClick={(event) => handleListItemClick(event)}>
+                <ListItemIcon>
+                    <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary="Home" />
+            </ListItemButton>
+
             <ListItemButton selected={selectedIndex === "Boards"} onClick={(event) => handleListItemClick(event)}>
                 <ListItemIcon>
                     <DashboardIcon />
@@ -44,12 +54,6 @@ export default function NestedList() {
                 <ListItemText primary="Boards" />
             </ListItemButton>
 
-            <ListItemButton selected={selectedIndex === "Home"} onClick={(event) => handleListItemClick(event)}>
-                <ListItemIcon>
-                    <HomeIcon />
-                </ListItemIcon>
-                <ListItemText primary="Home" />
-            </ListItemButton>
             <Divider component="li" sx={{ my: "10px" }} />
 
             <ListItemButton>

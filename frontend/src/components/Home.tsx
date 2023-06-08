@@ -1,13 +1,15 @@
 import { List, ListSubheader } from "@mui/material";
-import SidebarRight from "../components/SidebarRight";
+import SidebarRight from "./SidebarRight";
 import { auth } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
-import HomeTasksCards from "../components/HomeTasksCards";
+import HomeTasksCards from "./HomeTasksCards";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const Home = () => {
+    // const navigate = useNavigate();
     // const handleLogout = async () => {
     //     try {
+    //         console.log(auth);
     //         await auth.signOut();
     //         navigate("/");
     //     } catch (error) {
@@ -17,11 +19,10 @@ const Home = () => {
 
     return (
         <>
-            {/* <Box sx={{ display: "flex", justifyContent: "center", mt: "50px", gap: "50px" }}>
-                {/* <button onClick={handleLogout}>Logout</button> */}
+            {/* <button onClick={handleLogout}>Logout</button> */}
 
             <List
-                sx={{ width: "100%", maxWidth: 500 }}
+                sx={{ mx: { xs: 1, md: 0 }, width: "100%", maxWidth: 500 }}
                 aria-labelledby="nested-list-subheader"
                 subheader={
                     <ListSubheader component="div" id="nested-list-subheader" sx={{ position: "static", display: "flex", alignItems: "center", gap: "5px" }}>
