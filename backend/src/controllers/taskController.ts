@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import taskService from "../services/taskService";
+import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 
 const createTask = async (req: Request, res: Response) => {
     const { name, description, listId, createdBy } = req.body;
@@ -25,9 +26,10 @@ const deleteTask = async (req: Request, res: Response) => {
     }
 };
 
-const getAllTasks = async (_req: Request, res: Response) => {
+const getAllTasks = async (req: CustomRequest, res: Response) => {
+    const createdBy = req.user?.uid!;
     try {
-        const tasks = await taskService.getAllTasks();
+        const tasks = await taskService.getAllTasks(createdBy);
         res.json(tasks);
     } catch (error: any) {
         res.status(500).json({ error: error.message });

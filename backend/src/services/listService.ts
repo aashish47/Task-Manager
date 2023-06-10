@@ -9,8 +9,8 @@ const deleteList = async (id: string) => {
     return await ListModel.findByIdAndDelete(id);
 };
 
-const getAllLists = async () => {
-    return await ListModel.find();
+const getAllLists = async (createdBy: string) => {
+    return await ListModel.find({ createdBy });
 };
 
 const updateList = async (id: string, name: string, boardId: string) => {

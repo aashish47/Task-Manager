@@ -8,13 +8,16 @@ import "@fontsource/roboto/700.css";
 import AuthContextProvider from "./contexts/AuthContextProvider.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App.tsx";
+import { BrowserRouter } from "react-router-dom";
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
             <AuthContextProvider>
-                <App />
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
             </AuthContextProvider>
         </QueryClientProvider>
     </React.StrictMode>

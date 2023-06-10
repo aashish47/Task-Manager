@@ -27,12 +27,14 @@ const CreateWorkspace = ({ open, setOpen }: { open: boolean; setOpen: React.Disp
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const workspace = { name, description, createdBy: user.uid };
-        try {
-            await createWorkspaceMutation.mutateAsync(workspace);
-            handleClose();
-        } catch (error) {
-            console.error("An error occurred:", error);
+        if (user) {
+            const workspace = { name, description, createdBy: user.uid };
+            try {
+                await createWorkspaceMutation.mutateAsync(workspace);
+                handleClose();
+            } catch (error) {
+                console.error("An error occurred:", error);
+            }
         }
     };
 

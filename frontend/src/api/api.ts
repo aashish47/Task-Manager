@@ -50,6 +50,8 @@ const handleTokenExpireError = async () => {
     }
 };
 
+// Workespaces Functions
+
 export const fetchWorkspaces = async () => {
     try {
         const response = await api.get(`/workspaces`);
@@ -68,6 +70,8 @@ export const createWorkspace = async ({ name, description, createdBy }: { name: 
     }
 };
 
+// Boards Functions
+
 export const fetchBoards = async () => {
     try {
         const response = await api.get(`/boards`);
@@ -80,6 +84,46 @@ export const fetchBoards = async () => {
 export const createBoard = async ({ name, workspaceId, createdBy }: { name: string; workspaceId: string; createdBy: string }) => {
     try {
         const response = await api.post("/boards", { name, workspaceId, createdBy });
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+// Lists Functions
+
+export const fetchLists = async () => {
+    try {
+        const response = await api.get(`/lists`);
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+export const createList = async ({ name, boardId, createdBy }: { name: string; boardId: string; createdBy: string }) => {
+    try {
+        const response = await api.post("/lists", { name, boardId, createdBy });
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+// Tasks Functions
+
+export const fetchTasks = async () => {
+    try {
+        const response = await api.get(`/tasks`);
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+export const createTask = async ({ name, listId, createdBy }: { name: string; listId: string; createdBy: string }) => {
+    try {
+        const response = await api.post("/tasks", { name, listId, createdBy });
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);

@@ -44,12 +44,14 @@ const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const board = { name, workspaceId: workspace, createdBy: user.uid };
-        try {
-            await createBoardMutation.mutateAsync(board);
-            handleClose();
-        } catch (error) {
-            console.error("An error occurred:", error);
+        if (user) {
+            const board = { name, workspaceId: workspace, createdBy: user.uid };
+            try {
+                await createBoardMutation.mutateAsync(board);
+                handleClose();
+            } catch (error) {
+                console.error("An error occurred:", error);
+            }
         }
     };
 

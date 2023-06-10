@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import listService from "../services/listService";
+import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 
 const createList = async (req: Request, res: Response) => {
     const { name, boardId, createdBy } = req.body;
@@ -25,9 +26,11 @@ const deleteList = async (req: Request, res: Response) => {
     }
 };
 
-const getAllLists = async (_req: Request, res: Response) => {
+const getAllLists = async (req: CustomRequest, res: Response) => {
+    const createdBy = req.user?.uid!;
+
     try {
-        const lists = await listService.getAllLists();
+        const lists = await listService.getAllLists(createdBy);
         res.json(lists);
     } catch (error: any) {
         res.status(500).json({ error: error.message });

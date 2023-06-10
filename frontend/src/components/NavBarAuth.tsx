@@ -155,7 +155,7 @@ export default function PrimarySearchAppBar({ darkmode, setDarkmode }: { darkmod
     return (
         <Box sx={{ flexShrink: 1 }}>
             <AppBar position="static">
-                <Toolbar>
+                <Toolbar variant="dense">
                     <DrawerLeft />
                     <Link component={NavLink} to={"/"}>
                         <Typography variant="h6">MUI</Typography>

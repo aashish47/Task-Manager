@@ -9,8 +9,8 @@ const deleteTask = async (id: string) => {
     return await TaskModel.findByIdAndDelete(id);
 };
 
-const getAllTasks = async () => {
-    return await TaskModel.find();
+const getAllTasks = async (createdBy: string) => {
+    return await TaskModel.find({ createdBy });
 };
 
 const updateTask = async (id: string, name: string, description: string, listId: string) => {
