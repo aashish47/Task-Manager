@@ -13,7 +13,7 @@ const BoardsUsers = () => {
                 workspaces.map((workspace) => {
                     const { _id, name } = workspace;
                     return (
-                        <Stack spacing={1}>
+                        <Stack key={_id} spacing={1}>
                             <Stack alignItems="center" direction="row" spacing={1}>
                                 <AvatarWorkspace
                                     wname={name}

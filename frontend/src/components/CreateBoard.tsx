@@ -87,8 +87,8 @@ const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch
                             onChange={handleChangeWorkspace}
                         >
                             {workspaces &&
-                                workspaces.map((workspace, index) => (
-                                    <MenuItem key={index} value={workspace._id}>
+                                workspaces.map((workspace) => (
+                                    <MenuItem key={workspace._id} value={workspace._id}>
                                         {workspace.name}
                                     </MenuItem>
                                 ))}

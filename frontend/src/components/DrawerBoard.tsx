@@ -159,8 +159,8 @@ const PersistentDrawerLeft: React.FC<BoardProps> = ({ boardName, boardId }) => {
                 <Main open={open}>
                     <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 140px)" }}>
                         {lists &&
-                            lists.map((list, index) => {
-                                return <BoardList key={index} name={list.name} listId={list._id} />;
+                            lists.map((list) => {
+                                return <BoardList key={list._id} name={list.name} listId={list._id} />;
                             })}
                         <CreateList boardId={boardId} />
                     </Stack>

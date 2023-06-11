@@ -67,7 +67,7 @@ const CollapseList = ({ selectedIndex, setSelectedIndex }: { selectedIndex: stri
                     const { _id: workspaceId, name: workspaceName } = workspace;
 
                     return (
-                        <div key={index}>
+                        <div key={workspaceId}>
                             <ListItemButton selected={!open[index] && wid === workspaceId} onClick={() => handleWorkspaceClick(index)}>
                                 <ListItemIcon>
                                     <AvatarWorkspace

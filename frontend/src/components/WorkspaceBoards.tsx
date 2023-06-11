@@ -15,10 +15,21 @@ const WorkspaceBoards: React.FC<WorkspaceBoardsProps> = ({ workspaceId }) => {
         boards && (
             <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap">
                 {boards &&
-                    boards.map((board, index) => {
+                    boards.map((board) => {
                         const { _id, name } = board;
                         return (
-                            <Link sx={{ width: { xs: "100%", sm: "47%", md: "31%", lg: "23%" } }} component={NavLink} to={`/b/${name}/${_id}`} key={index}>
+                            <Link
+                                sx={{
+                                    transition: "transform 0.2s ease",
+                                    "&:hover": {
+                                        transform: "scale(1.05)",
+                                    },
+                                    width: { xs: "100%", sm: "47%", md: "31%", lg: "23%" },
+                                }}
+                                component={NavLink}
+                                to={`/b/${name}/${_id}`}
+                                key={_id}
+                            >
                                 <Card sx={{ height: 100 }}>
                                     <CardContent>
                                         <Typography variant="subtitle2">{board.name}</Typography>

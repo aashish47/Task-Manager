@@ -29,16 +29,6 @@ export const createCustomTheme = (darkmode: boolean) => {
                     },
                 },
             },
-            MuiCard: {
-                styleOverrides: {
-                    root: {
-                        transition: "transform 0.2s ease",
-                        "&:hover": {
-                            transform: "scale(1.05)",
-                        },
-                    },
-                },
-            },
 
             MuiListItemButton: {
                 styleOverrides: {

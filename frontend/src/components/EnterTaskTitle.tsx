@@ -47,6 +47,7 @@ const EnterTaskTitle: React.FC<EnterTaskTitleProp> = ({ first, setFirst, listId 
                 <Stack
                     spacing={1}
                     sx={{
+                        mr: 1,
                         borderRadius: 2,
                         bgcolor: mode === "dark" ? "#100901" : "#ededed",
                     }}

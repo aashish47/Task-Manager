@@ -13,12 +13,9 @@ const ListTask: React.FC<ListTaskProps> = ({ name }) => {
                 bgcolor: mode === "dark" ? "#22272b" : "white",
                 mt: 2,
                 mr: 1,
-                "&:hover": {
-                    transform: "none",
-                },
             }}
         >
-            <CardContent sx={{ px: 2, paddingBottom: "8px !important" }}>
+            <CardContent sx={{ p: 1, paddingBottom: "8px !important" }}>
                 <Typography>{name}</Typography>
             </CardContent>
         </Card>
