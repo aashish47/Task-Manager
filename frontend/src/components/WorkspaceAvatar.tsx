@@ -1,6 +1,6 @@
 import { Avatar } from "@mui/material";
 
-type AvatarWorkspaceProps = {
+type WorkspaceAvaterProps = {
     wname: string;
     size: {
         width: number;
@@ -8,7 +8,7 @@ type AvatarWorkspaceProps = {
     };
 };
 
-const AvatarWorkspace: React.FC<AvatarWorkspaceProps> = ({ wname, size }) => {
+const WorkspaceAvater: React.FC<WorkspaceAvaterProps> = ({ wname, size }) => {
     const { width, height } = size;
     const stringToColor = (string: string) => {
         let hash = 0;
@@ -36,4 +36,4 @@ const AvatarWorkspace: React.FC<AvatarWorkspaceProps> = ({ wname, size }) => {
     );
 };
 
-export default AvatarWorkspace;
+export default WorkspaceAvater;

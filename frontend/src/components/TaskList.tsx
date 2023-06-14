@@ -1,23 +1,34 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useRef } from "react";
-import useTasksContext from "../hooks/useTasksContext";
-import ListTask from "./ListTask";
+import useTasksContext, { TaskType } from "../hooks/useTasksContext";
+import Task from "./Task";
 import AddTaskButton from "./AddTaskButton";
 import EnterTaskTitle from "./EnterTaskTitle";
+import { StrictModeDroppable as Droppable } from "./StrictModeDroppable";
+// import { Droppable } from "react-beautiful-dnd";
 
-type BoardListProps = {
+type TaskListProps = {
     name: string;
     listId: string;
+    tasksIds: [string];
 };
 
-const BoardList: React.FC<BoardListProps> = ({ listId, name }) => {
+const TaskList: React.FC<TaskListProps> = ({ listId, name, tasksIds }) => {
     const theme = useTheme();
     const mode = theme.palette.mode;
     const data = useTasksContext();
-    const tasks = data ? data.filter((task) => task.listId === listId) : null;
+    const unOrderedTasks = data ? data.filter((task) => task.listId === listId) : null;
+    let taskLookup: Map<string, TaskType> | null = null;
+    if (unOrderedTasks) {
+        taskLookup = new Map();
+        unOrderedTasks.forEach((task) => taskLookup?.set(task._id, task));
+    }
+
+    const tasks = tasksIds.map((taskId) => taskLookup?.get(taskId));
+
     const [first, setFirst] = React.useState(true);
     const maxHeight = first ? "calc(100vh - 240px)" : "calc(100vh - 210px)";
-    const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLElement | null>(null);
 
     useEffect(() => {
         if (!first && containerRef.current) {
@@ -69,13 +80,23 @@ const BoardList: React.FC<BoardListProps> = ({ listId, name }) => {
             }}
         >
             <Typography variant="subtitle1">{name}</Typography>
+
             <Box ref={containerRef} id="container" sx={{ overflowY: "auto", overflowX: "hidden", maxHeight }}>
-                {tasks && tasks.map((task) => <ListTask key={task._id} name={task.name} />)}
+                <Droppable droppableId={listId}>
+                    {(provided) => (
+                        <div style={{ minHeight: "1px" }} {...provided.droppableProps} ref={provided.innerRef}>
+                            {tasks && tasks.map((task, index) => task && <Task key={task._id} name={task.name} taskId={task._id} index={index} />)}
+
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
 
                 <Box sx={{ flexBasis: "300px", flexShrink: "0", mt: 2 }}>
                     <EnterTaskTitle first={first} setFirst={setFirst} listId={listId} />
                 </Box>
             </Box>
+
             <Box sx={{ mt: 1, pr: 3 }}>
                 <AddTaskButton first={first} setFirst={setFirst} />
             </Box>
@@ -83,4 +104,4 @@ const BoardList: React.FC<BoardListProps> = ({ listId, name }) => {
     );
 };
 
-export default BoardList;
+export default TaskList;

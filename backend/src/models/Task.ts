@@ -1,6 +1,13 @@
-import mongoose from "mongoose";
+import { Document, Schema, Model, model } from "mongoose";
 
-const taskSchema = new mongoose.Schema(
+interface ITask extends Document {
+    name: string;
+    description?: string;
+    listId: Schema.Types.ObjectId;
+    createdBy: string;
+}
+
+const TaskSchema: Schema<ITask> = new Schema(
     {
         name: {
             type: String,
@@ -10,7 +17,7 @@ const taskSchema = new mongoose.Schema(
             type: String,
         },
         listId: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: "List",
             required: true,
         },
@@ -22,6 +29,6 @@ const taskSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Task = mongoose.model("Task", taskSchema);
+const Task: Model<ITask> = model<ITask>("Task", TaskSchema);
 
 export default Task;

@@ -9,7 +9,7 @@ import { ListItemButton, ListItemIcon, ListItemText, List } from "@mui/material"
 import useWorkspaceContext from "../hooks/useWorkspaceContext";
 import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
-import AvatarWorkspace from "./AvatarWorkspace";
+import WorkspaceAvater from "./WorkspaceAvatar";
 
 const CollapseList = ({ selectedIndex, setSelectedIndex }: { selectedIndex: string; setSelectedIndex: React.Dispatch<React.SetStateAction<string>> }) => {
     const [open, setOpen] = React.useState<boolean[]>([]);
@@ -70,7 +70,7 @@ const CollapseList = ({ selectedIndex, setSelectedIndex }: { selectedIndex: stri
                         <div key={workspaceId}>
                             <ListItemButton selected={!open[index] && wid === workspaceId} onClick={() => handleWorkspaceClick(index)}>
                                 <ListItemIcon>
-                                    <AvatarWorkspace
+                                    <WorkspaceAvater
                                         wname={workspaceName}
                                         size={{
                                             width: 25,

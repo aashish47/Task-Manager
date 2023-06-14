@@ -1,4 +1,6 @@
 import axios from "axios";
+import { ListType } from "../hooks/useListsContext";
+import { TaskType } from "../hooks/useTasksContext";
 
 const api = axios.create({
     baseURL: "http://localhost:3000/api",
@@ -110,6 +112,16 @@ export const createList = async ({ name, boardId, createdBy }: { name: string; b
     }
 };
 
+export const updateList = async ({ listId, newList }: { listId: string; newList: ListType }) => {
+    try {
+        const response = await api.put(`/lists/${listId}`, { newList });
+
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
 // Tasks Functions
 
 export const fetchTasks = async () => {
@@ -124,6 +136,42 @@ export const fetchTasks = async () => {
 export const createTask = async ({ name, listId, createdBy }: { name: string; listId: string; createdBy: string }) => {
     try {
         const response = await api.post("/tasks", { name, listId, createdBy });
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+export const updateTask = async ({ taskId, newTask }: { taskId: string; newTask: TaskType }) => {
+    try {
+        const response = await api.put(`/tasks/${taskId}`, { newTask });
+        console.log("res", response.data);
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+export const moveTask = async ({
+    taskId,
+    startListId,
+    finishListId,
+    newStartList,
+    newFinishList,
+}: {
+    taskId: string;
+    startListId: string;
+    finishListId: string;
+    newStartList: ListType;
+    newFinishList: ListType;
+}) => {
+    try {
+        const response = await api.put(`/tasks/${taskId}/move`, {
+            startListId,
+            finishListId,
+            newStartList,
+            newFinishList,
+        });
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);

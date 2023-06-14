@@ -1,6 +1,12 @@
-import mongoose from "mongoose";
+import { Document, Schema, Model, model } from "mongoose";
 
-const workspaceSchema = new mongoose.Schema(
+interface IWorkspace extends Document {
+    name: string;
+    description?: string;
+    createdBy: string;
+}
+
+const WorkspaceSchema: Schema<IWorkspace> = new Schema(
     {
         name: {
             type: String,
@@ -17,6 +23,6 @@ const workspaceSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Workspace = mongoose.model("Workspace", workspaceSchema);
+const Workspace: Model<IWorkspace> = model<IWorkspace>("Workspace", WorkspaceSchema);
 
 export default Workspace;

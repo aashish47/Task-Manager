@@ -22,6 +22,7 @@ const EnterTaskTitle: React.FC<EnterTaskTitleProp> = ({ first, setFirst, listId 
         mutationFn: createTask,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["Tasks"] });
+            queryClient.invalidateQueries({ queryKey: ["Lists"] });
         },
     });
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

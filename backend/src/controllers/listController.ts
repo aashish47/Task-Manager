@@ -39,9 +39,10 @@ const getAllLists = async (req: CustomRequest, res: Response) => {
 
 const updateList = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { name, boardId } = req.body;
+    const { newList } = req.body;
+
     try {
-        const updatedList = await listService.updateList(id, name, boardId);
+        const updatedList = await listService.updateList(id, newList);
         if (updatedList) {
             res.json(updatedList);
         } else {

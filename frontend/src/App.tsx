@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation, Location } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, Location } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./components/Home";
 import Landing from "./pages/Landing";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { createCustomTheme } from "./Theme/theme";
 import WorkspaceHome from "./components/WorkspaceHome";
 import LayoutHome from "./pages/LayoutHome";
-import BoardsUsers from "./components/BoardsUser";
+import AllBoards from "./components/AllBoards";
 import useAuthContext from "./hooks/useAuthContext";
 import Board from "./pages/Board";
 import "./App.css";
@@ -71,7 +71,7 @@ const App = () => {
                         element={
                             user ? (
                                 <LayoutHome>
-                                    <BoardsUsers />
+                                    <AllBoards />
                                 </LayoutHome>
                             ) : (
                                 <Navigate to="/login" />

@@ -13,8 +13,8 @@ const getAllTasks = async (createdBy: string) => {
     return await TaskModel.find({ createdBy });
 };
 
-const updateTask = async (id: string, name: string, description: string, listId: string) => {
-    return await TaskModel.findByIdAndUpdate(id, { name, description }, { new: true });
+const updateTask = async (id: string, updaterQuery: object) => {
+    return await TaskModel.findByIdAndUpdate(id, updaterQuery, { new: true });
 };
 
 const getTaskById = async (id: string) => {

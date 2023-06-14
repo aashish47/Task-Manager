@@ -11,6 +11,8 @@ router.post("/", taskController.createTask);
 
 router.put("/:id", taskController.updateTask);
 
+router.put("/:id/move", taskController.moveTask);
+
 router.delete("/:id", taskController.deleteTask);
 
 export default router;

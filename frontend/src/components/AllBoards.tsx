@@ -1,9 +1,9 @@
 import { Stack, Typography } from "@mui/material";
-import AvatarWorkspace from "./AvatarWorkspace";
+import WorkspaceAvater from "./WorkspaceAvatar";
 import WorkspaceBoards from "./WorkspaceBoards";
 import useWorkspacesContext from "../hooks/useWorkspaceContext";
 
-const BoardsUsers = () => {
+const AllBoards = () => {
     const workspaces = useWorkspacesContext();
 
     return (
@@ -15,7 +15,7 @@ const BoardsUsers = () => {
                     return (
                         <Stack key={_id} spacing={1}>
                             <Stack alignItems="center" direction="row" spacing={1}>
-                                <AvatarWorkspace
+                                <WorkspaceAvater
                                     wname={name}
                                     size={{
                                         width: 25,
@@ -32,4 +32,4 @@ const BoardsUsers = () => {
     );
 };
 
-export default BoardsUsers;
+export default AllBoards;
