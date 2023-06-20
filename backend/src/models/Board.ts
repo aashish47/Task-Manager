@@ -5,6 +5,7 @@ interface IBoard extends Document {
     workspaceId: Schema.Types.ObjectId;
     listsIds: Schema.Types.ObjectId[];
     createdBy: string;
+    addList: (listId: Schema.Types.ObjectId) => void;
 }
 
 const BoardSchema: Schema<IBoard> = new Schema(
@@ -31,6 +32,10 @@ const BoardSchema: Schema<IBoard> = new Schema(
     },
     { timestamps: true }
 );
+
+BoardSchema.methods.addList = function (listId: string) {
+    this.listsIds.push(listId);
+};
 
 const Board: Model<IBoard> = model<IBoard>("Board", BoardSchema);
 

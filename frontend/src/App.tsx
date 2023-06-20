@@ -13,6 +13,7 @@ import AllBoards from "./components/AllBoards";
 import useAuthContext from "./hooks/useAuthContext";
 import Board from "./pages/Board";
 import "./App.css";
+import { io } from "socket.io-client";
 
 const checkBoardPage = (location: Location) => {
     const isBoardPage = location.pathname.startsWith("/b");
@@ -29,10 +30,29 @@ const App = () => {
     const user = useAuthContext();
     const theme = createCustomTheme(darkmode);
     const location = useLocation();
+    const token = localStorage.getItem("ID_TOKEN");
 
     useEffect(() => {
         checkBoardPage(location);
     }, [location]);
+
+    useEffect(() => {
+        const socket = io("http://localhost:3000", { query: { authorization: `Bearer ${token}` } });
+
+        socket.on("connect", () => {
+            console.log("Socket connected!");
+        });
+
+        // Listen for invitation event from the server
+        socket.on("invitation", (invitationKey) => {
+            console.log("invitation received", invitationKey);
+        });
+
+        return () => {
+            socket.off("invitation");
+            socket.disconnect();
+        };
+    }, [token]);
 
     return (
         <ThemeProvider theme={theme}>

@@ -17,10 +17,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { List, Stack } from "@mui/material";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import { Button, List, Stack } from "@mui/material";
 import { DragDropContext } from "react-beautiful-dnd";
 import CreateList from "../components/CreateList";
-import useListsContext from "../hooks/useListsContext";
+import useListsContext, { ListType } from "../hooks/useListsContext";
 import TaskList from "../components/TaskList";
 import useMoveTaskMutation from "../hooks/useMoveTaskMutation";
 import useUpdateListMutation from "../hooks/useUpdateListMutation";
@@ -29,14 +30,31 @@ import Main from "../components/Main";
 import { drawerWidth } from "../constants/constants";
 import DrawerHeader from "../components/DrawerHeader";
 import AppBar from "../components/AppBar";
+import { StrictModeDroppable as Droppable } from "../components/StrictModeDroppable";
+import useUpdateBoardMutation from "../hooks/useUpdateBoardMutation";
+import useBoardsContext from "../hooks/useBoardsContext";
+import InviteDialog from "../components/InviteDialog";
 
 const Board = () => {
     const { bname: boardName = "", bid: boardId = "" } = useParams();
     const theme = useTheme();
     const [open, setOpen] = useState(false);
+    const [openInvite, setOpenInvite] = useState(false);
 
-    const data = useListsContext();
-    const lists = data ? data.filter((list) => list.boardId === boardId) : null;
+    const boardData = useBoardsContext();
+    const board = boardData ? boardData.find((board) => board._id === boardId) : null;
+
+    const listData = useListsContext();
+    const unOrderedLists = listData ? listData.filter((list) => list.boardId === boardId) : null;
+
+    let listLookup: Map<string, ListType> | null = null;
+    if (unOrderedLists) {
+        listLookup = new Map();
+        unOrderedLists.forEach((list) => listLookup?.set(list._id, list));
+    }
+
+    const listsIds = board?.listsIds;
+    const lists = listsIds?.map((listId) => listLookup?.get(listId));
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -48,6 +66,7 @@ const Board = () => {
 
     const moveTaskMutation = useMoveTaskMutation();
     const updateListMutation = useUpdateListMutation();
+    const updateBoardMutation = useUpdateBoardMutation();
 
     return (
         <Box sx={{ display: "flex", mt: 0.1 }}>
@@ -104,22 +123,37 @@ const Board = () => {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" noWrap component="div">
-                            {boardName}
-                        </Typography>
+                        <Stack direction="row" justifyContent="space-between" sx={{ width: "100%" }}>
+                            <Typography variant="h6" noWrap component="div">
+                                {boardName}
+                            </Typography>
+
+                            <Button onClick={() => setOpenInvite(!openInvite)} color="secondary" variant="contained" startIcon={<PersonAddAltIcon />}>
+                                Invite
+                            </Button>
+                            <InviteDialog boardId={boardId} open={openInvite} setOpen={setOpenInvite} />
+                        </Stack>
                     </Toolbar>
+                    <Divider />
                 </AppBar>
 
-                <DragDropContext onDragEnd={(result) => onDragEnd(result, moveTaskMutation, updateListMutation, lists)}>
-                    <Main open={open}>
-                        <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 140px)" }}>
-                            {lists &&
-                                lists.map((list) => {
-                                    return <TaskList key={list._id} tasksIds={list.tasksIds} name={list.name} listId={list._id} />;
-                                })}
-                            <CreateList boardId={boardId} />
-                        </Stack>
-                    </Main>
+                <DragDropContext onDragEnd={(result) => onDragEnd(result, moveTaskMutation, updateListMutation, updateBoardMutation, lists, board)}>
+                    <Droppable droppableId={boardId} direction="horizontal" type="lists">
+                        {(provided) => (
+                            <Main ref={provided.innerRef} {...provided.droppableProps} open={open}>
+                                <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 140px)" }}>
+                                    {lists &&
+                                        lists.map((list, index) => {
+                                            return (
+                                                list && <TaskList key={list._id} index={index} tasksIds={list.tasksIds} name={list.name} listId={list._id} />
+                                            );
+                                        })}
+                                    {provided.placeholder}
+                                    <CreateList boardId={boardId} />
+                                </Stack>
+                            </Main>
+                        )}
+                    </Droppable>
                 </DragDropContext>
             </Stack>
         </Box>

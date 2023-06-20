@@ -23,7 +23,8 @@
         "react-beautiful-dnd": "^13.1.1",
         "react-dom": "^18.2.0",
         "react-firebase-hooks": "^5.1.1",
-        "react-router-dom": "^6.12.0"
+        "react-router-dom": "^6.12.0",
+        "socket.io-client": "^4.6.2"
     },
     "devDependencies": {
         "@tanstack/eslint-plugin-query": "^4.29.9",

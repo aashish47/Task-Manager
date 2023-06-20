@@ -44,6 +44,7 @@ export default function CreateMenu() {
     return (
         <div>
             <Button
+                size="small"
                 sx={{ display: { xs: "none", sm: "block" } }}
                 variant="contained"
                 id="basic-button"

@@ -5,15 +5,16 @@ import Task from "./Task";
 import AddTaskButton from "./AddTaskButton";
 import EnterTaskTitle from "./EnterTaskTitle";
 import { StrictModeDroppable as Droppable } from "./StrictModeDroppable";
-// import { Droppable } from "react-beautiful-dnd";
+import { Draggable } from "react-beautiful-dnd";
 
 type TaskListProps = {
+    index: number;
     name: string;
     listId: string;
     tasksIds: [string];
 };
 
-const TaskList: React.FC<TaskListProps> = ({ listId, name, tasksIds }) => {
+const TaskList: React.FC<TaskListProps> = ({ index, listId, name, tasksIds }) => {
     const theme = useTheme();
     const mode = theme.palette.mode;
     const data = useTasksContext();
@@ -69,38 +70,46 @@ const TaskList: React.FC<TaskListProps> = ({ listId, name, tasksIds }) => {
     }, [first, tasks]);
 
     return (
-        <Box
-            sx={{
-                flexBasis: "300px",
-                height: "fit-content",
-                flexShrink: "0",
-                p: 1,
-                borderRadius: 2,
-                bgcolor: mode === "dark" ? "#100901" : "#ededed",
-            }}
-        >
-            <Typography variant="subtitle1">{name}</Typography>
+        <Draggable draggableId={listId} index={index}>
+            {(provided) => (
+                <Box
+                    {...provided.draggableProps}
+                    ref={provided.innerRef}
+                    sx={{
+                        flexBasis: "300px",
+                        height: "fit-content",
+                        flexShrink: "0",
+                        p: 1,
+                        borderRadius: 2,
+                        bgcolor: mode === "dark" ? "#100901" : "#ededed",
+                    }}
+                >
+                    <Typography {...provided.dragHandleProps} variant="subtitle1">
+                        {name}
+                    </Typography>
 
-            <Box ref={containerRef} id="container" sx={{ overflowY: "auto", overflowX: "hidden", maxHeight }}>
-                <Droppable droppableId={listId}>
-                    {(provided) => (
-                        <div style={{ minHeight: "1px" }} {...provided.droppableProps} ref={provided.innerRef}>
-                            {tasks && tasks.map((task, index) => task && <Task key={task._id} name={task.name} taskId={task._id} index={index} />)}
+                    <Box ref={containerRef} id="container" sx={{ overflowY: "auto", overflowX: "hidden", maxHeight }}>
+                        <Droppable type="tasks" droppableId={listId}>
+                            {(provided) => (
+                                <div style={{ minHeight: "1px" }} {...provided.droppableProps} ref={provided.innerRef}>
+                                    {tasks && tasks.map((task, index) => task && <Task key={task._id} name={task.name} taskId={task._id} index={index} />)}
 
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
 
-                <Box sx={{ flexBasis: "300px", flexShrink: "0", mt: 2 }}>
-                    <EnterTaskTitle first={first} setFirst={setFirst} listId={listId} />
+                        <Box sx={{ flexBasis: "300px", flexShrink: "0", mt: 2 }}>
+                            <EnterTaskTitle first={first} setFirst={setFirst} listId={listId} />
+                        </Box>
+                    </Box>
+
+                    <Box sx={{ mt: 1, pr: 3 }}>
+                        <AddTaskButton first={first} setFirst={setFirst} />
+                    </Box>
                 </Box>
-            </Box>
-
-            <Box sx={{ mt: 1, pr: 3 }}>
-                <AddTaskButton first={first} setFirst={setFirst} />
-            </Box>
-        </Box>
+            )}
+        </Draggable>
     );
 };
 

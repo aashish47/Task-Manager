@@ -1,16 +1,17 @@
 import express from "express";
-import listController from "../controllers/listController";
+import { getAllLists, getListById, createList, updateList, deleteList } from "../controllers/listController";
+("../controllers/listController");
 
 const router = express.Router();
 
-router.get("/", listController.getAllLists);
+router.get("/", getAllLists);
 
-router.get("/:id", listController.getListById);
+router.get("/:id", getListById);
 
-router.post("/", listController.createList);
+router.post("/", createList);
 
-router.put("/:id", listController.updateList);
+router.put("/:id", updateList);
 
-router.delete("/:id", listController.deleteList);
+router.delete("/:id", deleteList);
 
 export default router;

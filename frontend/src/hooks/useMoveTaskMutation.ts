@@ -9,16 +9,13 @@ const useMoveTaskMutation = () => {
     return useMutation({
         mutationFn: moveTask,
         onMutate: async ({ taskId, startListId, finishListId, newStartList, newFinishList }) => {
-            // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
             await queryClient.cancelQueries(["Tasks"]);
             await queryClient.cancelQueries(["Lists"]);
 
-            // Snapshot the previous value
             const previousTaskData = queryClient.getQueryData(["Tasks"]) as TaskType[];
             const previousListData = queryClient.getQueryData(["Lists"]) as ListType[];
             const previousData = { previousTaskData, previousListData };
 
-            // Optimistically update to the new value
             const newListData = queryClient.setQueryData(["Lists"], (old: any) =>
                 old.map((list: ListType) => {
                     if (list._id === startListId) {
@@ -30,6 +27,7 @@ const useMoveTaskMutation = () => {
                     return list;
                 })
             );
+
             const newTaskData: TaskType[] = queryClient.setQueryData(["Tasks"], (old: any) =>
                 old.map((task: TaskType) => {
                     if (task._id === taskId) {
@@ -39,9 +37,9 @@ const useMoveTaskMutation = () => {
                     return task;
                 })
             );
+
             const newData = { newTaskData, newListData };
 
-            // Return a context with the previous and new todo
             return { previousData, newData };
         },
         onSettled: (data, error, variables, context) => {

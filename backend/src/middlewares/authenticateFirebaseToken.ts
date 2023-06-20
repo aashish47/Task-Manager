@@ -10,16 +10,11 @@ export interface CustomRequest extends Request {
     user?: admin.auth.DecodedIdToken;
 }
 
-const authenticateFirebaseToken = async (req: CustomRequest, res: Response, next: NextFunction) => {
+export const authenticateFirebaseToken = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const { authorization } = req.headers;
 
-        if (!authorization || !authorization.startsWith("Bearer ")) {
-            return res.status(401).json({ message: "Unauthorized" });
-        }
-
-        const token = authorization.split(" ")[1];
-        const decodedToken = await admin.auth().verifyIdToken(token);
+        const decodedToken = await authenticateToken(authorization);
 
         req.user = decodedToken;
 
@@ -30,4 +25,12 @@ const authenticateFirebaseToken = async (req: CustomRequest, res: Response, next
     }
 };
 
-export default authenticateFirebaseToken;
+export const authenticateToken = async (authorization: string | undefined) => {
+    if (!authorization || !authorization.startsWith("Bearer ")) {
+        throw new Error("Unauthorized");
+    }
+
+    const token = authorization.split(" ")[1];
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    return decodedToken;
+};

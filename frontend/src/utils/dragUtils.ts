@@ -2,6 +2,7 @@ import { DropResult } from "react-beautiful-dnd";
 import { ListType } from "../hooks/useListsContext";
 import { UseMutationResult } from "@tanstack/react-query";
 import { TaskType } from "../hooks/useTasksContext";
+import { BoardType } from "../hooks/useBoardsContext";
 
 export const onDragEnd = async (
     result: DropResult,
@@ -12,14 +13,35 @@ export const onDragEnd = async (
         { previousData: { previousTaskData: TaskType[]; previousListData: ListType[] }; newData: { newTaskData: TaskType[]; newListData: ListType[] } }
     >,
     updateListMutation: UseMutationResult<any, unknown, { listId: string; newList: ListType }, { previousListData: ListType[]; newListData: ListType[] }>,
-    lists: ListType[] | null
+    updateBoardMutation: UseMutationResult<
+        any,
+        unknown,
+        { boardId: string; newBoard: BoardType },
+        { previousBoardData: BoardType[]; newBoardData: BoardType[] }
+    >,
+    lists: any[] | undefined,
+    board: BoardType | null | undefined
 ) => {
-    const { draggableId, source, destination } = result;
+    const { draggableId, source, destination, type } = result;
 
     if (!destination) {
         return;
     }
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
+        return;
+    }
+
+    if (type === "lists" && board) {
+        const newListsIds = Array.from(board.listsIds);
+        newListsIds.splice(source.index, 1);
+        newListsIds.splice(destination.index, 0, draggableId);
+        const newBoard = { ...board, listsIds: newListsIds } as BoardType;
+
+        try {
+            await updateBoardMutation.mutateAsync({ boardId: board._id, newBoard });
+        } catch (error) {
+            console.error("Error updating Board lists:", error);
+        }
         return;
     }
 

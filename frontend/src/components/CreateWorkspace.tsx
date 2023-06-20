@@ -1,20 +1,13 @@
 import { Button, Typography, TextField, Dialog, DialogContent, DialogTitle, DialogActions, DialogContentText } from "@mui/material";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import React, { useState } from "react";
-import { createWorkspace } from "../api/api";
 import useAuthContext from "../hooks/useAuthContext";
+import useCreateWorkspaceMutation from "../hooks/useCreateWorkspaceMutation";
 
 const CreateWorkspace = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const queryClient = useQueryClient();
-    const createWorkspaceMutation = useMutation({
-        mutationFn: createWorkspace,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["Workspaces"] });
-        },
-    });
+
+    const createWorkspaceMutation = useCreateWorkspaceMutation();
     const user = useAuthContext();
 
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

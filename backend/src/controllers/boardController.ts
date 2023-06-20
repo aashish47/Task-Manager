@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import boardService from "../services/boardService";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 
-const createBoard = async (req: CustomRequest, res: Response) => {
+export const createBoard = async (req: CustomRequest, res: Response) => {
     const createdBy = req.user?.uid!;
     const { name, workspaceId } = req.body;
 
@@ -14,7 +14,7 @@ const createBoard = async (req: CustomRequest, res: Response) => {
     }
 };
 
-const deleteBoard = async (req: Request, res: Response) => {
+export const deleteBoard = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const deletedBoard = await boardService.deleteBoard(id);
@@ -28,7 +28,7 @@ const deleteBoard = async (req: Request, res: Response) => {
     }
 };
 
-const getAllBoards = async (req: CustomRequest, res: Response) => {
+export const getAllBoards = async (req: CustomRequest, res: Response) => {
     const createdBy = req.user?.uid!;
 
     try {
@@ -39,11 +39,11 @@ const getAllBoards = async (req: CustomRequest, res: Response) => {
     }
 };
 
-const updateBoard = async (req: Request, res: Response) => {
+export const updateBoard = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { name, workspaceId } = req.body;
+    const { newBoard } = req.body;
     try {
-        const updatedBoard = await boardService.updateBoard(id, name, workspaceId);
+        const updatedBoard = await boardService.updateBoard(id, newBoard);
         if (updatedBoard) {
             res.json(updatedBoard);
         } else {
@@ -54,7 +54,7 @@ const updateBoard = async (req: Request, res: Response) => {
     }
 };
 
-const getBoardById = async (req: Request, res: Response) => {
+export const getBoardById = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const board = await boardService.getBoardById(id);
@@ -66,12 +66,4 @@ const getBoardById = async (req: Request, res: Response) => {
     } catch (error: any) {
         res.status(500).json({ error: error.message });
     }
-};
-
-export default {
-    createBoard,
-    deleteBoard,
-    getAllBoards,
-    updateBoard,
-    getBoardById,
 };

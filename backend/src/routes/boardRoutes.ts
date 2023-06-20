@@ -1,16 +1,16 @@
 import express from "express";
-import boardController from "../controllers/boardController";
+import { createBoard, deleteBoard, getAllBoards, getBoardById, updateBoard } from "../controllers/boardController";
 
 const router = express.Router();
 
-router.get("/", boardController.getAllBoards);
+router.get("/", getAllBoards);
 
-router.get("/:id", boardController.getBoardById);
+router.get("/:id", getBoardById);
 
-router.post("/", boardController.createBoard);
+router.post("/", createBoard);
 
-router.put("/:id", boardController.updateBoard);
+router.put("/:id", updateBoard);
 
-router.delete("/:id", boardController.deleteBoard);
+router.delete("/:id", deleteBoard);
 
 export default router;

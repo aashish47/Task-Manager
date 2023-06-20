@@ -1,9 +1,8 @@
 import { Collapse, Stack, TextField, Button, IconButton, useTheme } from "@mui/material";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
 import React from "react";
-import { createList } from "../api/api";
 import useAuthContext from "../hooks/useAuthContext";
 import CloseIcon from "@mui/icons-material/Close";
+import useCreateListMutation from "../hooks/useCreateListMutation";
 
 type EnterListTitleProp = {
     first: boolean;
@@ -12,18 +11,12 @@ type EnterListTitleProp = {
 };
 
 const EnterListTitle: React.FC<EnterListTitleProp> = ({ first, setFirst, boardId }) => {
+    const createListMutation = useCreateListMutation();
+    const user = useAuthContext();
     const theme = useTheme();
     const mode = theme.palette.mode;
-    const queryClient = useQueryClient();
-    const user = useAuthContext();
     const [name, setName] = React.useState("");
 
-    const createListMutation = useMutation({
-        mutationFn: createList,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["Lists"] });
-        },
-    });
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setName(event.target.value);
     };
@@ -53,12 +46,13 @@ const EnterListTitle: React.FC<EnterListTitleProp> = ({ first, setFirst, boardId
                     }}
                 >
                     <TextField
+                        focused
+                        autoComplete="off"
                         value={name}
                         onChange={handleChangeName}
                         sx={{ bgcolor: mode === "dark" ? "#22272b" : "white" }}
                         size="small"
                         variant="outlined"
-                        focused
                         placeholder="Enter list title..."
                     />
                     <Stack direction="row">

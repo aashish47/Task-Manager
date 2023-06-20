@@ -16,23 +16,18 @@ import {
 import React from "react";
 import useWorkspaceData from "../hooks/useWorkspaceContext";
 import useAuthContext from "../hooks/useAuthContext";
-import { createBoard } from "../api/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useCreateBoardMutation from "../hooks/useCreateBoardMutation";
+import { useNavigate } from "react-router-dom";
 
 const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const workspaces = useWorkspaceData();
     const user = useAuthContext();
+    const createBoardMutation = useCreateBoardMutation();
 
     const [name, setName] = React.useState("");
     const [workspace, setWorkspace] = React.useState("");
 
-    const queryClient = useQueryClient();
-    const createBoardMutation = useMutation({
-        mutationFn: createBoard,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["Boards"] });
-        },
-    });
+    const navigate = useNavigate();
 
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setName(event.target.value);
@@ -47,7 +42,10 @@ const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch
         if (user) {
             const board = { name, workspaceId: workspace, createdBy: user.uid };
             try {
-                await createBoardMutation.mutateAsync(board);
+                const { _id } = await createBoardMutation.mutateAsync(board);
+
+                navigate(`/b/${name}/${_id}`);
+
                 handleClose();
             } catch (error) {
                 console.error("An error occurred:", error);

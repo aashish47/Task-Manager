@@ -1,9 +1,8 @@
 import { Collapse, Stack, TextField, Button, IconButton, useTheme } from "@mui/material";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
 import React from "react";
-import { createTask } from "../api/api";
 import useAuthContext from "../hooks/useAuthContext";
 import CloseIcon from "@mui/icons-material/Close";
+import useCreateTaskMutation from "../hooks/useCreateTaskMutation";
 
 type EnterTaskTitleProp = {
     first: boolean;
@@ -12,19 +11,12 @@ type EnterTaskTitleProp = {
 };
 
 const EnterTaskTitle: React.FC<EnterTaskTitleProp> = ({ first, setFirst, listId }) => {
+    const createTaskMutation = useCreateTaskMutation();
+    const user = useAuthContext();
     const theme = useTheme();
     const mode = theme.palette.mode;
-    const queryClient = useQueryClient();
-    const user = useAuthContext();
     const [name, setName] = React.useState("");
 
-    const createTaskMutation = useMutation({
-        mutationFn: createTask,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["Tasks"] });
-            queryClient.invalidateQueries({ queryKey: ["Lists"] });
-        },
-    });
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setName(event.target.value);
     };

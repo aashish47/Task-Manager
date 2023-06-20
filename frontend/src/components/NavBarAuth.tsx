@@ -18,7 +18,6 @@ import WorkspaceMenu from "./WorkspaceMenu";
 import RecentMenu from "./RecentMenu";
 import StarredMenu from "./StarredMenu";
 import CreateMenu from "./CreateMenu";
-import DrawerLeft from "./DrawerLeft";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { Link } from "@mui/material";
@@ -156,11 +155,10 @@ export default function PrimarySearchAppBar({ darkmode, setDarkmode }: { darkmod
         <Box sx={{ flexShrink: 1 }}>
             <AppBar position="static">
                 <Toolbar variant="dense">
-                    <DrawerLeft />
                     <Link component={NavLink} to={"/"}>
                         <Typography variant="h6">MUI</Typography>
                     </Link>
-                    <Box sx={{ flexGrow: 1, gap: 1.2, display: "flex", ml: 2 }}>
+                    <Box sx={{ flexGrow: 1, gap: 1.2, display: "flex", ml: 2, alignItems: "center" }}>
                         <WorkspaceMenu />
                         <RecentMenu />
                         <StarredMenu />

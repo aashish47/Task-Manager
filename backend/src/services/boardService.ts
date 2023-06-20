@@ -13,8 +13,8 @@ const getAllBoards = async (createdBy: string) => {
     return await Board.find({ createdBy });
 };
 
-const updateBoard = async (id: string, name: string, workspaceId: string) => {
-    return await Board.findByIdAndUpdate(id, { name, workspaceId }, { new: true });
+const updateBoard = async (id: string, updaterQuery: object) => {
+    return await Board.findByIdAndUpdate(id, updaterQuery, { new: true });
 };
 
 const getBoardById = async (id: string) => {

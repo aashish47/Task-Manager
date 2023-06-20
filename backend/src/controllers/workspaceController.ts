@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import workspaceService from "../services/workspaceService";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 
-const createWorkspace = async (req: CustomRequest, res: Response) => {
+export const createWorkspace = async (req: CustomRequest, res: Response) => {
     const createdBy = req.user?.uid!;
     const { name, description } = req.body;
     try {
@@ -13,7 +13,7 @@ const createWorkspace = async (req: CustomRequest, res: Response) => {
     }
 };
 
-const deleteWorkspace = async (req: Request, res: Response) => {
+export const deleteWorkspace = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const deletedWorkspace = await workspaceService.deleteWorkspace(id);
@@ -27,7 +27,7 @@ const deleteWorkspace = async (req: Request, res: Response) => {
     }
 };
 
-const getAllWorkspaces = async (req: CustomRequest, res: Response) => {
+export const getAllWorkspaces = async (req: CustomRequest, res: Response) => {
     const createdBy = req.user?.uid!;
 
     try {
@@ -38,7 +38,7 @@ const getAllWorkspaces = async (req: CustomRequest, res: Response) => {
     }
 };
 
-const updateWorkspace = async (req: Request, res: Response) => {
+export const updateWorkspace = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { name, description } = req.body;
     try {
@@ -53,7 +53,7 @@ const updateWorkspace = async (req: Request, res: Response) => {
     }
 };
 
-const getWorkspaceById = async (req: Request, res: Response) => {
+export const getWorkspaceById = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const workspace = await workspaceService.getWorkspaceById(id);
@@ -65,12 +65,4 @@ const getWorkspaceById = async (req: Request, res: Response) => {
     } catch (error: any) {
         res.status(500).json({ error: error.message });
     }
-};
-
-export default {
-    createWorkspace,
-    deleteWorkspace,
-    getAllWorkspaces,
-    updateWorkspace,
-    getWorkspaceById,
 };

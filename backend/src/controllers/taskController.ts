@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import Task from "../models/Task";
 import listService from "../services/listService";
 
-const createTask = async (req: Request, res: Response) => {
+export const createTask = async (req: Request, res: Response) => {
     const { name, description, listId, createdBy } = req.body;
     const session = await mongoose.startSession();
     try {
@@ -29,7 +29,7 @@ const createTask = async (req: Request, res: Response) => {
     }
 };
 
-const deleteTask = async (req: Request, res: Response) => {
+export const deleteTask = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const deletedTask = await taskService.deleteTask(id);
@@ -43,7 +43,7 @@ const deleteTask = async (req: Request, res: Response) => {
     }
 };
 
-const getAllTasks = async (req: CustomRequest, res: Response) => {
+export const getAllTasks = async (req: CustomRequest, res: Response) => {
     const createdBy = req.user?.uid!;
     try {
         const tasks = await taskService.getAllTasks(createdBy);
@@ -53,7 +53,7 @@ const getAllTasks = async (req: CustomRequest, res: Response) => {
     }
 };
 
-const updateTask = async (req: Request, res: Response) => {
+export const updateTask = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { newTask } = req.body;
     try {
@@ -68,7 +68,7 @@ const updateTask = async (req: Request, res: Response) => {
     }
 };
 
-const moveTask = async (req: Request, res: Response) => {
+export const moveTask = async (req: Request, res: Response) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -91,7 +91,7 @@ const moveTask = async (req: Request, res: Response) => {
     }
 };
 
-const getTaskById = async (req: Request, res: Response) => {
+export const getTaskById = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const task = await taskService.getTaskById(id);
@@ -103,13 +103,4 @@ const getTaskById = async (req: Request, res: Response) => {
     } catch (error: any) {
         res.status(500).json({ error: error.message });
     }
-};
-
-export default {
-    createTask,
-    deleteTask,
-    getAllTasks,
-    updateTask,
-    moveTask,
-    getTaskById,
 };

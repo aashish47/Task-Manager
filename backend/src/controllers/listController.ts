@@ -1,18 +1,34 @@
 import { Request, Response } from "express";
 import listService from "../services/listService";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
+import BoardModel from "../models/Board";
+import mongoose from "mongoose";
 
-const createList = async (req: Request, res: Response) => {
+export const createList = async (req: Request, res: Response) => {
     const { name, boardId, createdBy } = req.body;
+    const session = await mongoose.startSession();
     try {
+        session.startTransaction();
         const newList = await listService.createList(name, boardId, createdBy);
+        const board = await BoardModel.findById(boardId);
+        if (board) {
+            board.addList(newList._id);
+
+            await board.save();
+        } else {
+            throw new Error("Board not found");
+        }
+        await session.commitTransaction();
+        session.endSession();
         res.json(newList);
     } catch (error: any) {
+        await session.abortTransaction();
+        session.endSession();
         res.status(500).json({ error: error.message });
     }
 };
 
-const deleteList = async (req: Request, res: Response) => {
+export const deleteList = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const deletedList = await listService.deleteList(id);
@@ -26,7 +42,7 @@ const deleteList = async (req: Request, res: Response) => {
     }
 };
 
-const getAllLists = async (req: CustomRequest, res: Response) => {
+export const getAllLists = async (req: CustomRequest, res: Response) => {
     const createdBy = req.user?.uid!;
 
     try {
@@ -37,7 +53,7 @@ const getAllLists = async (req: CustomRequest, res: Response) => {
     }
 };
 
-const updateList = async (req: Request, res: Response) => {
+export const updateList = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { newList } = req.body;
 
@@ -53,7 +69,7 @@ const updateList = async (req: Request, res: Response) => {
     }
 };
 
-const getListById = async (req: Request, res: Response) => {
+export const getListById = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const list = await listService.getListById(id);
@@ -65,12 +81,4 @@ const getListById = async (req: Request, res: Response) => {
     } catch (error: any) {
         res.status(500).json({ error: error.message });
     }
-};
-
-export default {
-    createList,
-    deleteList,
-    getAllLists,
-    updateList,
-    getListById,
 };

@@ -6,9 +6,19 @@ import workspaceRoutes from "./routes/workspaceRoutes";
 import boardRoutes from "./routes/boardRoutes";
 import listRoutes from "./routes/listRoutes";
 import taskRoutes from "./routes/taskRoutes";
-import authenticateFirebaseToken from "./middlewares/authenticateFirebaseToken";
+import invitationRoutes from "./routes/invitationRoutes";
+import notificationRoutes from "./routes/notificationRoutes";
+import http from "http";
+import { Server } from "socket.io";
+import { authenticateFirebaseToken, authenticateToken } from "./middlewares/authenticateFirebaseToken";
 
 const app = express();
+const server = http.createServer(app);
+export const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:5173",
+    },
+});
 const PORT = config.server.port;
 const DBURI = config.mongo.url;
 
@@ -24,11 +34,61 @@ app.use("/api/workspaces", workspaceRoutes);
 app.use("/api/boards", boardRoutes);
 app.use("/api/lists", listRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/invitation", invitationRoutes);
+app.use("/api/notifications", notificationRoutes);
+
+export const connected = new Map<string, Set<string>>();
+
+io.on("connection", async (socket) => {
+    try {
+        const authorization = socket.handshake.query.authorization as string | undefined;
+
+        const decodedToken = await authenticateToken(authorization);
+
+        const uid = decodedToken.uid;
+        const socketId = socket.id;
+        // Join the user's room
+        socket.join(uid);
+
+        // Store the socket ID in the user's set of connected sockets
+        if (connected.has(uid)) {
+            connected.get(uid)?.add(socketId);
+        } else {
+            connected.set(uid, new Set([socketId]));
+        }
+
+        // Handle disconnect event
+        socket.on("disconnect", () => {
+            // Remove the socket ID from the user's set of connected sockets
+            if (connected.has(uid)) {
+                const sockets = connected.get(uid);
+                if (sockets) {
+                    sockets.delete(socketId);
+                    // If the user has no more connected sockets, remove the entry from the map
+                    if (sockets.size === 0) {
+                        connected.delete(uid);
+                        // Leave the user's room
+                        socket.leave(uid);
+                    }
+                }
+            }
+
+            console.log(`${socketId} disconnected`);
+            console.log("Map:", connected);
+        });
+        console.log("Map:", connected);
+    } catch (error: any) {
+        console.error("Socket connection error:", error);
+
+        socket.emit("error", error.message);
+        socket.disconnect(true);
+    }
+});
 
 mongoose
     .connect(DBURI)
     .then(() => {
-        app.listen(PORT);
+        server.listen(PORT);
         console.log(`Server running at port ${PORT} \n`);
     })
     .catch((error) => console.log(error));

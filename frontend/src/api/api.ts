@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ListType } from "../hooks/useListsContext";
 import { TaskType } from "../hooks/useTasksContext";
+import { BoardType } from "../hooks/useBoardsContext";
 
 const api = axios.create({
     baseURL: "http://localhost:3000/api",
@@ -92,6 +93,16 @@ export const createBoard = async ({ name, workspaceId, createdBy }: { name: stri
     }
 };
 
+export const updateBoard = async ({ boardId, newBoard }: { boardId: string; newBoard: BoardType }) => {
+    try {
+        const response = await api.put(`/boards/${boardId}`, { newBoard });
+
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
 // Lists Functions
 
 export const fetchLists = async () => {
@@ -145,7 +156,7 @@ export const createTask = async ({ name, listId, createdBy }: { name: string; li
 export const updateTask = async ({ taskId, newTask }: { taskId: string; newTask: TaskType }) => {
     try {
         const response = await api.put(`/tasks/${taskId}`, { newTask });
-        console.log("res", response.data);
+
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);
@@ -172,6 +183,17 @@ export const moveTask = async ({
             newStartList,
             newFinishList,
         });
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+// Invitation functions
+
+export const sendInvitation = async ({ boardId, clientId }: { boardId: string; clientId: string }) => {
+    try {
+        const response = await api.post("/invitation/send", { boardId, clientId });
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);

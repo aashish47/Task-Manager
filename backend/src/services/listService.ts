@@ -15,8 +15,7 @@ const getAllLists = async (createdBy: string) => {
 };
 
 const updateList = async (id: string, updaterQuery: object) => {
-    const data = await ListModel.findByIdAndUpdate(id, updaterQuery, { new: true });
-    return data;
+    return await ListModel.findByIdAndUpdate(id, updaterQuery, { new: true });
 };
 
 const getListById = async (id: string) => {
