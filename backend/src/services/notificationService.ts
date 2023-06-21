@@ -9,11 +9,11 @@ const deleteNotification = async (id: string) => {
     return await Notification.findByIdAndDelete(id);
 };
 
-const getAllNotifications = async (createdBy: string) => {
-    return await Notification.find({ createdBy });
+const getAllNotifications = async (uid: string) => {
+    return await Notification.find({ uid });
 };
 
-const updateNotification = async (id: string, updaterQuery: object) => {
+const updateNotification = async (id: any, updaterQuery: object) => {
     return await Notification.findByIdAndUpdate(id, updaterQuery, { new: true });
 };
 

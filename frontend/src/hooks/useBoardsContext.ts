@@ -7,6 +7,7 @@ export type BoardType = {
     workspaceId: string;
     name: string;
     listsIds: [string];
+    members: string[];
     updatedAt: string;
     __v: number;
     _id: string;

@@ -22,6 +22,7 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { Link } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import NotificationMenu from "./NotificationsMenu";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -63,7 +64,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function PrimarySearchAppBar({ darkmode, setDarkmode }: { darkmode: boolean; setDarkmode: (value: boolean) => void }) {
+export default function PrimarySearchAppBar({
+    newNotifications,
+    setNewNotifications,
+    darkmode,
+    setDarkmode,
+}: {
+    newNotifications: number;
+    setNewNotifications: React.Dispatch<React.SetStateAction<number>>;
+    darkmode: boolean;
+    setDarkmode: (value: boolean) => void;
+}) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -177,29 +188,19 @@ export default function PrimarySearchAppBar({ darkmode, setDarkmode }: { darkmod
                         {darkmode ? <Brightness7Icon /> : <Brightness4Icon />}
                     </IconButton>
 
-                    <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="error">
-                                <MailIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
-                            <Badge badgeContent={17} color="error">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                    </Box>
+                    <NotificationMenu newNotifications={newNotifications} setNewNotifications={setNewNotifications} />
+                    <IconButton
+                        size="large"
+                        edge="end"
+                        aria-label="account of current user"
+                        aria-controls={menuId}
+                        aria-haspopup="true"
+                        onClick={handleProfileMenuOpen}
+                        color="inherit"
+                    >
+                        <AccountCircle />
+                    </IconButton>
+
                     <Box sx={{ display: { xs: "flex", md: "none" } }}>
                         <IconButton
                             size="large"

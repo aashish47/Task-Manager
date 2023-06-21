@@ -189,6 +189,17 @@ export const moveTask = async ({
     }
 };
 
+// Notification Functions
+
+export const fetchNotifications = async () => {
+    try {
+        const response = await api.get("/notifications");
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
 // Invitation functions
 
 export const sendInvitation = async ({ boardId, clientId }: { boardId: string; clientId: string }) => {

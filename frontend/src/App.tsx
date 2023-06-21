@@ -14,6 +14,7 @@ import useAuthContext from "./hooks/useAuthContext";
 import Board from "./pages/Board";
 import "./App.css";
 import { io } from "socket.io-client";
+import { useQueryClient } from "@tanstack/react-query";
 
 const checkBoardPage = (location: Location) => {
     const isBoardPage = location.pathname.startsWith("/b");
@@ -27,10 +28,12 @@ const checkBoardPage = (location: Location) => {
 
 const App = () => {
     const [darkmode, setDarkmode] = useState(true);
+    const [newNotifications, setNewNotifications] = useState(0);
     const user = useAuthContext();
     const theme = createCustomTheme(darkmode);
     const location = useLocation();
     const token = localStorage.getItem("ID_TOKEN");
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         checkBoardPage(location);
@@ -44,21 +47,27 @@ const App = () => {
         });
 
         // Listen for invitation event from the server
-        socket.on("invitation", (invitationKey) => {
-            console.log("invitation received", invitationKey);
+
+        socket.on("notifications", (totalNotifications) => {
+            queryClient.invalidateQueries(["Notifications"]);
+            setNewNotifications(totalNotifications);
         });
 
         return () => {
             socket.off("invitation");
             socket.disconnect();
         };
-    }, [token]);
+    }, [queryClient, token]);
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <main>
-                {user ? <NavBarAuth darkmode={darkmode} setDarkmode={setDarkmode} /> : <NavBar />}
+                {user ? (
+                    <NavBarAuth newNotifications={newNotifications} setNewNotifications={setNewNotifications} darkmode={darkmode} setDarkmode={setDarkmode} />
+                ) : (
+                    <NavBar />
+                )}
                 <Divider />
                 <Routes>
                     <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />

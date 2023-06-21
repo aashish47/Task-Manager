@@ -4,6 +4,8 @@ import { connected, io } from "../app";
 import Notification from "../models/Notification";
 import notificationService from "../services/notificationService";
 import mongoose from "mongoose";
+import Board from "../models/Board";
+import boardService from "../services/boardService";
 
 export const sendInvitation = async (req: Request, res: Response) => {
     const { boardId, clientId } = req.body;
@@ -13,14 +15,20 @@ export const sendInvitation = async (req: Request, res: Response) => {
     const session = await mongoose.startSession();
     try {
         session.startTransaction();
+        const board = await boardService.getBoardById(boardId);
+        if (board) {
+            const members = [...board.members, clientId];
+            await boardService.updateBoard(boardId, { members });
+        }
+
         await saveInvitationDetails(boardId, clientId, invitationKey);
         if (connected.has(clientId)) {
-            io.to(clientId).emit("invitation", invitationKey);
+            await notificationService.createNotification({ uid: clientId, description: "new invitation", isPending: false });
+            io.to(clientId).emit("notifications", 1);
         } else {
-            isPending = true;
+            await notificationService.createNotification({ uid: clientId, description: "new invitation", isPending: true });
             message = "Invitation will be sent when user is online";
         }
-        await notificationService.createNotification({ uid: clientId, description: "new invitation", isPending });
         await session.commitTransaction();
         session.endSession();
         res.status(200).json({ message });

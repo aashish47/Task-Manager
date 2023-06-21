@@ -11,6 +11,8 @@ import notificationRoutes from "./routes/notificationRoutes";
 import http from "http";
 import { Server } from "socket.io";
 import { authenticateFirebaseToken, authenticateToken } from "./middlewares/authenticateFirebaseToken";
+import Notification from "./models/Notification";
+import notificationService from "./services/notificationService";
 
 const app = express();
 const server = http.createServer(app);
@@ -55,6 +57,16 @@ io.on("connection", async (socket) => {
             connected.get(uid)?.add(socketId);
         } else {
             connected.set(uid, new Set([socketId]));
+        }
+
+        const notifications = await Notification.find({ uid, isPending: true });
+        const totalNotifications = notifications.length;
+        if (totalNotifications > 0) {
+            io.to(uid).emit("notifications", totalNotifications);
+            notifications.map((notification) => {
+                const id = notification._id;
+                notificationService.updateNotification(id, { isPending: false });
+            });
         }
 
         // Handle disconnect event

@@ -17,10 +17,9 @@ export const deleteNotification = async (req: Request, res: Response) => {
 };
 
 export const getAllNotifications = async (req: CustomRequest, res: Response) => {
-    const createdBy = req.user?.uid!;
-
+    const uid = req.user?.uid!;
     try {
-        const Notifications = await NotificationService.getAllNotifications(createdBy);
+        const Notifications = await NotificationService.getAllNotifications(uid);
         res.json(Notifications);
     } catch (error: any) {
         res.status(500).json({ error: error.message });
