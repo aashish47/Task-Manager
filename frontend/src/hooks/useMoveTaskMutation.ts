@@ -2,21 +2,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { moveTask } from "../api/api";
 import { ListType } from "./useListsContext";
 import { TaskType } from "./useTasksContext";
+import useSocketContext from "./useSocketContext";
 
 const useMoveTaskMutation = () => {
     const queryClient = useQueryClient();
+    const socket = useSocketContext();
 
     return useMutation({
         mutationFn: moveTask,
-        onMutate: async ({ taskId, startListId, finishListId, newStartList, newFinishList }) => {
-            await queryClient.cancelQueries(["Tasks"]);
-            await queryClient.cancelQueries(["Lists"]);
+        onMutate: async ({ boardId, taskId, startListId, finishListId, newStartList, newFinishList }) => {
+            await queryClient.cancelQueries(["Tasks", boardId]);
+            await queryClient.cancelQueries(["Lists", boardId]);
 
-            const previousTaskData = queryClient.getQueryData(["Tasks"]) as TaskType[];
-            const previousListData = queryClient.getQueryData(["Lists"]) as ListType[];
+            const previousTaskData = queryClient.getQueryData(["Tasks", boardId]) as TaskType[];
+            const previousListData = queryClient.getQueryData(["Lists", boardId]) as ListType[];
             const previousData = { previousTaskData, previousListData };
 
-            const newListData = queryClient.setQueryData(["Lists"], (old: any) =>
+            const newListData = queryClient.setQueryData(["Lists", boardId], (old: any) =>
                 old.map((list: ListType) => {
                     if (list._id === startListId) {
                         return newStartList;
@@ -28,7 +30,7 @@ const useMoveTaskMutation = () => {
                 })
             );
 
-            const newTaskData: TaskType[] = queryClient.setQueryData(["Tasks"], (old: any) =>
+            const newTaskData: TaskType[] = queryClient.setQueryData(["Tasks", boardId], (old: any) =>
                 old.map((task: TaskType) => {
                     if (task._id === taskId) {
                         return { ...task, listId: finishListId };
@@ -43,14 +45,17 @@ const useMoveTaskMutation = () => {
             return { previousData, newData };
         },
         onSettled: (data, error, variables, context) => {
+            const { boardId } = variables;
             if (error) {
                 console.log(error);
-                queryClient.setQueryData(["Tasks"], context?.previousData.previousTaskData);
-                queryClient.setQueryData(["Lists"], context?.previousData.previousListData);
+                queryClient.setQueryData(["Tasks", boardId], context?.previousData.previousTaskData);
+                queryClient.setQueryData(["Lists", boardId], context?.previousData.previousListData);
             }
 
-            queryClient.invalidateQueries(["Tasks"]);
-            queryClient.invalidateQueries(["Lists"]);
+            queryClient.invalidateQueries(["Tasks", boardId]);
+            queryClient.invalidateQueries(["Lists", boardId]);
+            socket?.emit("invalidateTasks", boardId);
+            socket?.emit("invalidateLists", boardId);
         },
     });
 };

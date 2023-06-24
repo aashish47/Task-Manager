@@ -7,11 +7,11 @@ import Task from "../models/Task";
 import listService from "../services/listService";
 
 export const createTask = async (req: Request, res: Response) => {
-    const { name, description, listId, createdBy } = req.body;
+    const { listId } = req.body;
     const session = await mongoose.startSession();
     try {
         session.startTransaction();
-        const newTask = await taskService.createTask(name, description, listId, createdBy);
+        const newTask = await taskService.createTask(req.body);
         const list = await ListModel.findById(listId);
         if (list) {
             list.addTask(newTask._id);
@@ -48,6 +48,16 @@ export const getAllTasks = async (req: CustomRequest, res: Response) => {
     try {
         const tasks = await taskService.getAllTasks(createdBy);
         res.json(tasks);
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getTasksByBoardId = async (req: Request, res: Response) => {
+    const { id: boardId } = req.params;
+    try {
+        const lists = await taskService.getTasksByBoardId(boardId);
+        res.json(lists);
     } catch (error: any) {
         res.status(500).json({ error: error.message });
     }

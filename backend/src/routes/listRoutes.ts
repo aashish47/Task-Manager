@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllLists, getListById, createList, updateList, deleteList } from "../controllers/listController";
+import { getAllLists, getListById, getListsByBoardId, createList, updateList, deleteList } from "../controllers/listController";
 ("../controllers/listController");
 
 const router = express.Router();
@@ -7,6 +7,8 @@ const router = express.Router();
 router.get("/", getAllLists);
 
 router.get("/:id", getListById);
+
+router.get("/boards/:id", getListsByBoardId);
 
 router.post("/", createList);
 

@@ -4,6 +4,7 @@ interface ITask extends Document {
     name: string;
     description?: string;
     listId: Schema.Types.ObjectId;
+    boardId: Schema.Types.ObjectId;
     createdBy: string;
 }
 
@@ -15,6 +16,11 @@ const TaskSchema: Schema<ITask> = new Schema(
         },
         description: {
             type: String,
+        },
+        boardId: {
+            type: String,
+            ref: "Board",
+            required: true,
         },
         listId: {
             type: Schema.Types.ObjectId,

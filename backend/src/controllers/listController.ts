@@ -5,11 +5,11 @@ import BoardModel from "../models/Board";
 import mongoose from "mongoose";
 
 export const createList = async (req: Request, res: Response) => {
-    const { name, boardId, createdBy } = req.body;
+    const { boardId } = req.body;
     const session = await mongoose.startSession();
     try {
         session.startTransaction();
-        const newList = await listService.createList(name, boardId, createdBy);
+        const newList = await listService.createList(req.body);
         const board = await BoardModel.findById(boardId);
         if (board) {
             board.addList(newList._id);
@@ -47,6 +47,16 @@ export const getAllLists = async (req: CustomRequest, res: Response) => {
 
     try {
         const lists = await listService.getAllLists(createdBy);
+        res.json(lists);
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getListsByBoardId = async (req: Request, res: Response) => {
+    const { id: boardId } = req.params;
+    try {
+        const lists = await listService.getListsByBoardId(boardId);
         res.json(lists);
     } catch (error: any) {
         res.status(500).json({ error: error.message });

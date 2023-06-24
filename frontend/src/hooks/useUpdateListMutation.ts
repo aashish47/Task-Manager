@@ -1,15 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateList } from "../api/api";
 import { ListType } from "./useListsContext";
+import useSocketContext from "./useSocketContext";
 
 const useUpdateListMutation = () => {
     const queryClient = useQueryClient();
+    const socket = useSocketContext();
     return useMutation({
         mutationFn: updateList,
-        onMutate: async ({ listId, newList }) => {
-            await queryClient.cancelQueries(["Lists"]);
-            const previousListData = queryClient.getQueryData(["Lists"]) as ListType[];
-            const newListData: ListType[] = queryClient.setQueryData(["Lists"], (old: any) =>
+        onMutate: async ({ boardId, listId, newList }) => {
+            await queryClient.cancelQueries(["Lists", boardId]);
+            const previousListData = queryClient.getQueryData(["Lists", boardId]) as ListType[];
+            const newListData: ListType[] = queryClient.setQueryData(["Lists", boardId], (old: any) =>
                 old.map((list: ListType) => {
                     if (list._id === listId) {
                         return newList;
@@ -20,11 +22,13 @@ const useUpdateListMutation = () => {
             return { previousListData, newListData };
         },
         onSettled: (data, error, variables, context) => {
+            const { boardId } = variables;
             if (error) {
                 console.log(error);
-                queryClient.setQueryData(["Lists"], context?.previousListData);
+                queryClient.setQueryData(["Lists", boardId], context?.previousListData);
             }
-            queryClient.invalidateQueries(["Lists"]);
+            queryClient.invalidateQueries(["Lists", boardId]);
+            socket?.emit("invalidateLists", boardId);
         },
     });
 };

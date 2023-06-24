@@ -13,6 +13,8 @@ import { Server } from "socket.io";
 import { authenticateFirebaseToken, authenticateToken } from "./middlewares/authenticateFirebaseToken";
 import Notification from "./models/Notification";
 import notificationService from "./services/notificationService";
+import Board from "./models/Board";
+import boardService from "./services/boardService";
 
 const app = express();
 const server = http.createServer(app);
@@ -68,6 +70,42 @@ io.on("connection", async (socket) => {
                 notificationService.updateNotification(id, { isPending: false });
             });
         }
+
+        socket.on("invalidateBoards", async (boardId) => {
+            const board = await boardService.getBoardById(boardId);
+            const members = board?.members;
+            if (members) {
+                members.map((member) => {
+                    if (connected.has(member)) {
+                        io.to(member).emit("invalidateBoards");
+                    }
+                });
+            }
+        });
+
+        socket.on("invalidateLists", async (boardId) => {
+            const board = await boardService.getBoardById(boardId);
+            const members = board?.members;
+            if (members) {
+                members.map((member) => {
+                    if (connected.has(member)) {
+                        io.to(member).emit("invalidateLists", boardId);
+                    }
+                });
+            }
+        });
+
+        socket.on("invalidateTasks", async (boardId) => {
+            const board = await boardService.getBoardById(boardId);
+            const members = board?.members;
+            if (members) {
+                members.map((member) => {
+                    if (connected.has(member)) {
+                        io.to(member).emit("invalidateTasks", boardId);
+                    }
+                });
+            }
+        });
 
         // Handle disconnect event
         socket.on("disconnect", () => {

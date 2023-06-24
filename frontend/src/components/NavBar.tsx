@@ -30,7 +30,7 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: "white" }}>
+        <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
@@ -44,7 +44,7 @@ function ResponsiveAppBar() {
                             fontFamily: "monospace",
                             fontWeight: 700,
                             letterSpacing: ".3rem",
-                            color: "black",
+
                             textDecoration: "none",
                         }}
                     >
@@ -58,7 +58,6 @@ function ResponsiveAppBar() {
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
-                            sx={{ color: "black" }}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -99,7 +98,7 @@ function ResponsiveAppBar() {
                             fontFamily: "monospace",
                             fontWeight: 700,
                             letterSpacing: ".3rem",
-                            color: "black",
+
                             textDecoration: "none",
                         }}
                     >
@@ -112,7 +111,7 @@ function ResponsiveAppBar() {
                                 onClick={handleCloseNavMenu}
                                 sx={{
                                     my: 2,
-                                    color: "black",
+
                                     display: "block",
                                     "&:hover": {
                                         color: "blue",
@@ -126,7 +125,6 @@ function ResponsiveAppBar() {
                     <Button
                         onClick={handleClickLogin}
                         sx={{
-                            color: "black",
                             "&:hover": {
                                 color: "blue",
                             },

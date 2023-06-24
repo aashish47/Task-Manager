@@ -8,9 +8,15 @@ type EnterTaskTitleProp = {
     first: boolean;
     setFirst: React.Dispatch<React.SetStateAction<boolean>>;
     listId: string;
+    boardId: string;
 };
-
-const EnterTaskTitle: React.FC<EnterTaskTitleProp> = ({ first, setFirst, listId }) => {
+export type Task = {
+    name: string;
+    listId: string;
+    boardId: string;
+    createdBy: string;
+};
+const EnterTaskTitle: React.FC<EnterTaskTitleProp> = ({ first, setFirst, listId, boardId }) => {
     const createTaskMutation = useCreateTaskMutation();
     const user = useAuthContext();
     const theme = useTheme();
@@ -24,7 +30,7 @@ const EnterTaskTitle: React.FC<EnterTaskTitleProp> = ({ first, setFirst, listId 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (user) {
-            const task = { name, listId, createdBy: user.uid };
+            const task: Task = { name, listId, boardId, createdBy: user.uid };
             try {
                 await createTaskMutation.mutateAsync(task);
                 setName("");

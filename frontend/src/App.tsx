@@ -15,6 +15,7 @@ import Board from "./pages/Board";
 import "./App.css";
 import { io } from "socket.io-client";
 import { useQueryClient } from "@tanstack/react-query";
+import useSocketContext from "./hooks/useSocketContext";
 
 const checkBoardPage = (location: Location) => {
     const isBoardPage = location.pathname.startsWith("/b");
@@ -34,30 +35,45 @@ const App = () => {
     const location = useLocation();
     const token = localStorage.getItem("ID_TOKEN");
     const queryClient = useQueryClient();
+    const socket = useSocketContext();
 
     useEffect(() => {
         checkBoardPage(location);
     }, [location]);
 
     useEffect(() => {
-        const socket = io("http://localhost:3000", { query: { authorization: `Bearer ${token}` } });
-
+        if (!socket) {
+            console.log(socket);
+            return;
+        }
         socket.on("connect", () => {
             console.log("Socket connected!");
         });
-
-        // Listen for invitation event from the server
 
         socket.on("notifications", (totalNotifications) => {
             queryClient.invalidateQueries(["Notifications"]);
             setNewNotifications(totalNotifications);
         });
 
+        socket.on("invalidateBoards", () => {
+            queryClient.invalidateQueries(["Boards"]);
+        });
+
+        socket.on("invalidateLists", (boardId) => {
+            queryClient.invalidateQueries(["Lists", boardId]);
+        });
+
+        socket.on("invalidateTasks", (boardId) => {
+            queryClient.invalidateQueries(["Tasks", boardId]);
+        });
+
         return () => {
-            socket.off("invitation");
+            socket.off("notifications");
+            socket.off("invalidateTasks");
+            socket.off("invalidateTasksAndLists");
             socket.disconnect();
         };
-    }, [queryClient, token]);
+    }, [queryClient, socket]);
 
     return (
         <ThemeProvider theme={theme}>

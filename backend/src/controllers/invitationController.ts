@@ -6,29 +6,39 @@ import notificationService from "../services/notificationService";
 import mongoose from "mongoose";
 import Board from "../models/Board";
 import boardService from "../services/boardService";
+import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 
-export const sendInvitation = async (req: Request, res: Response) => {
+export const sendInvitation = async (req: CustomRequest, res: Response) => {
+    const user = req.user;
     const { boardId, clientId } = req.body;
+    const board = await boardService.getBoardById(boardId);
+    const boardName = board?.name;
+    const boardLink = `http://localhost:5173/b/${boardName}/${boardId}`;
     const invitationKey = generateUniqueKey();
     let isPending = false;
     let message = "Invitation sent successfully";
     const session = await mongoose.startSession();
     try {
-        session.startTransaction();
         const board = await boardService.getBoardById(boardId);
+        if (board && board.members.includes(clientId)) {
+            session.endSession();
+            return res.status(200).json({ message: "member already exist" });
+        }
+
+        session.startTransaction();
         if (board) {
-            const members = [...board.members, clientId];
-            await boardService.updateBoard(boardId, { members });
+            board.addMember(clientId);
+            await board.save();
         }
 
         await saveInvitationDetails(boardId, clientId, invitationKey);
         if (connected.has(clientId)) {
-            await notificationService.createNotification({ uid: clientId, description: "new invitation", isPending: false });
             io.to(clientId).emit("notifications", 1);
         } else {
-            await notificationService.createNotification({ uid: clientId, description: "new invitation", isPending: true });
+            isPending = true;
             message = "Invitation will be sent when user is online";
         }
+        await notificationService.createNotification({ uid: clientId, sender: user?.name, boardName, boardLink, isPending });
         await session.commitTransaction();
         session.endSession();
         res.status(200).json({ message });

@@ -10,7 +10,7 @@ const deleteNotification = async (id: string) => {
 };
 
 const getAllNotifications = async (uid: string) => {
-    return await Notification.find({ uid });
+    return await Notification.find({ uid }).sort({ createdAt: -1 });
 };
 
 const updateNotification = async (id: any, updaterQuery: object) => {

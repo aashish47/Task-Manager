@@ -9,10 +9,15 @@ export const onDragEnd = async (
     moveTaskMutation: UseMutationResult<
         any,
         unknown,
-        { taskId: string; startListId: string; finishListId: string; newStartList: ListType; newFinishList: ListType },
+        { boardId: string; taskId: string; startListId: string; finishListId: string; newStartList: ListType; newFinishList: ListType },
         { previousData: { previousTaskData: TaskType[]; previousListData: ListType[] }; newData: { newTaskData: TaskType[]; newListData: ListType[] } }
     >,
-    updateListMutation: UseMutationResult<any, unknown, { listId: string; newList: ListType }, { previousListData: ListType[]; newListData: ListType[] }>,
+    updateListMutation: UseMutationResult<
+        any,
+        unknown,
+        { boardId: string; listId: string; newList: ListType },
+        { previousListData: ListType[]; newListData: ListType[] }
+    >,
     updateBoardMutation: UseMutationResult<
         any,
         unknown,
@@ -48,7 +53,7 @@ export const onDragEnd = async (
     const startList = lists?.find((list) => list._id === source.droppableId);
     const finishList = lists?.find((list) => list._id === destination.droppableId);
 
-    if (startList && finishList) {
+    if (startList && finishList && board) {
         if (startList === finishList) {
             const newTasksIds = Array.from(startList.tasksIds);
             newTasksIds.splice(source.index, 1);
@@ -56,7 +61,7 @@ export const onDragEnd = async (
             const newList = { ...startList, tasksIds: newTasksIds } as ListType;
 
             try {
-                await updateListMutation.mutateAsync({ listId: startList._id, newList });
+                await updateListMutation.mutateAsync({ boardId: board._id, listId: startList._id, newList });
             } catch (error) {
                 console.error("Error updating list tasks:", error);
             }
@@ -71,6 +76,7 @@ export const onDragEnd = async (
 
             try {
                 await moveTaskMutation.mutateAsync({
+                    boardId: board._id,
                     taskId: draggableId,
                     startListId: startList._id,
                     finishListId: finishList._id,

@@ -1,8 +1,8 @@
-import { UpdateQuery } from "mongoose";
+import { Schema, UpdateQuery } from "mongoose";
 import ListModel, { IList } from "../models/List";
 
-const createList = async (name: string, boardId: string, createdBy: string) => {
-    const list = new ListModel({ name, boardId, createdBy });
+const createList = async (newList: Object) => {
+    const list = new ListModel(newList);
     return await list.save();
 };
 
@@ -12,6 +12,10 @@ const deleteList = async (id: string) => {
 
 const getAllLists = async (createdBy: string) => {
     return await ListModel.find({ createdBy });
+};
+
+const getListsByBoardId = async (boardId: string) => {
+    return await ListModel.find({ boardId });
 };
 
 const updateList = async (id: string, updaterQuery: object) => {
@@ -28,4 +32,5 @@ export default {
     getAllLists,
     updateList,
     getListById,
+    getListsByBoardId,
 };

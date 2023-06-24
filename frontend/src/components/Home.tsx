@@ -6,17 +6,6 @@ import HomeTasksCards from "./HomeTasksCards";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const Home = () => {
-    // const navigate = useNavigate();
-    // const handleLogout = async () => {
-    //     try {
-    //         console.log(auth);
-    //         await auth.signOut();
-    //         navigate("/");
-    //     } catch (error) {
-    //         console.log("Error signing out:", error);
-    //     }
-    // };
-
     return (
         <>
             {/* <button onClick={handleLogout}>Logout</button> */}

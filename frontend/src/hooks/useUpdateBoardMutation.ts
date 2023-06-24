@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateBoard } from "../api/api";
 import { BoardType } from "./useBoardsContext";
+import useSocketContext from "./useSocketContext";
 
 const useUpdateBoardMutation = () => {
     const queryClient = useQueryClient();
+    const socket = useSocketContext();
     return useMutation({
         mutationFn: updateBoard,
         onMutate: async ({ boardId, newBoard }) => {
@@ -22,11 +24,13 @@ const useUpdateBoardMutation = () => {
             return { previousBoardData, newBoardData };
         },
         onSettled: (data, error, variables, context) => {
+            const { boardId } = variables;
             if (error) {
                 console.log(error);
                 queryClient.setQueryData(["Boards"], context?.previousBoardData);
             }
             queryClient.invalidateQueries(["Boards"]);
+            socket?.emit("invalidateBoards", boardId);
         },
     });
 };

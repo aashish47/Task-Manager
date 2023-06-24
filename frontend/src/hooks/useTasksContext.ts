@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchTasks } from "../api/api";
+import { fetchTasksByBoardId } from "../api/api";
 
 export type TaskType = {
     createdAt: string;
@@ -11,8 +11,8 @@ export type TaskType = {
     _id: string;
 };
 
-const useTasksContext = () => {
-    const { data: lists } = useQuery<Array<TaskType>>({ queryKey: ["Tasks"], queryFn: () => fetchTasks() });
+const useTasksContext = (boardId: string) => {
+    const { data: lists } = useQuery<Array<TaskType>>({ queryKey: ["Tasks", boardId], queryFn: () => fetchTasksByBoardId({ boardId }) });
 
     return lists;
 };

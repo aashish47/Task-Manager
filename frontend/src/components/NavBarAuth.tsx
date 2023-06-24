@@ -21,8 +21,9 @@ import CreateMenu from "./CreateMenu";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { Link } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import NotificationMenu from "./NotificationsMenu";
+import { auth } from "../config/firebase";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -98,6 +99,17 @@ export default function PrimarySearchAppBar({
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        try {
+            await auth.signOut();
+            navigate("/");
+        } catch (error) {
+            console.log("Error signing out:", error);
+        }
+        handleMenuClose();
+    };
+
     const menuId = "primary-search-account-menu";
     const renderMenu = (
         <Menu
@@ -117,6 +129,7 @@ export default function PrimarySearchAppBar({
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
     );
 

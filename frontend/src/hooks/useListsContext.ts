@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchLists } from "../api/api";
+import { fetchListsByBoardId } from "../api/api";
 
 export type ListType = {
     createdAt: string;
@@ -12,8 +12,8 @@ export type ListType = {
     _id: string;
 };
 
-const useListsContext = () => {
-    const { data: lists } = useQuery<Array<ListType>>({ queryKey: ["Lists"], queryFn: () => fetchLists() });
+const useListsContext = (boardId: string) => {
+    const { data: lists } = useQuery<Array<ListType>>({ queryKey: ["Lists", boardId], queryFn: () => fetchListsByBoardId({ boardId }) });
 
     return lists;
 };

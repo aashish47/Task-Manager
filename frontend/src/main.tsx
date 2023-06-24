@@ -9,6 +9,7 @@ import AuthContextProvider from "./contexts/AuthContextProvider.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
+import SocketContextProvider from "./contexts/SocketContextProvider.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -22,9 +23,11 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
             <AuthContextProvider>
-                <BrowserRouter>
-                    <App />
-                </BrowserRouter>
+                <SocketContextProvider>
+                    <BrowserRouter>
+                        <App />
+                    </BrowserRouter>
+                </SocketContextProvider>
             </AuthContextProvider>
         </QueryClientProvider>
     </React.StrictMode>

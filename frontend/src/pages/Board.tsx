@@ -34,18 +34,24 @@ import { StrictModeDroppable as Droppable } from "../components/StrictModeDroppa
 import useUpdateBoardMutation from "../hooks/useUpdateBoardMutation";
 import useBoardsContext from "../hooks/useBoardsContext";
 import InviteDialog from "../components/InviteDialog";
+import useAuthContext from "../hooks/useAuthContext";
 
 const Board = () => {
     const { bname: boardName = "", bid: boardId = "" } = useParams();
+    const user = useAuthContext();
     const theme = useTheme();
+
     const [open, setOpen] = useState(false);
     const [openInvite, setOpenInvite] = useState(false);
 
     const boardData = useBoardsContext();
     const board = boardData ? boardData.find((board) => board._id === boardId) : null;
 
-    const listData = useListsContext();
-    const unOrderedLists = listData ? listData.filter((list) => list.boardId === boardId) : null;
+    const unOrderedLists: ListType[] | undefined = useListsContext(boardId);
+
+    const moveTaskMutation = useMoveTaskMutation();
+    const updateListMutation = useUpdateListMutation();
+    const updateBoardMutation = useUpdateBoardMutation();
 
     let listLookup: Map<string, ListType> | null = null;
     if (unOrderedLists) {
@@ -64,11 +70,7 @@ const Board = () => {
         setOpen(false);
     };
 
-    const moveTaskMutation = useMoveTaskMutation();
-    const updateListMutation = useUpdateListMutation();
-    const updateBoardMutation = useUpdateBoardMutation();
-
-    return (
+    return board && user && board.members.includes(user.uid) ? (
         <Box sx={{ display: "flex", mt: 0.1 }}>
             <CssBaseline />
             <Drawer
@@ -145,7 +147,16 @@ const Board = () => {
                                     {lists &&
                                         lists.map((list, index) => {
                                             return (
-                                                list && <TaskList key={list._id} index={index} tasksIds={list.tasksIds} name={list.name} listId={list._id} />
+                                                list && (
+                                                    <TaskList
+                                                        key={list._id}
+                                                        index={index}
+                                                        tasksIds={list.tasksIds}
+                                                        name={list.name}
+                                                        listId={list._id}
+                                                        boardId={boardId}
+                                                    />
+                                                )
                                             );
                                         })}
                                     {provided.placeholder}
@@ -157,6 +168,8 @@ const Board = () => {
                 </DragDropContext>
             </Stack>
         </Box>
+    ) : (
+        <div>Not a Member</div>
     );
 };
 export default Board;

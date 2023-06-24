@@ -1,15 +1,24 @@
 import { Request, Response } from "express";
 import boardService from "../services/boardService";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
+import mongoose from "mongoose";
 
 export const createBoard = async (req: CustomRequest, res: Response) => {
     const createdBy = req.user?.uid!;
     const { name, workspaceId } = req.body;
-
+    const session = await mongoose.startSession();
     try {
+        session.startTransaction();
         const newBoard = await boardService.createBoard(name, workspaceId, createdBy);
+        newBoard.addMember(createdBy);
+        newBoard.setAdmin(createdBy);
+        await newBoard.save();
+        await session.commitTransaction();
+        session.endSession();
         res.json(newBoard);
     } catch (error: any) {
+        await session.abortTransaction();
+        session.endSession();
         res.status(500).json({ error: error.message });
     }
 };
@@ -29,10 +38,10 @@ export const deleteBoard = async (req: Request, res: Response) => {
 };
 
 export const getAllBoards = async (req: CustomRequest, res: Response) => {
-    const createdBy = req.user?.uid!;
+    const userId = req.user?.uid!;
 
     try {
-        const boards = await boardService.getAllBoards(createdBy);
+        const boards = await boardService.getAllBoards(userId);
         res.json(boards);
     } catch (error: any) {
         res.status(500).json({ error: error.message });

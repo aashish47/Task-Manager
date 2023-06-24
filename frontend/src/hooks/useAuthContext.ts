@@ -1,5 +1,7 @@
-import { useContext } from "react";
-import { authContext } from "../contexts/authContext";
+import { createContext, useContext } from "react";
+import { User } from "firebase/auth";
+
+export const authContext = createContext<User | null>(null);
 
 const useAuthContext = () => {
     const context = useContext(authContext);

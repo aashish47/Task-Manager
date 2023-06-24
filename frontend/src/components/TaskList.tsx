@@ -12,12 +12,13 @@ type TaskListProps = {
     name: string;
     listId: string;
     tasksIds: [string];
+    boardId: string;
 };
 
-const TaskList: React.FC<TaskListProps> = ({ index, listId, name, tasksIds }) => {
+const TaskList: React.FC<TaskListProps> = ({ index, boardId, listId, name, tasksIds }) => {
     const theme = useTheme();
     const mode = theme.palette.mode;
-    const data = useTasksContext();
+    const data = useTasksContext(boardId);
     const unOrderedTasks = data ? data.filter((task) => task.listId === listId) : null;
     let taskLookup: Map<string, TaskType> | null = null;
     if (unOrderedTasks) {
@@ -100,7 +101,7 @@ const TaskList: React.FC<TaskListProps> = ({ index, listId, name, tasksIds }) =>
                         </Droppable>
 
                         <Box sx={{ flexBasis: "300px", flexShrink: "0", mt: 2 }}>
-                            <EnterTaskTitle first={first} setFirst={setFirst} listId={listId} />
+                            <EnterTaskTitle boardId={boardId} first={first} setFirst={setFirst} listId={listId} />
                         </Box>
                     </Box>
 

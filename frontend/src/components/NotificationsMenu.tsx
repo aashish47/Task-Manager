@@ -2,6 +2,7 @@ import { IconButton, Badge, Menu, MenuItem, Typography, Box, Divider, Stack, Men
 import { useState } from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import useNotificationsContext from "../hooks/useNotificationsContext";
+import NotificationCard from "./NotificationCard";
 
 const stylesMenu = {
     display: "flex",
@@ -58,11 +59,7 @@ const NotificationMenu = ({
                     <MenuList sx={{ width: "100%" }}>
                         {notifications &&
                             notifications.map((notification) => {
-                                return (
-                                    <MenuItem sx={{ width: "100%" }} key={notification._id}>
-                                        {`${notification.description} ${notification.isRead}`}
-                                    </MenuItem>
-                                );
+                                return <NotificationCard key={notification._id} notification={notification} />;
                             })}
                     </MenuList>
                 </Box>

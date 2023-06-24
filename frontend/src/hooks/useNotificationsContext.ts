@@ -3,7 +3,9 @@ import { fetchNotifications } from "../api/api";
 
 export type NotificationType = {
     uid: string;
-    description: string;
+    sender: string;
+    boardName: string;
+    boardLink: string;
     isRead: boolean;
     isPending: boolean;
     updatedAt: string;

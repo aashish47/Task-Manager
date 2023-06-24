@@ -2,6 +2,7 @@ import axios from "axios";
 import { ListType } from "../hooks/useListsContext";
 import { TaskType } from "../hooks/useTasksContext";
 import { BoardType } from "../hooks/useBoardsContext";
+import { Task } from "../components/EnterTaskTitle";
 
 const api = axios.create({
     baseURL: "http://localhost:3000/api",
@@ -114,6 +115,15 @@ export const fetchLists = async () => {
     }
 };
 
+export const fetchListsByBoardId = async ({ boardId }: { boardId: string }) => {
+    try {
+        const response = await api.get(`/lists/boards/${boardId}`);
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
 export const createList = async ({ name, boardId, createdBy }: { name: string; boardId: string; createdBy: string }) => {
     try {
         const response = await api.post("/lists", { name, boardId, createdBy });
@@ -123,7 +133,7 @@ export const createList = async ({ name, boardId, createdBy }: { name: string; b
     }
 };
 
-export const updateList = async ({ listId, newList }: { listId: string; newList: ListType }) => {
+export const updateList = async ({ boardId, listId, newList }: { boardId: string; listId: string; newList: ListType }) => {
     try {
         const response = await api.put(`/lists/${listId}`, { newList });
 
@@ -144,9 +154,18 @@ export const fetchTasks = async () => {
     }
 };
 
-export const createTask = async ({ name, listId, createdBy }: { name: string; listId: string; createdBy: string }) => {
+export const fetchTasksByBoardId = async ({ boardId }: { boardId: string }) => {
     try {
-        const response = await api.post("/tasks", { name, listId, createdBy });
+        const response = await api.get(`/tasks/boards/${boardId}`);
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+export const createTask = async (newTask: Task) => {
+    try {
+        const response = await api.post("/tasks", newTask);
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);
@@ -164,12 +183,14 @@ export const updateTask = async ({ taskId, newTask }: { taskId: string; newTask:
 };
 
 export const moveTask = async ({
+    boardId,
     taskId,
     startListId,
     finishListId,
     newStartList,
     newFinishList,
 }: {
+    boardId: string;
     taskId: string;
     startListId: string;
     finishListId: string;
@@ -205,6 +226,7 @@ export const fetchNotifications = async () => {
 export const sendInvitation = async ({ boardId, clientId }: { boardId: string; clientId: string }) => {
     try {
         const response = await api.post("/invitation/send", { boardId, clientId });
+        console.log(response.data);
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);
