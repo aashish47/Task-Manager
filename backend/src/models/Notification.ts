@@ -41,5 +41,5 @@ const NotificationSchema: Schema<INotification> = new Schema(
     { timestamps: true }
 );
 
-const Notification: Model<INotification> = model("Notification", NotificationSchema);
+const Notification = model<INotification>("Notification", NotificationSchema);
 export default Notification;

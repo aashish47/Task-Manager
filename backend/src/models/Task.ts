@@ -35,6 +35,6 @@ const TaskSchema: Schema<ITask> = new Schema(
     { timestamps: true }
 );
 
-const Task: Model<ITask> = model<ITask>("Task", TaskSchema);
+const Task = model<ITask>("Task", TaskSchema);
 
 export default Task;

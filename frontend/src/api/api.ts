@@ -20,7 +20,7 @@ const checkErrorType = async (error: any) => {
     if (error.response && error.response.data && error.response.data.code && error.response.data.code === "auth/id-token-expired") {
         await handleTokenExpireError();
     } else {
-        throw new Error(error);
+        console.log(error);
     }
 };
 
@@ -50,7 +50,7 @@ const handleTokenExpireError = async () => {
         localStorage.setItem("ID_TOKEN", idTokenNew);
         localStorage.setItem("REFRESH_TOKEN", refreshTokenNew);
     } catch (error: any) {
-        throw new Error(error);
+        console.log(error);
     }
 };
 
@@ -223,10 +223,42 @@ export const fetchNotifications = async () => {
 
 // Invitation functions
 
-export const sendInvitation = async ({ boardId, clientId }: { boardId: string; clientId: string }) => {
+export const sendInvitation = async ({ boardId, clients }: { boardId: string; clients: string[] }) => {
     try {
-        const response = await api.post("/invitation/send", { boardId, clientId });
-        console.log(response.data);
+        const response = await api.post("/invitation/send", { boardId, clients });
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+// User functions
+
+export const createUser = async () => {
+    try {
+        const response = await api.post("/users");
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+export const fetchUsers = async () => {
+    try {
+        const response = await api.get("/users");
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+export const searchUsersByName = async ({ name }: { name: string }) => {
+    if (name.length < 2) {
+        return [];
+    }
+    try {
+        const response = await api.get(`/users/name/${name}`);
+        console.log(response);
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);

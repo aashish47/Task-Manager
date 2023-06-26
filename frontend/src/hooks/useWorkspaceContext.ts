@@ -12,10 +12,7 @@ export type WorkspaceType = {
 };
 
 const useWorkspacesContext = () => {
-    const { data: workspaces } = useQuery<Array<WorkspaceType>>(
-        ["Workspaces"],
-        () => fetchWorkspaces() // Replace with your actual data fetching function
-    );
+    const { data: workspaces } = useQuery<Array<WorkspaceType>>(["Workspaces"], () => fetchWorkspaces());
 
     return workspaces;
 };

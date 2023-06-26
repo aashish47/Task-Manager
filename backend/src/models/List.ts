@@ -38,6 +38,6 @@ ListSchema.methods.addTask = function (taskId: string) {
     this.tasksIds.push(taskId);
 };
 
-const List: Model<IList> = model<IList>("List", ListSchema);
+const List = model<IList>("List", ListSchema);
 
 export default List;

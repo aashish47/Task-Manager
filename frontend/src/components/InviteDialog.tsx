@@ -2,29 +2,21 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
-import { Stack, TextField } from "@mui/material";
 import { useState } from "react";
-import { sendInvitation } from "../api/api";
-import useUpdateBoardMutation from "../hooks/useUpdateBoardMutation";
-import { BoardType } from "../hooks/useBoardsContext";
 import useSendInvitationMutation from "../hooks/useSendInvitation";
+import UserAutocomplete from "./UserAutoComplete";
 
 export default function InviteDialog({ boardId, open, setOpen }: { boardId: string; open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [name, setName] = useState("");
+    const [tags, setTags] = useState<string[]>([]);
     const sendInvitationMutation = useSendInvitationMutation();
-    const updateBoardMutation = useUpdateBoardMutation();
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setName(event.target.value);
-    };
 
     const handleButtonClick = async () => {
-        const clientId = name;
+        const clients = tags;
+        console.log(clients);
         try {
-            await sendInvitationMutation.mutateAsync({ boardId, clientId });
+            await sendInvitationMutation.mutateAsync({ boardId, clients });
         } catch (error: any) {
             console.log("Error adding member", error.messaage);
         }
@@ -32,6 +24,7 @@ export default function InviteDialog({ boardId, open, setOpen }: { boardId: stri
     };
 
     const handleClose = () => {
+        setTags([]);
         setName("");
         setOpen(false);
     };
@@ -41,14 +34,7 @@ export default function InviteDialog({ boardId, open, setOpen }: { boardId: stri
             <DialogTitle>Share Board</DialogTitle>
             <form autoComplete="off">
                 <DialogContent>
-                    <TextField
-                        value={name}
-                        onChange={handleChange}
-                        autoComplete="off"
-                        autoFocus
-                        sx={{ maxWidth: 500, width: "70vw" }}
-                        placeholder="Email address or name "
-                    />
+                    <UserAutocomplete tags={tags} setTags={setTags} name={name} setName={setName} />
                 </DialogContent>
 
                 <DialogActions>

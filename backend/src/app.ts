@@ -8,12 +8,12 @@ import listRoutes from "./routes/listRoutes";
 import taskRoutes from "./routes/taskRoutes";
 import invitationRoutes from "./routes/invitationRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
+import userRoutes from "./routes/userRoutes";
 import http from "http";
 import { Server } from "socket.io";
 import { authenticateFirebaseToken, authenticateToken } from "./middlewares/authenticateFirebaseToken";
 import Notification from "./models/Notification";
 import notificationService from "./services/notificationService";
-import Board from "./models/Board";
 import boardService from "./services/boardService";
 
 const app = express();
@@ -40,6 +40,7 @@ app.use("/api/lists", listRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/invitation", invitationRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/users", userRoutes);
 
 export const connected = new Map<string, Set<string>>();
 

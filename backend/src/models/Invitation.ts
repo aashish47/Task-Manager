@@ -24,5 +24,5 @@ const InvitationSchema: Schema<IInvitation> = new Schema(
     { timestamps: true }
 );
 
-const Invitation: Model<IInvitation> = model("Invitation", InvitationSchema);
+const Invitation = model("Invitation", InvitationSchema);
 export default Invitation;

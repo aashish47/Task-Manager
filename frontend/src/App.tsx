@@ -13,7 +13,6 @@ import AllBoards from "./components/AllBoards";
 import useAuthContext from "./hooks/useAuthContext";
 import Board from "./pages/Board";
 import "./App.css";
-import { io } from "socket.io-client";
 import { useQueryClient } from "@tanstack/react-query";
 import useSocketContext from "./hooks/useSocketContext";
 
@@ -33,7 +32,6 @@ const App = () => {
     const user = useAuthContext();
     const theme = createCustomTheme(darkmode);
     const location = useLocation();
-    const token = localStorage.getItem("ID_TOKEN");
     const queryClient = useQueryClient();
     const socket = useSocketContext();
 
@@ -43,7 +41,6 @@ const App = () => {
 
     useEffect(() => {
         if (!socket) {
-            console.log(socket);
             return;
         }
         socket.on("connect", () => {

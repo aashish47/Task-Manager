@@ -43,9 +43,7 @@ const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch
             const board = { name, workspaceId: workspace, createdBy: user.uid };
             try {
                 const { _id } = await createBoardMutation.mutateAsync(board);
-
                 navigate(`/b/${name}/${_id}`);
-
                 handleClose();
             } catch (error) {
                 console.error("An error occurred:", error);

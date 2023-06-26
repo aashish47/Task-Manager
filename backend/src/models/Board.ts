@@ -1,6 +1,6 @@
 import { Document, Schema, Model, model } from "mongoose";
 
-interface IBoard extends Document {
+export interface IBoard extends Document {
     name: string;
     workspaceId: Schema.Types.ObjectId;
     listsIds: Schema.Types.ObjectId[];
@@ -58,6 +58,6 @@ BoardSchema.methods.setAdmin = function (admin: string) {
     this.admin = admin;
 };
 
-const Board: Model<IBoard> = model<IBoard>("Board", BoardSchema);
+const Board = model<IBoard>("Board", BoardSchema);
 
 export default Board;

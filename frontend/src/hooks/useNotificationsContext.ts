@@ -15,7 +15,6 @@ export type NotificationType = {
 
 const useNotificationsContext = () => {
     const { data: notifications } = useQuery<Array<NotificationType>>({ queryKey: ["Notifications"], queryFn: () => fetchNotifications() });
-
     return notifications;
 };
 

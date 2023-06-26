@@ -1,9 +1,9 @@
-import { Model, Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
-export interface IUser extends Document {
+interface IUser extends Document {
     uid: string;
-    socketId: string;
-    displayName: string;
+    name: string;
+    email: string;
 }
 
 const UserSchema: Schema<IUser> = new Schema(
@@ -12,17 +12,19 @@ const UserSchema: Schema<IUser> = new Schema(
             type: String,
             required: true,
         },
-        displayName: {
+        name: {
             type: String,
-            default: "",
+            required: true,
+            index: true,
         },
-        socketId: {
+        email: {
             type: String,
-            default: null,
+            required: true,
         },
     },
     { timestamps: true }
 );
 
-const User: Model<IUser> = model<IUser>("User", UserSchema);
+const User = model<IUser>("User", UserSchema);
+
 export default User;

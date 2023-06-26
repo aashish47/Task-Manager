@@ -23,6 +23,6 @@ const WorkspaceSchema: Schema<IWorkspace> = new Schema(
     { timestamps: true }
 );
 
-const Workspace: Model<IWorkspace> = model<IWorkspace>("Workspace", WorkspaceSchema);
+const Workspace = model<IWorkspace>("Workspace", WorkspaceSchema);
 
 export default Workspace;
