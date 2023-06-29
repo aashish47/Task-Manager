@@ -172,7 +172,7 @@ export const createTask = async (newTask: Task) => {
     }
 };
 
-export const updateTask = async ({ taskId, newTask }: { taskId: string; newTask: TaskType }) => {
+export const updateTask = async ({ boardId, taskId, newTask }: { boardId: string; taskId: string; newTask: TaskType }) => {
     try {
         const response = await api.put(`/tasks/${taskId}`, { newTask });
 

@@ -18,7 +18,7 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { Button, List, Stack } from "@mui/material";
+import { Button, List, Stack, TextField } from "@mui/material";
 import { DragDropContext } from "react-beautiful-dnd";
 import CreateList from "../components/CreateList";
 import useListsContext, { ListType } from "../hooks/useListsContext";
@@ -35,23 +35,27 @@ import useUpdateBoardMutation from "../hooks/useUpdateBoardMutation";
 import useBoardsContext from "../hooks/useBoardsContext";
 import InviteDialog from "../components/InviteDialog";
 import useAuthContext from "../hooks/useAuthContext";
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 const Board = () => {
-    const { bname: boardName = "", bid: boardId = "" } = useParams();
+    const { bid: boardId = "" } = useParams();
     const user = useAuthContext();
     const theme = useTheme();
-
+    const boardData = useBoardsContext();
     const [open, setOpen] = useState(false);
     const [openInvite, setOpenInvite] = useState(false);
-
-    const boardData = useBoardsContext();
-    const board = boardData ? boardData.find((board) => board._id === boardId) : null;
+    const [editBName, setEditBName] = useState(false);
 
     const unOrderedLists: ListType[] | undefined = useListsContext(boardId);
 
     const moveTaskMutation = useMoveTaskMutation();
     const updateListMutation = useUpdateListMutation();
     const updateBoardMutation = useUpdateBoardMutation();
+
+    const board = boardData ? boardData.find((board) => board._id === boardId) : null;
+    const boardName = board?.name;
+
+    const [inputBName, setInputBName] = useState(boardName);
 
     let listLookup: Map<string, ListType> | null = null;
     if (unOrderedLists) {
@@ -68,6 +72,20 @@ const Board = () => {
 
     const handleDrawerClose = () => {
         setOpen(false);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === "Enter") {
+            handleClickAway();
+        }
+    };
+
+    const handleClickAway = async () => {
+        setEditBName(false);
+        if (board && inputBName) {
+            const newBoard = { ...board, name: inputBName };
+            await updateBoardMutation.mutateAsync({ boardId, newBoard });
+        }
     };
 
     return board && user && board.members.includes(user.uid) ? (
@@ -125,10 +143,25 @@ const Board = () => {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Stack direction="row" justifyContent="space-between" sx={{ width: "100%" }}>
-                            <Typography variant="h6" noWrap component="div">
-                                {boardName}
-                            </Typography>
+                        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: "100%" }}>
+                            {!editBName ? (
+                                <Typography sx={{ p: "8.5px 14px" }} onClick={() => setEditBName(true)} variant="h6" noWrap component="div">
+                                    {inputBName}
+                                </Typography>
+                            ) : (
+                                <ClickAwayListener onClickAway={handleClickAway}>
+                                    <TextField
+                                        size="small"
+                                        inputProps={{ style: { fontWeight: 500, fontSize: "1.25rem" } }}
+                                        onKeyDown={handleKeyDown}
+                                        value={inputBName}
+                                        onChange={(e) => setInputBName(e.target.value)}
+                                        autoFocus
+                                        focused
+                                        variant="outlined"
+                                    />
+                                </ClickAwayListener>
+                            )}
 
                             <Button onClick={() => setOpenInvite(!openInvite)} color="secondary" variant="contained" startIcon={<PersonAddAltIcon />}>
                                 Invite
@@ -146,18 +179,7 @@ const Board = () => {
                                 <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 140px)" }}>
                                     {lists &&
                                         lists.map((list, index) => {
-                                            return (
-                                                list && (
-                                                    <TaskList
-                                                        key={list._id}
-                                                        index={index}
-                                                        tasksIds={list.tasksIds}
-                                                        name={list.name}
-                                                        listId={list._id}
-                                                        boardId={boardId}
-                                                    />
-                                                )
-                                            );
+                                            return list && <TaskList key={list._id} index={index} list={list} boardId={boardId} />;
                                         })}
                                     {provided.placeholder}
                                     <CreateList boardId={boardId} />

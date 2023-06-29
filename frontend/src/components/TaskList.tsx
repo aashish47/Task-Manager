@@ -1,24 +1,29 @@
-import { Box, Typography, useTheme } from "@mui/material";
-import React, { useEffect, useRef } from "react";
+import { Box, TextField, Typography, useTheme } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 import useTasksContext, { TaskType } from "../hooks/useTasksContext";
 import Task from "./Task";
 import AddTaskButton from "./AddTaskButton";
 import EnterTaskTitle from "./EnterTaskTitle";
 import { StrictModeDroppable as Droppable } from "./StrictModeDroppable";
 import { Draggable } from "react-beautiful-dnd";
+import { ListType } from "../hooks/useListsContext";
+import useUpdateListMutation from "../hooks/useUpdateListMutation";
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 type TaskListProps = {
     index: number;
-    name: string;
-    listId: string;
-    tasksIds: [string];
+    list: ListType;
     boardId: string;
 };
 
-const TaskList: React.FC<TaskListProps> = ({ index, boardId, listId, name, tasksIds }) => {
+const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
+    const { _id: listId, tasksIds, name } = list;
     const theme = useTheme();
     const mode = theme.palette.mode;
     const data = useTasksContext(boardId);
+    const updateListMutation = useUpdateListMutation();
+    const [editLName, setEditLName] = useState(false);
+    const [inputLName, setInputLName] = useState(name);
     const unOrderedTasks = data ? data.filter((task) => task.listId === listId) : null;
     let taskLookup: Map<string, TaskType> | null = null;
     if (unOrderedTasks) {
@@ -70,6 +75,20 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, listId, name, tasks
         }
     }, [first, tasks]);
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === "Enter") {
+            handleClickAway();
+        }
+    };
+
+    const handleClickAway = async () => {
+        setEditLName(false);
+        if (list && inputLName) {
+            const newList = { ...list, name: inputLName };
+            await updateListMutation.mutateAsync({ boardId, listId, newList });
+        }
+    };
+
     return (
         <Draggable draggableId={listId} index={index}>
             {(provided) => (
@@ -85,15 +104,32 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, listId, name, tasks
                         bgcolor: mode === "dark" ? "#100901" : "#ededed",
                     }}
                 >
-                    <Typography {...provided.dragHandleProps} variant="subtitle1">
-                        {name}
-                    </Typography>
+                    {!editLName ? (
+                        <Typography sx={{ p: "8.5px 14px" }} onClick={() => setEditLName(true)} {...provided.dragHandleProps} variant="subtitle1">
+                            {inputLName}
+                        </Typography>
+                    ) : (
+                        <ClickAwayListener onClickAway={handleClickAway}>
+                            <TextField
+                                sx={{ height: "45px", justifyContent: "center" }}
+                                size="small"
+                                fullWidth
+                                inputProps={{ style: { marginBottom: "1px", fontWeight: 400, fontSize: "1rem" } }}
+                                onKeyDown={handleKeyDown}
+                                value={inputLName}
+                                onChange={(e) => setInputLName(e.target.value)}
+                                autoFocus
+                                focused
+                                variant="outlined"
+                            />
+                        </ClickAwayListener>
+                    )}
 
                     <Box ref={containerRef} id="container" sx={{ overflowY: "auto", overflowX: "hidden", maxHeight }}>
                         <Droppable type="tasks" droppableId={listId}>
                             {(provided) => (
                                 <div style={{ minHeight: "1px" }} {...provided.droppableProps} ref={provided.innerRef}>
-                                    {tasks && tasks.map((task, index) => task && <Task key={task._id} name={task.name} taskId={task._id} index={index} />)}
+                                    {tasks && tasks.map((task, index) => task && <Task key={task._id} boardId={boardId} task={task} index={index} />)}
 
                                     {provided.placeholder}
                                 </div>
