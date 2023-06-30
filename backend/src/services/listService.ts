@@ -1,4 +1,4 @@
-import { Schema, UpdateQuery } from "mongoose";
+import mongoose, { Schema, UpdateQuery } from "mongoose";
 import ListModel, { IList } from "../models/List";
 
 const createList = async (newList: Object) => {
@@ -8,6 +8,10 @@ const createList = async (newList: Object) => {
 
 const deleteList = async (id: string) => {
     return await ListModel.findByIdAndDelete(id);
+};
+
+const deleteListByBoardId = async (boardId: string) => {
+    return await ListModel.deleteMany({ boardId });
 };
 
 const getAllLists = async (createdBy: string) => {
@@ -29,6 +33,7 @@ const getListById = async (id: string) => {
 export default {
     createList,
     deleteList,
+    deleteListByBoardId,
     getAllLists,
     updateList,
     getListById,

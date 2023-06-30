@@ -2,13 +2,13 @@ import { Document, Schema, Model, model } from "mongoose";
 
 export interface IBoard extends Document {
     name: string;
-    workspaceId: Schema.Types.ObjectId;
-    listsIds: Schema.Types.ObjectId[];
+    workspaceId: string;
+    listsIds: string[];
     createdBy: string;
     members: string[];
     admin: string;
 
-    addList: (listId: Schema.Types.ObjectId) => void;
+    addList: (listId: string) => void;
     addMember: (member: string) => void;
     setAdmin: (admin: string) => void;
 }
@@ -20,13 +20,13 @@ const BoardSchema: Schema<IBoard> = new Schema(
             required: true,
         },
         workspaceId: {
-            type: Schema.Types.ObjectId,
+            type: String,
             ref: "Workspace",
             required: true,
         },
         listsIds: [
             {
-                type: Schema.Types.ObjectId,
+                type: String,
                 ref: "List",
             },
         ],

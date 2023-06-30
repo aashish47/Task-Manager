@@ -1,4 +1,4 @@
-import { Box, TextField, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Stack, TextField, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import useTasksContext, { TaskType } from "../hooks/useTasksContext";
 import Task from "./Task";
@@ -9,6 +9,8 @@ import { Draggable } from "react-beautiful-dnd";
 import { ListType } from "../hooks/useListsContext";
 import useUpdateListMutation from "../hooks/useUpdateListMutation";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import ListActions from "./ListActions";
 
 type TaskListProps = {
     index: number;
@@ -104,27 +106,44 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
                         bgcolor: mode === "dark" ? "#100901" : "#ededed",
                     }}
                 >
-                    {!editLName ? (
-                        <Typography sx={{ p: "8.5px 14px" }} onClick={() => setEditLName(true)} {...provided.dragHandleProps} variant="subtitle1">
-                            {inputLName}
-                        </Typography>
-                    ) : (
-                        <ClickAwayListener onClickAway={handleClickAway}>
-                            <TextField
-                                sx={{ height: "45px", justifyContent: "center" }}
-                                size="small"
-                                fullWidth
-                                inputProps={{ style: { marginBottom: "1px", fontWeight: 400, fontSize: "1rem" } }}
-                                onKeyDown={handleKeyDown}
-                                value={inputLName}
-                                onChange={(e) => setInputLName(e.target.value)}
-                                autoFocus
-                                focused
-                                variant="outlined"
-                            />
-                        </ClickAwayListener>
-                    )}
-
+                    <Stack direction="row" gap={1} alignItems="center" justifyContent="space-between">
+                        {!editLName ? (
+                            <Typography
+                                sx={{
+                                    lineHeight: 1.5,
+                                    wordBreak: "break-all",
+                                    "&:hover": { cursor: "pointer" },
+                                    width: "100%",
+                                    p: "8.5px 14px",
+                                    flexWrap: "wrap",
+                                }}
+                                onClick={() => setEditLName(true)}
+                                {...provided.dragHandleProps}
+                                variant="subtitle1"
+                                component={"div"}
+                            >
+                                {inputLName}
+                            </Typography>
+                        ) : (
+                            <ClickAwayListener onClickAway={handleClickAway}>
+                                <TextField
+                                    sx={{ justifyContent: "center", bgcolor: mode === "dark" ? "#22272b" : "white" }}
+                                    multiline
+                                    onFocus={(e) => e.currentTarget.setSelectionRange(0, e.currentTarget.value.length)}
+                                    size="small"
+                                    fullWidth
+                                    inputProps={{ style: { lineHeight: 1.5, fontWeight: 400, fontSize: "1rem" } }}
+                                    onKeyDown={handleKeyDown}
+                                    value={inputLName}
+                                    onChange={(e) => setInputLName(e.target.value)}
+                                    autoFocus
+                                    focused
+                                    variant="outlined"
+                                />
+                            </ClickAwayListener>
+                        )}
+                        <ListActions boardId={boardId} listId={listId} />
+                    </Stack>
                     <Box ref={containerRef} id="container" sx={{ overflowY: "auto", overflowX: "hidden", maxHeight }}>
                         <Droppable type="tasks" droppableId={listId}>
                             {(provided) => (

@@ -9,6 +9,10 @@ const deleteTask = async (id: string) => {
     return await TaskModel.findByIdAndDelete(id);
 };
 
+const deleteTaskByBoardId = async (boardId: string) => {
+    return await TaskModel.deleteMany({ boardId });
+};
+
 const getAllTasks = async (createdBy: string) => {
     return await TaskModel.find({ createdBy });
 };
@@ -28,6 +32,7 @@ const getTaskById = async (id: string) => {
 export default {
     createTask,
     deleteTask,
+    deleteTaskByBoardId,
     getAllTasks,
     updateTask,
     getTaskById,

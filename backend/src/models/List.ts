@@ -2,10 +2,10 @@ import { Document, Schema, Model, model } from "mongoose";
 
 export interface IList extends Document {
     name: string;
-    boardId: Schema.Types.ObjectId;
-    tasksIds: Schema.Types.ObjectId[];
+    boardId: string;
+    tasksIds: string[];
     createdBy: string;
-    addTask(taskId: Schema.Types.ObjectId): void;
+    addTask(taskId: string): void;
 }
 
 const ListSchema: Schema<IList> = new Schema(
@@ -15,14 +15,14 @@ const ListSchema: Schema<IList> = new Schema(
             required: true,
         },
         boardId: {
-            type: Schema.Types.ObjectId,
+            type: String,
             ref: "Board",
             required: true,
         },
 
         tasksIds: [
             {
-                type: Schema.Types.ObjectId,
+                type: String,
                 ref: "Task",
             },
         ],

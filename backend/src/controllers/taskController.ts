@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import taskService from "../services/taskService";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 import ListModel from "../models/List";
-import mongoose from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 import Task from "../models/Task";
 import listService from "../services/listService";
 
@@ -31,14 +31,33 @@ export const createTask = async (req: Request, res: Response) => {
 
 export const deleteTask = async (req: Request, res: Response) => {
     const { id } = req.params;
+    const session = await mongoose.startSession();
+
     try {
+        session.startTransaction();
         const deletedTask = await taskService.deleteTask(id);
         if (deletedTask) {
-            res.json(deletedTask);
+            const listId = deletedTask.listId;
+            const list = await listService.getListById(listId);
+            if (list) {
+                const tasksIds = list.tasksIds.filter((taskId) => taskId !== id);
+                await listService.updateList(listId, { tasksIds });
+                await session.commitTransaction();
+                session.endSession();
+                res.json(deletedTask);
+            } else {
+                await session.abortTransaction();
+                session.endSession();
+                res.status(404).json({ error: "List not found" });
+            }
         } else {
+            await session.abortTransaction();
+            session.endSession();
             res.status(404).json({ error: "Task not found" });
         }
     } catch (error: any) {
+        await session.abortTransaction();
+        session.endSession();
         res.status(500).json({ error: error.message });
     }
 };

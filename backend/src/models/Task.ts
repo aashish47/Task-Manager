@@ -3,8 +3,8 @@ import { Document, Schema, Model, model } from "mongoose";
 interface ITask extends Document {
     name: string;
     description?: string;
-    listId: Schema.Types.ObjectId;
-    boardId: Schema.Types.ObjectId;
+    listId: string;
+    boardId: string;
     createdBy: string;
 }
 
@@ -23,7 +23,7 @@ const TaskSchema: Schema<ITask> = new Schema(
             required: true,
         },
         listId: {
-            type: Schema.Types.ObjectId,
+            type: String,
             ref: "List",
             required: true,
         },

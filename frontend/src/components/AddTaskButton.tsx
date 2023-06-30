@@ -10,7 +10,7 @@ const AddTaskButton: React.FC<AddTaskButtonProp> = ({ first, setFirst }) => {
     return (
         <Collapse in={first}>
             <Button
-                sx={{ justifyContent: "flex-start" }}
+                sx={{ alignContent: "center", justifyContent: "flex-start" }}
                 size="small"
                 onClick={() => setFirst((prev) => !prev)}
                 variant="text"

@@ -1,9 +1,10 @@
-import { Card, CardContent, TextField, Typography, useTheme } from "@mui/material";
+import { Card, CardContent, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import useUpdateTaskMutation from "../hooks/useUpdateTaskMutation";
 import { TaskType } from "../hooks/useTasksContext";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
+import TaskActions from "./TaskActions";
 
 type TaskProps = {
     boardId: string;
@@ -45,10 +46,13 @@ const Task: React.FC<TaskProps> = ({ boardId, task, index }) => {
                     }}
                 >
                     {!editTName ? (
-                        <CardContent sx={{ mt: "1px", p: 1, paddingBottom: "8px !important" }}>
-                            <Typography onClick={() => setEditTName(true)} {...provided.dragHandleProps}>
-                                {inputTName}
-                            </Typography>
+                        <CardContent sx={{ "&:hover": { cursor: "pointer" }, mt: "1px", p: 1, paddingBottom: "8px !important" }}>
+                            <Stack direction="row" alignItems="center" justifyContent="space-between">
+                                <Typography onClick={() => setEditTName(true)} {...provided.dragHandleProps}>
+                                    {inputTName}
+                                </Typography>
+                                <TaskActions boardId={boardId} taskId={taskId} />
+                            </Stack>
                         </CardContent>
                     ) : (
                         <ClickAwayListener onClickAway={handleClickAway}>
@@ -68,8 +72,8 @@ const Task: React.FC<TaskProps> = ({ boardId, task, index }) => {
                                 autoFocus
                                 focused
                                 multiline
-                                inputRef={(input) => input && input.focus()}
-                                onFocus={(e) => e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)}
+                                // inputRef={(input) => input && input.focus()}
+                                onFocus={(e) => e.currentTarget.setSelectionRange(0, e.currentTarget.value.length)}
                             />
                         </ClickAwayListener>
                     )}

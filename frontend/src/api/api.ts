@@ -104,6 +104,15 @@ export const updateBoard = async ({ boardId, newBoard }: { boardId: string; newB
     }
 };
 
+export const deleteBoard = async ({ boardId }: { boardId: string }) => {
+    try {
+        const response = await api.delete(`/boards/${boardId}`);
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
 // Lists Functions
 
 export const fetchLists = async () => {
@@ -137,6 +146,15 @@ export const updateList = async ({ boardId, listId, newList }: { boardId: string
     try {
         const response = await api.put(`/lists/${listId}`, { newList });
 
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+export const deleteList = async ({ boardId, listId }: { boardId: string; listId: string }) => {
+    try {
+        const response = await api.delete(`/lists/${listId}`);
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);
@@ -204,6 +222,15 @@ export const moveTask = async ({
             newStartList,
             newFinishList,
         });
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+export const deleteTask = async ({ boardId, taskId }: { boardId: string; taskId: string }) => {
+    try {
+        const response = await api.delete(`/tasks/${taskId}`);
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);

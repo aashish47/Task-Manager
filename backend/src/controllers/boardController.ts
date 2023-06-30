@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import boardService from "../services/boardService";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 import mongoose from "mongoose";
+import listService from "../services/listService";
+import taskService from "../services/taskService";
 
 export const createBoard = async (req: CustomRequest, res: Response) => {
     const createdBy = req.user?.uid!;
@@ -25,14 +27,24 @@ export const createBoard = async (req: CustomRequest, res: Response) => {
 
 export const deleteBoard = async (req: Request, res: Response) => {
     const { id } = req.params;
+    const session = await mongoose.startSession();
     try {
+        session.startTransaction();
         const deletedBoard = await boardService.deleteBoard(id);
+        await listService.deleteListByBoardId(id);
+        await taskService.deleteTaskByBoardId(id);
         if (deletedBoard) {
+            session.commitTransaction();
+            session.endSession();
             res.json(deletedBoard);
         } else {
+            session.abortTransaction();
+            session.endSession();
             res.status(404).json({ error: "Board not found" });
         }
     } catch (error: any) {
+        session.abortTransaction();
+        session.endSession();
         res.status(500).json({ error: error.message });
     }
 };

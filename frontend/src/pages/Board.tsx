@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -36,11 +36,13 @@ import useBoardsContext from "../hooks/useBoardsContext";
 import InviteDialog from "../components/InviteDialog";
 import useAuthContext from "../hooks/useAuthContext";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
+import BoardActions from "../components/BoardActions";
 
 const Board = () => {
     const { bid: boardId = "" } = useParams();
     const user = useAuthContext();
     const theme = useTheme();
+    const mode = theme.palette.mode;
     const boardData = useBoardsContext();
     const [open, setOpen] = useState(false);
     const [openInvite, setOpenInvite] = useState(false);
@@ -54,7 +56,6 @@ const Board = () => {
 
     const board = boardData ? boardData.find((board) => board._id === boardId) : null;
     const boardName = board?.name;
-
     const [inputBName, setInputBName] = useState(boardName);
 
     let listLookup: Map<string, ListType> | null = null;
@@ -65,6 +66,10 @@ const Board = () => {
 
     const listsIds = board?.listsIds;
     const lists = listsIds?.map((listId) => listLookup?.get(listId));
+
+    useEffect(() => {
+        setInputBName(boardName);
+    }, [boardName]);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -145,12 +150,20 @@ const Board = () => {
                         </IconButton>
                         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: "100%" }}>
                             {!editBName ? (
-                                <Typography sx={{ p: "8.5px 14px" }} onClick={() => setEditBName(true)} variant="h6" noWrap component="div">
+                                <Typography
+                                    sx={{ "&:hover": { cursor: "pointer" }, p: "8.5px 14px" }}
+                                    onClick={() => setEditBName(true)}
+                                    variant="h6"
+                                    noWrap
+                                    component="div"
+                                >
                                     {inputBName}
                                 </Typography>
                             ) : (
                                 <ClickAwayListener onClickAway={handleClickAway}>
                                     <TextField
+                                        sx={{ bgcolor: mode === "dark" ? "#22272b" : "#feff0026" }}
+                                        onFocus={(e) => e.currentTarget.setSelectionRange(0, e.currentTarget.value.length)}
                                         size="small"
                                         inputProps={{ style: { fontWeight: 500, fontSize: "1.25rem" } }}
                                         onKeyDown={handleKeyDown}
@@ -162,11 +175,14 @@ const Board = () => {
                                     />
                                 </ClickAwayListener>
                             )}
+                            <Stack direction="row" gap={1}>
+                                <Button onClick={() => setOpenInvite(!openInvite)} color="secondary" variant="contained" startIcon={<PersonAddAltIcon />}>
+                                    Invite
+                                </Button>
+                                <InviteDialog boardId={boardId} open={openInvite} setOpen={setOpenInvite} />
 
-                            <Button onClick={() => setOpenInvite(!openInvite)} color="secondary" variant="contained" startIcon={<PersonAddAltIcon />}>
-                                Invite
-                            </Button>
-                            <InviteDialog boardId={boardId} open={openInvite} setOpen={setOpenInvite} />
+                                <BoardActions boardId={boardId} />
+                            </Stack>
                         </Stack>
                     </Toolbar>
                     <Divider />

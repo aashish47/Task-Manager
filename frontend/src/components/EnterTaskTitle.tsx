@@ -48,7 +48,6 @@ const EnterTaskTitle: React.FC<EnterTaskTitleProp> = ({ first, setFirst, listId,
                     sx={{
                         mr: 1,
                         borderRadius: 2,
-                        bgcolor: mode === "dark" ? "#100901" : "#ededed",
                     }}
                 >
                     <TextField
