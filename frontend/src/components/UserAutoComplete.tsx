@@ -7,17 +7,14 @@ export type option = {
     value: string;
 };
 
-const UserAutocomplete = ({
-    name,
-    setName,
-    tags,
-    setTags,
-}: {
+type UserAutoCompleteProps = {
     name: string;
     setName: React.Dispatch<React.SetStateAction<string>>;
     tags: string[];
     setTags: React.Dispatch<React.SetStateAction<string[]>>;
-}) => {
+};
+
+const UserAutocomplete: React.FC<UserAutoCompleteProps> = ({ name, setName, tags, setTags }) => {
     const users = useSearchUsersByName(name) ?? [];
 
     const options: option[] = users.map((user) => ({

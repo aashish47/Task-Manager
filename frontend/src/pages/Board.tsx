@@ -21,7 +21,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { Button, List, Stack, TextField } from "@mui/material";
 import { DragDropContext } from "react-beautiful-dnd";
 import CreateList from "../components/CreateList";
-import useListsContext, { ListType } from "../hooks/useListsContext";
+import useListsContext from "../hooks/useListsContext";
 import TaskList from "../components/TaskList";
 import useMoveTaskMutation from "../hooks/useMoveTaskMutation";
 import useUpdateListMutation from "../hooks/useUpdateListMutation";
@@ -37,6 +37,7 @@ import InviteDialog from "../components/InviteDialog";
 import useAuthContext from "../hooks/useAuthContext";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 import BoardActions from "../components/BoardActions";
+import { ListType } from "../types/listTypes";
 
 const Board = () => {
     const { bid: boardId = "" } = useParams();
@@ -55,7 +56,9 @@ const Board = () => {
     const updateBoardMutation = useUpdateBoardMutation();
 
     const board = boardData ? boardData.find((board) => board._id === boardId) : null;
-    const boardName = board?.name;
+
+    const { name: boardName, listsIds, workspaceId } = board || {};
+
     const [inputBName, setInputBName] = useState(boardName);
 
     let listLookup: Map<string, ListType> | null = null;
@@ -64,7 +67,6 @@ const Board = () => {
         unOrderedLists.forEach((list) => listLookup?.set(list._id, list));
     }
 
-    const listsIds = board?.listsIds;
     const lists = listsIds?.map((listId) => listLookup?.get(listId));
 
     useEffect(() => {
@@ -198,7 +200,7 @@ const Board = () => {
                                             return list && <TaskList key={list._id} index={index} list={list} boardId={boardId} />;
                                         })}
                                     {provided.placeholder}
-                                    <CreateList boardId={boardId} />
+                                    {workspaceId && <CreateList workspaceId={workspaceId} boardId={boardId} />}{" "}
                                 </Stack>
                             </Main>
                         )}

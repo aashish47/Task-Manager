@@ -5,7 +5,12 @@ import MenuItem from "@mui/material/MenuItem";
 import { IconButton } from "@mui/material";
 import useDeleteTaskMutation from "../hooks/useDeleteTaskMutation";
 
-export default function TaskActions({ boardId, taskId }: { boardId: string; taskId: string }) {
+type TaskACtionsProps = {
+    boardId: string;
+    taskId: string;
+};
+
+const TaskActions: React.FC<TaskACtionsProps> = ({ boardId, taskId }) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const deleteTaskMutation = useDeleteTaskMutation();
@@ -47,4 +52,6 @@ export default function TaskActions({ boardId, taskId }: { boardId: string; task
             </Menu>
         </div>
     );
-}
+};
+
+export default TaskActions;

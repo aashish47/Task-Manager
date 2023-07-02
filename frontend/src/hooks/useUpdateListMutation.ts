@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateList } from "../api/api";
-import { ListType } from "./useListsContext";
 import useSocketContext from "./useSocketContext";
+import { ListType } from "../types/listTypes";
 
 const useUpdateListMutation = () => {
     const queryClient = useQueryClient();

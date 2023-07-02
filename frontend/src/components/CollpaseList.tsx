@@ -11,7 +11,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
 import WorkspaceAvater from "./WorkspaceAvatar";
 
-const CollapseList = ({ selectedIndex, setSelectedIndex }: { selectedIndex: string; setSelectedIndex: React.Dispatch<React.SetStateAction<string>> }) => {
+type CollapseListProps = {
+    selectedIndex: string;
+    setSelectedIndex: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const CollapseList: React.FC<CollapseListProps> = ({ selectedIndex, setSelectedIndex }) => {
     const [open, setOpen] = React.useState<boolean[]>([]);
     const workspaces = useWorkspaceContext();
     const { wid = "" } = useParams<{ wid: string }>();

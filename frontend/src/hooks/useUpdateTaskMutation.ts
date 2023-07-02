@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateTask } from "../api/api";
-import { TaskType } from "./useTasksContext";
+import { TaskType } from "../types/taskTypes";
 import useSocketContext from "./useSocketContext";
 
 const useUpdateTaskMutation = () => {

@@ -7,7 +7,13 @@ import { useState } from "react";
 import useSendInvitationMutation from "../hooks/useSendInvitation";
 import UserAutocomplete from "./UserAutoComplete";
 
-export default function InviteDialog({ boardId, open, setOpen }: { boardId: string; open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+type InviteDialogProps = {
+    boardId: string;
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const InviteDialog: React.FC<InviteDialogProps> = ({ boardId, open, setOpen }) => {
     const [name, setName] = useState("");
     const [tags, setTags] = useState<string[]>([]);
     const sendInvitationMutation = useSendInvitationMutation();
@@ -43,4 +49,6 @@ export default function InviteDialog({ boardId, open, setOpen }: { boardId: stri
             </form>
         </Dialog>
     );
-}
+};
+
+export default InviteDialog;

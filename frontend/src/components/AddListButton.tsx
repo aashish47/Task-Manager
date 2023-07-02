@@ -1,12 +1,12 @@
 import { Collapse, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-type AddListButtonProp = {
+type AddListButtonProps = {
     first: boolean;
     setFirst: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddListButton: React.FC<AddListButtonProp> = ({ first, setFirst }) => {
+const AddListButton: React.FC<AddListButtonProps> = ({ first, setFirst }) => {
     return (
         <Collapse in={first}>
             <Button size="large" onClick={() => setFirst((prev) => !prev)} variant="contained" fullWidth startIcon={<AddIcon />}>

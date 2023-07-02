@@ -3,14 +3,16 @@ import React from "react";
 import useAuthContext from "../hooks/useAuthContext";
 import CloseIcon from "@mui/icons-material/Close";
 import useCreateListMutation from "../hooks/useCreateListMutation";
+import { CreateListType } from "../types/listTypes";
 
-type EnterListTitleProp = {
+type EnterListTitleProps = {
     first: boolean;
     setFirst: React.Dispatch<React.SetStateAction<boolean>>;
     boardId: string;
+    workspaceId: string;
 };
 
-const EnterListTitle: React.FC<EnterListTitleProp> = ({ first, setFirst, boardId }) => {
+const EnterListTitle: React.FC<EnterListTitleProps> = ({ first, setFirst, boardId, workspaceId }) => {
     const createListMutation = useCreateListMutation();
     const user = useAuthContext();
     const theme = useTheme();
@@ -24,7 +26,7 @@ const EnterListTitle: React.FC<EnterListTitleProp> = ({ first, setFirst, boardId
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (user) {
-            const list = { name, boardId, createdBy: user.uid };
+            const list: CreateListType = { name, workspaceId, boardId, createdBy: user.uid };
             try {
                 await createListMutation.mutateAsync(list);
                 setName("");

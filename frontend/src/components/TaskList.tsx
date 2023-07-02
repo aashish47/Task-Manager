@@ -1,16 +1,16 @@
-import { Box, IconButton, Stack, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Stack, TextField, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import useTasksContext, { TaskType } from "../hooks/useTasksContext";
+import useTasksContext from "../hooks/useTasksContext";
 import Task from "./Task";
 import AddTaskButton from "./AddTaskButton";
 import EnterTaskTitle from "./EnterTaskTitle";
 import { StrictModeDroppable as Droppable } from "./StrictModeDroppable";
 import { Draggable } from "react-beautiful-dnd";
-import { ListType } from "../hooks/useListsContext";
 import useUpdateListMutation from "../hooks/useUpdateListMutation";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ListActions from "./ListActions";
+import { ListType } from "../types/listTypes";
+import { TaskType } from "../types/taskTypes";
 
 type TaskListProps = {
     index: number;
@@ -19,7 +19,7 @@ type TaskListProps = {
 };
 
 const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
-    const { _id: listId, tasksIds, name } = list;
+    const { _id: listId, tasksIds, name, workspaceId } = list;
     const theme = useTheme();
     const mode = theme.palette.mode;
     const data = useTasksContext(boardId);
@@ -34,6 +34,7 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
     }
 
     const tasks = tasksIds.map((taskId) => taskLookup?.get(taskId));
+    console.log(tasks);
 
     const [first, setFirst] = React.useState(true);
     const maxHeight = first ? "calc(100vh - 240px)" : "calc(100vh - 210px)";
@@ -156,7 +157,7 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
                         </Droppable>
 
                         <Box sx={{ flexBasis: "300px", flexShrink: "0", mt: 2 }}>
-                            <EnterTaskTitle boardId={boardId} first={first} setFirst={setFirst} listId={listId} />
+                            <EnterTaskTitle workspaceId={workspaceId} boardId={boardId} first={first} setFirst={setFirst} listId={listId} />
                         </Box>
                     </Box>
 

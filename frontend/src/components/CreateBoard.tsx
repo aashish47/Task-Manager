@@ -18,8 +18,14 @@ import useWorkspaceData from "../hooks/useWorkspaceContext";
 import useAuthContext from "../hooks/useAuthContext";
 import useCreateBoardMutation from "../hooks/useCreateBoardMutation";
 import { useNavigate } from "react-router-dom";
+import { CreateBoardType } from "../types/boardTypes";
 
-const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+type CreateBoardProps = {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const CreateBoard: React.FC<CreateBoardProps> = ({ open, setOpen }) => {
     const workspaces = useWorkspaceData();
     const user = useAuthContext();
     const createBoardMutation = useCreateBoardMutation();
@@ -40,7 +46,7 @@ const CreateBoard = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (user) {
-            const board = { name, workspaceId: workspace, createdBy: user.uid };
+            const board: CreateBoardType = { name, workspaceId: workspace, createdBy: user.uid };
             try {
                 const { _id } = await createBoardMutation.mutateAsync(board);
                 navigate(`/b/${name}/${_id}`);

@@ -2,7 +2,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
-export default function NestedList() {
+const SideBarRight = () => {
     return (
         <List
             sx={{ display: { xs: "none", lg: "block" }, width: "100%", maxWidth: 250, bgcolor: "background.paper" }}
@@ -16,4 +16,6 @@ export default function NestedList() {
             }
         ></List>
     );
-}
+};
+
+export default SideBarRight;

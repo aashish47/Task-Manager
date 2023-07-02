@@ -3,20 +3,17 @@ import React from "react";
 import useAuthContext from "../hooks/useAuthContext";
 import CloseIcon from "@mui/icons-material/Close";
 import useCreateTaskMutation from "../hooks/useCreateTaskMutation";
+import { CreateTaskType } from "../types/taskTypes";
 
-type EnterTaskTitleProp = {
+type EnterTaskTitleProps = {
     first: boolean;
     setFirst: React.Dispatch<React.SetStateAction<boolean>>;
     listId: string;
     boardId: string;
+    workspaceId: string;
 };
-export type Task = {
-    name: string;
-    listId: string;
-    boardId: string;
-    createdBy: string;
-};
-const EnterTaskTitle: React.FC<EnterTaskTitleProp> = ({ first, setFirst, listId, boardId }) => {
+
+const EnterTaskTitle: React.FC<EnterTaskTitleProps> = ({ first, setFirst, listId, boardId, workspaceId }) => {
     const createTaskMutation = useCreateTaskMutation();
     const user = useAuthContext();
     const theme = useTheme();
@@ -30,7 +27,7 @@ const EnterTaskTitle: React.FC<EnterTaskTitleProp> = ({ first, setFirst, listId,
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (user) {
-            const task: Task = { name, listId, boardId, createdBy: user.uid };
+            const task: CreateTaskType = { name, workspaceId, listId, boardId, createdBy: user.uid };
             try {
                 await createTaskMutation.mutateAsync(task);
                 setName("");

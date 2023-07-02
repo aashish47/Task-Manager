@@ -1,12 +1,12 @@
 import { Collapse, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-type AddTaskButtonProp = {
+type AddTaskButtonProps = {
     first: boolean;
     setFirst: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddTaskButton: React.FC<AddTaskButtonProp> = ({ first, setFirst }) => {
+const AddTaskButton: React.FC<AddTaskButtonProps> = ({ first, setFirst }) => {
     return (
         <Collapse in={first}>
             <Button

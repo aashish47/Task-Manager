@@ -1,9 +1,13 @@
-import { Avatar, Card, CardContent, CardHeader, Divider, Link, Typography } from "@mui/material";
-import { NotificationType } from "../hooks/useNotificationsContext";
+import { Avatar, Card, CardContent, CardHeader, Divider, Link } from "@mui/material";
+import { NotificationType } from "../types/notificationTypes";
 import { red } from "@mui/material/colors";
 import { NavLink } from "react-router-dom";
 
-const NotificationCard = ({ notification }: { notification: NotificationType }) => {
+type NotificationCardProps = {
+    notification: NotificationType;
+};
+
+const NotificationCard: React.FC<NotificationCardProps> = ({ notification }) => {
     const { boardName, boardLink, sender } = notification;
     return (
         <Card sx={{ width: "100%", mt: 2 }}>

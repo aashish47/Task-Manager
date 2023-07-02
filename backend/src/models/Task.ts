@@ -3,6 +3,7 @@ import { Document, Schema, Model, model } from "mongoose";
 interface ITask extends Document {
     name: string;
     description?: string;
+    workspaceId: string;
     listId: string;
     boardId: string;
     createdBy: string;
@@ -16,6 +17,11 @@ const TaskSchema: Schema<ITask> = new Schema(
         },
         description: {
             type: String,
+        },
+        workspaceId: {
+            type: String,
+            ref: "Workspace",
+            required: true,
         },
         boardId: {
             type: String,

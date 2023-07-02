@@ -1,18 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchBoards } from "../api/api";
-
-export type BoardType = {
-    createdAt: string;
-    createdBy: string;
-    workspaceId: string;
-    name: string;
-    listsIds: [string];
-    members: string[];
-    admin: string;
-    updatedAt: string;
-    __v: number;
-    _id: string;
-};
+import { BoardType } from "../types/boardTypes";
 
 const useBoardsContext = () => {
     const { data: boards } = useQuery<Array<BoardType>>({ queryKey: ["Boards"], queryFn: () => fetchBoards() });

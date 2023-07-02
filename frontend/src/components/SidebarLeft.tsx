@@ -12,7 +12,7 @@ import CollapseList from "./CollpaseList";
 import useAuthContext from "../hooks/useAuthContext";
 import { User } from "firebase/auth";
 
-export default function NestedList() {
+const SideBarLeft = () => {
     const navigate = useNavigate();
     const user = useAuthContext();
     const { displayName } = user as User;
@@ -66,4 +66,6 @@ export default function NestedList() {
             <CollapseList selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
         </List>
     );
-}
+};
+
+export default SideBarLeft;

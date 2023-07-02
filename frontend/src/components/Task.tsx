@@ -2,9 +2,9 @@ import { Card, CardContent, Stack, TextField, Typography, useTheme } from "@mui/
 import { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import useUpdateTaskMutation from "../hooks/useUpdateTaskMutation";
-import { TaskType } from "../hooks/useTasksContext";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 import TaskActions from "./TaskActions";
+import { TaskType } from "../types/taskTypes";
 
 type TaskProps = {
     boardId: string;

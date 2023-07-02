@@ -6,7 +6,11 @@ import { IconButton } from "@mui/material";
 import useDeleteBoardMutation from "../hooks/useDeleteBoardMutation";
 import { useNavigate } from "react-router-dom";
 
-export default function BoardActions({ boardId }: { boardId: string }) {
+type BoardActionsProps = {
+    boardId: string;
+};
+
+const BoardActions: React.FC<BoardActionsProps> = ({ boardId }) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const deleteBoardMutation = useDeleteBoardMutation();
@@ -49,4 +53,6 @@ export default function BoardActions({ boardId }: { boardId: string }) {
             </Menu>
         </div>
     );
-}
+};
+
+export default BoardActions;

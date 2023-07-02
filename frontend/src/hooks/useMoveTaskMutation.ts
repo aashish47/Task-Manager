@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { moveTask } from "../api/api";
-import { ListType } from "./useListsContext";
-import { TaskType } from "./useTasksContext";
 import useSocketContext from "./useSocketContext";
+import { ListType } from "../types/listTypes";
+import { TaskType } from "../types/taskTypes";
 
 const useMoveTaskMutation = () => {
     const queryClient = useQueryClient();

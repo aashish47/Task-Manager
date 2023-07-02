@@ -1,4 +1,4 @@
-import { IconButton, Badge, Menu, MenuItem, Typography, Box, Divider, Stack, MenuList } from "@mui/material";
+import { IconButton, Badge, Menu, Typography, Box, Divider, MenuList } from "@mui/material";
 import { useState } from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import useNotificationsContext from "../hooks/useNotificationsContext";
@@ -13,13 +13,12 @@ const stylesMenu = {
     padding: "16px",
 };
 
-const NotificationMenu = ({
-    newNotifications,
-    setNewNotifications,
-}: {
+type NotificationMenuProps = {
     newNotifications: number;
     setNewNotifications: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+};
+
+const NotificationMenu: React.FC<NotificationMenuProps> = ({ newNotifications, setNewNotifications }) => {
     const notifications = useNotificationsContext();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 

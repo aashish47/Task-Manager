@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateBoard } from "../api/api";
-import { BoardType } from "./useBoardsContext";
+import { BoardType } from "../types/boardTypes";
 import useSocketContext from "./useSocketContext";
 
 const useUpdateBoardMutation = () => {

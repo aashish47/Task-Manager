@@ -2,8 +2,14 @@ import { Button, Typography, TextField, Dialog, DialogContent, DialogTitle, Dial
 import React, { useState } from "react";
 import useAuthContext from "../hooks/useAuthContext";
 import useCreateWorkspaceMutation from "../hooks/useCreateWorkspaceMutation";
+import { CreateWorkspaceType } from "../types/workspaceTypes";
 
-const CreateWorkspace = ({ open, setOpen }: { open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+type CreateWorkspaeProps = {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const CreateWorkspace: React.FC<CreateWorkspaeProps> = ({ open, setOpen }) => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
 
@@ -21,7 +27,7 @@ const CreateWorkspace = ({ open, setOpen }: { open: boolean; setOpen: React.Disp
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (user) {
-            const workspace = { name, description, createdBy: user.uid };
+            const workspace: CreateWorkspaceType = { name, description, createdBy: user.uid };
             try {
                 await createWorkspaceMutation.mutateAsync(workspace);
                 handleClose();

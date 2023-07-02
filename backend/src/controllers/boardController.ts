@@ -15,6 +15,7 @@ export const createBoard = async (req: CustomRequest, res: Response) => {
         newBoard.addMember(createdBy);
         newBoard.setAdmin(createdBy);
         await newBoard.save();
+
         await session.commitTransaction();
         session.endSession();
         res.json(newBoard);

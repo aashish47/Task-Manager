@@ -3,6 +3,7 @@ import { Document, Schema, Model, model } from "mongoose";
 export interface IList extends Document {
     name: string;
     boardId: string;
+    workspaceId: string;
     tasksIds: string[];
     createdBy: string;
     addTask(taskId: string): void;
@@ -12,6 +13,11 @@ const ListSchema: Schema<IList> = new Schema(
     {
         name: {
             type: String,
+            required: true,
+        },
+        workspaceId: {
+            type: String,
+            ref: "Workspace",
             required: true,
         },
         boardId: {

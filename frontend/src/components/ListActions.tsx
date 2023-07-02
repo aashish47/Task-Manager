@@ -5,7 +5,12 @@ import MenuItem from "@mui/material/MenuItem";
 import { IconButton } from "@mui/material";
 import useDeleteListMutation from "../hooks/useDeleteListMutation";
 
-export default function ListActions({ boardId, listId }: { boardId: string; listId: string }) {
+type ListActionsProps = {
+    boardId: string;
+    listId: string;
+};
+
+const ListActions: React.FC<ListActionsProps> = ({ boardId, listId }) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const deleteListMutation = useDeleteListMutation();
@@ -46,4 +51,6 @@ export default function ListActions({ boardId, listId }: { boardId: string; list
             </Menu>
         </div>
     );
-}
+};
+
+export default ListActions;

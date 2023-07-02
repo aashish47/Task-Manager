@@ -1,8 +1,8 @@
 import axios from "axios";
-import { ListType } from "../hooks/useListsContext";
-import { TaskType } from "../hooks/useTasksContext";
-import { BoardType } from "../hooks/useBoardsContext";
-import { Task } from "../components/EnterTaskTitle";
+import { CreateWorkspaceType } from "../types/workspaceTypes";
+import { BoardType, CreateBoardType } from "../types/boardTypes";
+import { CreateListType, ListType } from "../types/listTypes";
+import { CreateTaskType, TaskType } from "../types/taskTypes";
 
 const api = axios.create({
     baseURL: "http://localhost:3000/api",
@@ -65,9 +65,9 @@ export const fetchWorkspaces = async () => {
     }
 };
 
-export const createWorkspace = async ({ name, description, createdBy }: { name: string; description: string; createdBy: string }) => {
+export const createWorkspace = async (workspace: CreateWorkspaceType) => {
     try {
-        const response = await api.post("/workspaces", { name, description, createdBy });
+        const response = await api.post("/workspaces", workspace);
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);
@@ -85,9 +85,9 @@ export const fetchBoards = async () => {
     }
 };
 
-export const createBoard = async ({ name, workspaceId, createdBy }: { name: string; workspaceId: string; createdBy: string }) => {
+export const createBoard = async (board: CreateBoardType) => {
     try {
-        const response = await api.post("/boards", { name, workspaceId, createdBy });
+        const response = await api.post("/boards", board);
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);
@@ -133,9 +133,9 @@ export const fetchListsByBoardId = async ({ boardId }: { boardId: string }) => {
     }
 };
 
-export const createList = async ({ name, boardId, createdBy }: { name: string; boardId: string; createdBy: string }) => {
+export const createList = async (List: CreateListType) => {
     try {
-        const response = await api.post("/lists", { name, boardId, createdBy });
+        const response = await api.post("/lists", List);
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);
@@ -181,9 +181,9 @@ export const fetchTasksByBoardId = async ({ boardId }: { boardId: string }) => {
     }
 };
 
-export const createTask = async (newTask: Task) => {
+export const createTask = async (task: CreateTaskType) => {
     try {
-        const response = await api.post("/tasks", newTask);
+        const response = await api.post("/tasks", task);
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);
