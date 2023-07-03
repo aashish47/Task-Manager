@@ -19,13 +19,15 @@ type TaskListProps = {
 };
 
 const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
-    const { _id: listId, tasksIds, name, workspaceId } = list;
+    const { _id: listId, tasksIds, name: listName, workspaceId } = list;
+
     const theme = useTheme();
     const mode = theme.palette.mode;
     const data = useTasksContext(boardId);
     const updateListMutation = useUpdateListMutation();
     const [editLName, setEditLName] = useState(false);
-    const [inputLName, setInputLName] = useState(name);
+    const [inputLName, setInputLName] = useState(listName);
+
     const unOrderedTasks = data ? data.filter((task) => task.listId === listId) : null;
     let taskLookup: Map<string, TaskType> | null = null;
     if (unOrderedTasks) {
@@ -34,11 +36,14 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
     }
 
     const tasks = tasksIds.map((taskId) => taskLookup?.get(taskId));
-    console.log(tasks);
 
     const [first, setFirst] = React.useState(true);
     const maxHeight = first ? "calc(100vh - 240px)" : "calc(100vh - 210px)";
     const containerRef = useRef<HTMLElement | null>(null);
+
+    useEffect(() => {
+        setInputLName(listName);
+    }, [listName]);
 
     useEffect(() => {
         if (!first && containerRef.current) {
@@ -112,7 +117,7 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
                             <Typography
                                 sx={{
                                     lineHeight: 1.5,
-                                    wordBreak: "break-all",
+                                    wordBreak: "break-word",
                                     "&:hover": { cursor: "pointer" },
                                     width: "100%",
                                     p: "8.5px 14px",
@@ -149,7 +154,10 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
                         <Droppable type="tasks" droppableId={listId}>
                             {(provided) => (
                                 <div style={{ minHeight: "1px" }} {...provided.droppableProps} ref={provided.innerRef}>
-                                    {tasks && tasks.map((task, index) => task && <Task key={task._id} boardId={boardId} task={task} index={index} />)}
+                                    {tasks &&
+                                        tasks.map(
+                                            (task, index) => task && <Task key={task._id} boardId={boardId} task={task} index={index} listName={listName} />
+                                        )}
 
                                     {provided.placeholder}
                                 </div>

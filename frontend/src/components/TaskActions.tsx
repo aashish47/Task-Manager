@@ -16,20 +16,29 @@ const TaskActions: React.FC<TaskACtionsProps> = ({ boardId, taskId }) => {
     const deleteTaskMutation = useDeleteTaskMutation();
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        event.preventDefault();
         setAnchorEl(event.currentTarget);
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (event: any) => {
+        event.stopPropagation();
+        event.preventDefault();
+
         await deleteTaskMutation.mutateAsync({ boardId, taskId });
-        handleClose();
+        handleClose(event);
     };
-    const handleClose = () => {
+    const handleClose = (event: any) => {
+        event.stopPropagation();
+        event.preventDefault();
+
         setAnchorEl(null);
     };
 
     return (
         <div>
             <IconButton
+                sx={{ height: "20px", width: "20px" }}
                 id="basic-button"
                 aria-controls={open ? "basic-menu" : undefined}
                 aria-haspopup="true"

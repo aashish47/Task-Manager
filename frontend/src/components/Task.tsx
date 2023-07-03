@@ -1,24 +1,32 @@
-import { Card, CardContent, Stack, TextField, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
+import { Card, CardContent, Link, Stack, TextField, Typography, useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import useUpdateTaskMutation from "../hooks/useUpdateTaskMutation";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 import TaskActions from "./TaskActions";
 import { TaskType } from "../types/taskTypes";
+import { NavLink } from "react-router-dom";
+import TaskDialog from "./TaskDialog";
 
 type TaskProps = {
     boardId: string;
     task: TaskType;
     index: number;
+    listName: string;
 };
 
-const Task: React.FC<TaskProps> = ({ boardId, task, index }) => {
-    const { _id: taskId, name } = task;
+const Task: React.FC<TaskProps> = ({ boardId, task, index, listName }) => {
+    const [open, setOpen] = useState(false);
+    const { _id: taskId, name: taskName } = task;
     const theme = useTheme();
     const mode = theme.palette.mode;
     const updateTaskMutation = useUpdateTaskMutation();
     const [editTName, setEditTName] = useState(false);
-    const [inputTName, setInputTName] = useState(name);
+    const [inputTName, setInputTName] = useState(taskName);
+
+    useEffect(() => {
+        setInputTName(taskName);
+    }, [taskName]);
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (e.key === "Enter") {
             handleClickAway();
@@ -46,14 +54,23 @@ const Task: React.FC<TaskProps> = ({ boardId, task, index }) => {
                     }}
                 >
                     {!editTName ? (
-                        <CardContent sx={{ "&:hover": { cursor: "pointer" }, mt: "1px", p: 1, paddingBottom: "8px !important" }}>
-                            <Stack direction="row" alignItems="center" justifyContent="space-between">
-                                <Typography onClick={() => setEditTName(true)} {...provided.dragHandleProps}>
-                                    {inputTName}
-                                </Typography>
-                                <TaskActions boardId={boardId} taskId={taskId} />
-                            </Stack>
-                        </CardContent>
+                        <Link
+                            color="inherit"
+                            onContextMenu={(e) => {
+                                e.preventDefault();
+                                setEditTName(true);
+                            }}
+                            onClick={() => setOpen(true)}
+                        >
+                            <CardContent sx={{ mt: "1px", p: 1, paddingBottom: "8px !important" }}>
+                                <Stack direction="row" alignItems="flex-start" justifyContent="space-between">
+                                    <Typography sx={{ "&:hover": { cursor: "pointer" } }} {...provided.dragHandleProps}>
+                                        {inputTName}
+                                    </Typography>
+                                    <TaskActions boardId={boardId} taskId={taskId} />
+                                </Stack>
+                            </CardContent>
+                        </Link>
                     ) : (
                         <ClickAwayListener onClickAway={handleClickAway}>
                             <TextField
@@ -77,6 +94,7 @@ const Task: React.FC<TaskProps> = ({ boardId, task, index }) => {
                             />
                         </ClickAwayListener>
                     )}
+                    <TaskDialog listName={listName} taskName={taskName} open={open} setOpen={setOpen} />
                 </Card>
             )}
         </Draggable>

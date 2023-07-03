@@ -9,7 +9,7 @@ import { ListItemButton, ListItemIcon, ListItemText, List } from "@mui/material"
 import useWorkspaceContext from "../hooks/useWorkspaceContext";
 import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
-import WorkspaceAvater from "./WorkspaceAvatar";
+import WorkspaceAvatar from "./WorkspaceAvatar";
 
 type CollapseListProps = {
     selectedIndex: string;
@@ -75,7 +75,7 @@ const CollapseList: React.FC<CollapseListProps> = ({ selectedIndex, setSelectedI
                         <div key={workspaceId}>
                             <ListItemButton selected={!open[index] && wid === workspaceId} onClick={() => handleWorkspaceClick(index)}>
                                 <ListItemIcon>
-                                    <WorkspaceAvater
+                                    <WorkspaceAvatar
                                         wname={workspaceName}
                                         size={{
                                             width: 25,

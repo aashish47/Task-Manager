@@ -45,7 +45,6 @@ const UserAutocomplete: React.FC<UserAutoCompleteProps> = ({ name, setName, tags
             filterOptions={(x) => x}
             onInputChange={handleInputChange}
             onChange={handleTagChange}
-            sx={{ maxWidth: 500, width: "70vw" }}
             multiple
             id="tags-filled"
             options={options}

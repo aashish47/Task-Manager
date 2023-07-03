@@ -285,7 +285,6 @@ export const searchUsersByName = async ({ name }: { name: string }) => {
     }
     try {
         const response = await api.get(`/users/name/${name}`);
-        console.log(response);
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);

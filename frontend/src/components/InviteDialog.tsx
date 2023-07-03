@@ -36,7 +36,7 @@ const InviteDialog: React.FC<InviteDialogProps> = ({ boardId, open, setOpen }) =
     };
 
     return (
-        <Dialog disableRestoreFocus open={open} onClose={handleClose} aria-labelledby="responsive-dialog-title">
+        <Dialog fullWidth maxWidth="sm" disableRestoreFocus open={open} onClose={handleClose} aria-labelledby="responsive-dialog-title">
             <DialogTitle>Share Board</DialogTitle>
             <form autoComplete="off">
                 <DialogContent>

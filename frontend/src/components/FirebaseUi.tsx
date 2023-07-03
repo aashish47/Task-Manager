@@ -3,19 +3,11 @@ import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
 import { auth } from "../config/firebase";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 const FirebaseUi = () => {
-    const navigate = useNavigate();
     useEffect(() => {
         const loadFirebaseUI = async () => {
             const uiConfig = {
-                callbacks: {
-                    signInSuccessWithAuthResult: function (redirectUrl = "/") {
-                        navigate(redirectUrl);
-                        return false;
-                    },
-                },
                 signInOptions: [
                     firebase.auth.EmailAuthProvider.PROVIDER_ID,
                     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -36,7 +28,7 @@ const FirebaseUi = () => {
         };
 
         loadFirebaseUI();
-    }, [navigate]);
+    }, []);
 
     return <div id="firebaseui-auth-container" style={{ marginTop: "25vh" }}></div>;
 };

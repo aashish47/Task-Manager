@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
-import WorkspaceAvater from "./WorkspaceAvatar";
+import WorkspaceAvatar from "./WorkspaceAvatar";
 
 type WorkspaceDetailsBarProps = {
     wname: string;
@@ -11,7 +11,7 @@ const WorkspaceDetailsBar: React.FC<WorkspaceDetailsBarProps> = ({ wname, descri
         <>
             <Stack direction="row">
                 <Box sx={{ mr: 2, mb: 1 }}>
-                    <WorkspaceAvater wname={wname} size={{ width: 56, height: 56 }} />
+                    <WorkspaceAvatar wname={wname} size={{ width: 56, height: 56 }} />
                 </Box>
                 <Typography variant="h6">{wname}</Typography>
             </Stack>

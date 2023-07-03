@@ -47,9 +47,9 @@ const CreateWorkspace: React.FC<CreateWorkspaeProps> = ({ open, setOpen }) => {
         <Dialog scroll="body" open={open} onClose={handleClose} aria-labelledby="scroll-dialog-title" aria-describedby="scroll-dialog-description">
             <DialogTitle>
                 Let's build a Workspace
-                <div>
-                    <Typography variant="subtitle1">Boost your productivity by making it easier for everyone to access boards in one location.</Typography>
-                </div>
+                <Typography component={"div"} variant="subtitle1">
+                    Boost your productivity by making it easier for everyone to access boards in one location.
+                </Typography>
             </DialogTitle>
             <form autoComplete="off" onSubmit={handleSubmit}>
                 <DialogContent>
