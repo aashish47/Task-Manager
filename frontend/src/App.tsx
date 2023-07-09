@@ -12,7 +12,7 @@ import LayoutHome from "./pages/LayoutHome";
 import AllBoards from "./components/AllBoards";
 import useAuthContext from "./hooks/useAuthContext";
 import Board from "./pages/Board";
-import "./App.css";
+import "./styles/App.css";
 import { useQueryClient } from "@tanstack/react-query";
 import useSocketContext from "./hooks/useSocketContext";
 

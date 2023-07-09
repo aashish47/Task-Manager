@@ -21,7 +21,7 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { Link } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 import NotificationMenu from "./NotificationsMenu";
-import { auth } from "../config/firebase";
+import { auth } from "../firebase/firebase";
 import SearchIconWrapper from "./SearchIconWrapper";
 import StyledInputBase from "./StyledInputBase";
 import Search from "./Search";

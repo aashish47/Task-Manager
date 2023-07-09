@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { authContext } from "../hooks/useAuthContext";
-import { auth } from "../config/firebase";
+import { auth } from "../firebase/firebase";
 import { User } from "firebase/auth";
 import useCreateUserMutation from "../hooks/useCreateUser";
 

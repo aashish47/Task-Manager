@@ -1,4 +1,4 @@
-import { Document, Schema, Model, model } from "mongoose";
+import { Document, Schema, Model, model, Date } from "mongoose";
 
 interface ITask extends Document {
     name: string;
@@ -7,6 +7,9 @@ interface ITask extends Document {
     listId: string;
     boardId: string;
     createdBy: string;
+    dueDate: Date;
+    isCompleted: boolean;
+    cover: string;
 }
 
 const TaskSchema: Schema<ITask> = new Schema(
@@ -36,6 +39,15 @@ const TaskSchema: Schema<ITask> = new Schema(
         createdBy: {
             type: String,
             required: true,
+        },
+        dueDate: {
+            type: Date,
+        },
+        isCompleted: {
+            type: Boolean,
+        },
+        cover: {
+            type: String,
         },
     },
     { timestamps: true }
