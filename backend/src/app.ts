@@ -16,6 +16,7 @@ import { authenticateFirebaseToken, authenticateToken } from "./middlewares/auth
 import Notification from "./models/Notification";
 import notificationService from "./services/notificationService";
 import boardService from "./services/boardService";
+import taskService from "./services/taskService";
 
 const app = express();
 const server = http.createServer(app);
@@ -105,6 +106,23 @@ io.on("connection", async (socket) => {
                 members.map((member) => {
                     if (connected.has(member)) {
                         io.to(member).emit("invalidateTasks", boardId);
+                    }
+                });
+            }
+        });
+
+        socket.on("invalidateComments", async (taskId) => {
+            const task = await taskService.getTaskById(taskId);
+            if (!task) {
+                return;
+            }
+            const { boardId } = task;
+            const board = await boardService.getBoardById(boardId);
+            const members = board?.members;
+            if (members) {
+                members.map((member) => {
+                    if (connected.has(member)) {
+                        io.to(member).emit("invalidateComments", taskId);
                     }
                 });
             }

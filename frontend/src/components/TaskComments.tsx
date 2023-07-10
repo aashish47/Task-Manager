@@ -1,4 +1,4 @@
-import { Stack, Avatar, TextField, ClickAwayListener, useTheme, Button, Typography, Box, Card, CardContent } from "@mui/material";
+import { Stack, Avatar, TextField, ClickAwayListener, useTheme, Button, Typography, Box, Card, CardContent, CardActions, IconButton } from "@mui/material";
 import { teal } from "@mui/material/colors";
 import RichTextEdtitor from "./RichTextEditor";
 import { useState } from "react";
@@ -9,6 +9,9 @@ import useCommentsContext from "../hooks/useCommentsContext";
 import "../styles/TaskComments.css";
 import { format, formatDistanceToNow } from "date-fns";
 import DatePopover from "./DatePopover";
+import DeleteIcon from "@mui/icons-material/Delete";
+import useDeleteCommentMutation from "../hooks/useDeleteCommentMutation";
+
 type TaskCommentsProps = {
     task: TaskType;
 };
@@ -17,11 +20,11 @@ const TaskComments: React.FC<TaskCommentsProps> = ({ task }) => {
     const { _id: taskId } = task;
     const [value, setValue] = useState("");
     const theme = useTheme();
-    const secondary = theme.palette.secondary;
     const mode = theme.palette.mode;
     const user = useAuthContext();
     const [editComment, setEditComment] = useState(false);
     const createCommentMutation = useCreateCommentMutation();
+    const deleteCommentMutation = useDeleteCommentMutation();
     const comments = useCommentsContext(taskId);
     console.log(comments);
 
@@ -40,6 +43,10 @@ const TaskComments: React.FC<TaskCommentsProps> = ({ task }) => {
         }
         setEditComment(false);
         setValue("");
+    };
+
+    const handleDeleteComment = async (commentId: string, taskId: string) => {
+        await deleteCommentMutation.mutateAsync({ commentId, taskId });
     };
 
     return (
@@ -62,21 +69,36 @@ const TaskComments: React.FC<TaskCommentsProps> = ({ task }) => {
             </Stack>
             {comments &&
                 comments.map((comment) => {
-                    const { createdAt, createdBy, description, taskId } = comment;
+                    const userId = user?.uid;
+                    const { _id: commentId, createdAt, createdBy, description, taskId, uid: commentedBy } = comment;
                     const time = formatDistanceToNow(new Date(createdAt));
                     const created = format(new Date(createdAt), "PPPPpppp");
                     return (
                         <Stack mt={1}>
                             <Stack alignItems="center" key={taskId} direction="row" gap={1}>
-                                <Avatar sx={{ bgcolor: mode === "dark" ? teal[200] : teal[700], width: "24px", height: "24px" }}>
+                                <Avatar sx={{ mr: 1, bgcolor: mode === "dark" ? teal[200] : teal[700], width: "24px", height: "24px" }}>
                                     <Box sx={{ fontSize: "16px" }}>{createdBy.charAt(0)}</Box>
                                 </Avatar>
                                 <Typography>{createdBy}</Typography>
                                 <DatePopover time={time} created={created} />
                             </Stack>
-                            <Card sx={{ ml: 4 }}>
-                                <CardContent sx={{ p: 1, "&.MuiCardContent-root:last-child": { pb: 1 } }}>
+                            <Card sx={{ ml: 5 }}>
+                                <CardContent
+                                    sx={{
+                                        display: "flex",
+                                        direction: "row",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        p: 1,
+                                        "&.MuiCardContent-root:last-child": { pb: 1 },
+                                    }}
+                                >
                                     <Box className="comment" dangerouslySetInnerHTML={{ __html: description }} />
+                                    {userId === commentedBy && (
+                                        <IconButton onClick={() => handleDeleteComment(commentId, taskId)} sx={{ alignSelf: "flex-start" }}>
+                                            <DeleteIcon fontSize="small" color="error" />
+                                        </IconButton>
+                                    )}
                                 </CardContent>
                             </Card>
                         </Stack>

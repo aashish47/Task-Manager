@@ -24,7 +24,7 @@ type TaskdialogProps = {
 };
 
 const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }) => {
-    const { name: taskName, description } = task;
+    const { name: taskName } = task;
 
     const handleClose = () => {
         setOpen(false);

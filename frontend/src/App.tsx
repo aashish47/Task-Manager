@@ -64,10 +64,16 @@ const App = () => {
             queryClient.invalidateQueries(["Tasks", boardId]);
         });
 
+        socket.on("invalidateComments", (taskId) => {
+            queryClient.invalidateQueries(["Comments", taskId]);
+        });
+
         return () => {
             socket.off("notifications");
             socket.off("invalidateTasks");
-            socket.off("invalidateTasksAndLists");
+            socket.off("invalidateBoards");
+            socket.off("invalidateLists");
+            socket.off("invalidateComments");
             socket.disconnect();
         };
     }, [queryClient, socket]);
