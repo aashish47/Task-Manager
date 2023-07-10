@@ -5,6 +5,10 @@ export type TaskType = {
     boardId: string;
     workspaceId: string;
     name: string;
+    description: string;
+    cover: string;
+    dueDate: Date;
+    isCompleted: boolean;
     updatedAt: string;
     __v: number;
     _id: string;

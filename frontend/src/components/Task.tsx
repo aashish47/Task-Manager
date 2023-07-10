@@ -62,11 +62,9 @@ const Task: React.FC<TaskProps> = ({ boardId, task, index, listName }) => {
                             }}
                             onClick={() => setOpen(true)}
                         >
-                            <CardContent sx={{ mt: "1px", p: 1, paddingBottom: "8px !important" }}>
+                            <CardContent sx={{ "&:hover": { cursor: "pointer" }, mt: "1px", p: 1, paddingBottom: "8px !important" }}>
                                 <Stack direction="row" alignItems="flex-start" justifyContent="space-between">
-                                    <Typography sx={{ "&:hover": { cursor: "pointer" } }} {...provided.dragHandleProps}>
-                                        {inputTName}
-                                    </Typography>
+                                    <Typography>{inputTName}</Typography>
                                     <TaskActions boardId={boardId} taskId={taskId} />
                                 </Stack>
                             </CardContent>
@@ -94,7 +92,7 @@ const Task: React.FC<TaskProps> = ({ boardId, task, index, listName }) => {
                             />
                         </ClickAwayListener>
                     )}
-                    <TaskDialog listName={listName} taskName={taskName} open={open} setOpen={setOpen} />
+                    <TaskDialog listName={listName} task={task} open={open} setOpen={setOpen} />
                 </Card>
             )}
         </Draggable>

@@ -3,9 +3,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "../styles/RichTextEditor.css";
 
-const RichTextEdtitor = () => {
-    const [value, setValue] = useState("");
+type RichTextEditorProps = {
+    value: string;
+    setValue: React.Dispatch<React.SetStateAction<string>>;
+};
 
+const RichTextEdtitor: React.FC<RichTextEditorProps> = ({ value, setValue }) => {
     const modules = {
         toolbar: [
             [{ font: [] }],
