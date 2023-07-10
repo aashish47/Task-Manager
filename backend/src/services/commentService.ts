@@ -14,7 +14,7 @@ const getAllComments = async () => {
 };
 
 const getCommentsByTaskId = async (taskId: string) => {
-    return await Comment.find({ taskId });
+    return await Comment.find({ taskId }).sort({ createdAt: -1 });
 };
 
 const updateComment = async (id: string, updaterQuery: object) => {

@@ -3,6 +3,7 @@ import { CreateWorkspaceType } from "../types/workspaceTypes";
 import { BoardType, CreateBoardType } from "../types/boardTypes";
 import { CreateListType, ListType } from "../types/listTypes";
 import { CreateTaskType, TaskType } from "../types/taskTypes";
+import { CreateCommentType } from "../types/commentTypes";
 
 const api = axios.create({
     baseURL: "http://localhost:3000/api",
@@ -285,6 +286,36 @@ export const searchUsersByName = async ({ name }: { name: string }) => {
     }
     try {
         const response = await api.get(`/users/name/${name}`);
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+// Comments Functions
+
+export const fetchCommentsByTaskId = async ({ taskId }: { taskId: string }) => {
+    console.log(taskId);
+    try {
+        const response = await api.get(`/comments/task/${taskId}`);
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+export const createComment = async (comment: CreateCommentType) => {
+    try {
+        const response = await api.post("/comments", comment);
+        return response.data;
+    } catch (error: any) {
+        await checkErrorType(error);
+    }
+};
+
+export const deleteComment = async ({ commentId, taskId }: { commentId: string; taskId: string }) => {
+    try {
+        const response = await api.delete(`/comments/${commentId}`);
         return response.data;
     } catch (error: any) {
         await checkErrorType(error);

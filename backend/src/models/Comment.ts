@@ -1,16 +1,17 @@
 import { Document, Schema, Model, model } from "mongoose";
 
-interface IComment extends Document {
+export interface IComment extends Document {
     taskId: string;
     description: string;
     createdBy: string;
+    uid: string;
     likes: string[];
 }
 
 const CommentSchema: Schema<IComment> = new Schema(
     {
         taskId: {
-            taskId: String,
+            type: String,
             required: true,
         },
         description: {
@@ -18,6 +19,10 @@ const CommentSchema: Schema<IComment> = new Schema(
             required: true,
         },
         createdBy: {
+            type: String,
+            required: true,
+        },
+        uid: {
             type: String,
             required: true,
         },

@@ -9,6 +9,7 @@ import taskRoutes from "./routes/taskRoutes";
 import invitationRoutes from "./routes/invitationRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
 import userRoutes from "./routes/userRoutes";
+import commentRoutes from "./routes/commentRoutes";
 import http from "http";
 import { Server } from "socket.io";
 import { authenticateFirebaseToken, authenticateToken } from "./middlewares/authenticateFirebaseToken";
@@ -41,6 +42,7 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/invitation", invitationRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/comments", commentRoutes);
 
 export const connected = new Map<string, Set<string>>();
 

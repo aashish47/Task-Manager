@@ -3,11 +3,8 @@ import commentService from "../services/commentService";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 
 export const createComment = async (req: CustomRequest, res: Response) => {
-    const createdBy = req.user?.uid!;
-    const { taskId, description } = req.body;
-    const comment = { taskId, description, createdBy };
     try {
-        const newComment = await commentService.createComment(comment);
+        const newComment = await commentService.createComment(req.body);
         res.json(newComment);
     } catch (error: any) {
         res.status(500).json({ error: error.message });
@@ -40,8 +37,7 @@ export const getAllComments = async (req: CustomRequest, res: Response) => {
 };
 
 export const getCommentsByTaskId = async (req: CustomRequest, res: Response) => {
-    // const createdBy = req.user?.uid!;
-    const { taskId } = req.body;
+    const { id: taskId } = req.params;
 
     try {
         const comments = await commentService.getCommentsByTaskId(taskId);

@@ -11,7 +11,7 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import CloseIcon from "@mui/icons-material/Close";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import Grid from "@mui/material/Unstable_Grid2/";
 import TaskDescription from "./TaskDescription";
 import TaskComments from "./TaskComments";
 import { TaskType } from "../types/taskTypes";
@@ -65,7 +65,7 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
                             <FormatAlignRightIcon />
                             <DialogContentText variant="subtitle1">Activity</DialogContentText>
                         </Stack>
-                        <TaskComments />
+                        <TaskComments task={task} />
                     </Grid>
                     <Grid sx={{ display: { xs: "none", sm: "block" } }} sm={3}>
                         <Stack gap={1}>
