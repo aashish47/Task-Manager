@@ -26,7 +26,6 @@ const TaskComments: React.FC<TaskCommentsProps> = ({ task }) => {
     const createCommentMutation = useCreateCommentMutation();
     const deleteCommentMutation = useDeleteCommentMutation();
     const comments = useCommentsContext(taskId);
-    console.log(comments);
 
     const handleCommentClick = async () => {
         let description = value;

@@ -295,7 +295,6 @@ export const searchUsersByName = async ({ name }: { name: string }) => {
 // Comments Functions
 
 export const fetchCommentsByTaskId = async ({ taskId }: { taskId: string }) => {
-    console.log(taskId);
     try {
         const response = await api.get(`/comments/task/${taskId}`);
         return response.data;
