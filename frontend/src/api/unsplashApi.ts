@@ -7,10 +7,10 @@ const api = createApi({
 export const searchPhotos = async ({ query }: { query: string }) => {
     try {
         console.log(`Request : ${query}`);
-        const response = await api.search.getPhotos({ query, orientation: "landscape" });
+        const response = await api.search.getPhotos({ query, perPage: 30 });
 
         return response;
-    } catch (error: any) {
+    } catch (error) {
         console.log("something went wrong!", error);
     }
 };
@@ -20,10 +20,12 @@ export const getDefaultPhotos = async () => {
         console.log(`Request : default`);
         const response = await api.topics.getPhotos({
             topicIdOrSlug: "wallpapers",
+            orientation: "landscape",
+            perPage: 12,
         });
 
         return response;
-    } catch (error: any) {
+    } catch (error) {
         console.log("something went wrong!", error);
     }
 };

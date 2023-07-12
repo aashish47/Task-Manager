@@ -15,9 +15,7 @@ import Grid from "@mui/material/Unstable_Grid2/";
 import TaskDescription from "./TaskDescription";
 import TaskComments from "./TaskComments";
 import { TaskType } from "../types/taskTypes";
-import useSearchPhotos from "../hooks/useSearchPhotos";
-import { useState } from "react";
-import useGetDefaultPhotos from "../hooks/useGetDefaultPhotos";
+import TaskCoverMenu from "./TaskCoverMenu";
 
 type TaskdialogProps = {
     open: boolean;
@@ -28,13 +26,6 @@ type TaskdialogProps = {
 
 const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }) => {
     const { name: taskName } = task;
-    const [query, setQuery] = useState("");
-
-    const searchPhotos = useSearchPhotos(query);
-    console.log(searchPhotos?.response?.results);
-
-    const defaultPhotos = useGetDefaultPhotos();
-    console.log(defaultPhotos?.response?.results);
 
     const handleClose = () => {
         setOpen(false);
@@ -88,9 +79,7 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
                             <Button color="secondary" fullWidth variant="outlined">
                                 dates
                             </Button>
-                            <Button onClick={() => setQuery("cats")} color="secondary" fullWidth variant="outlined">
-                                cover
-                            </Button>
+                            <TaskCoverMenu />
                             <Button color="secondary" fullWidth variant="outlined">
                                 checklist
                             </Button>
