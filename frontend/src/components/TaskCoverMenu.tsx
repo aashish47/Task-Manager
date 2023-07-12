@@ -52,7 +52,7 @@ const TaskCoverMenu = () => {
                 <Container fixed>
                     <Stack alignItems="center" direction="row">
                         <Typography sx={{ flexGrow: 2, textAlign: "center" }}>Cover</Typography>
-                        <IconButton>
+                        <IconButton onClick={handleClose}>
                             <CloseIcon />
                         </IconButton>
                     </Stack>
@@ -80,7 +80,7 @@ const TaskCoverMenu = () => {
                                 </ImageList>
                             )}
                         </Box>
-                        <SearchCover />
+                        <SearchCover handleCloseCoverMenu={handleClose} />
                     </Stack>
                 </Container>
             </Menu>
