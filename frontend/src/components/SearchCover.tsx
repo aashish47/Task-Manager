@@ -12,7 +12,7 @@ type SearchCoverProps = {
 
 const SearchCover: React.FC<SearchCoverProps> = ({ handleCloseCoverMenu }) => {
     const [value, setValue] = React.useState("");
-    const [query, setQuery] = React.useState("Mountains ");
+    const [query, setQuery] = React.useState("Wallpapers");
     const searchPhotos = useSearchPhotos(query)?.response?.results;
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

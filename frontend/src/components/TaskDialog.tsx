@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box, IconButton, Stack } from "@mui/material";
+import { Box, IconButton, Stack, useMediaQuery, useTheme } from "@mui/material";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import SubjectIcon from "@mui/icons-material/Subject";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
@@ -16,6 +16,9 @@ import TaskDescription from "./TaskDescription";
 import TaskComments from "./TaskComments";
 import { TaskType } from "../types/taskTypes";
 import TaskCoverMenu from "./TaskCoverMenu";
+import { MobileDateTimePicker } from "@mui/x-date-pickers";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import TaskDatesMenu from "./TaskDates";
 
 type TaskdialogProps = {
     open: boolean;
@@ -26,7 +29,9 @@ type TaskdialogProps = {
 
 const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }) => {
     const { name: taskName } = task;
-
+    const theme = useTheme();
+    const isScreenMdAndAbove = useMediaQuery(theme.breakpoints.only("xs"));
+    const orientation = isScreenMdAndAbove ? "portrait" : "landscape";
     const handleClose = () => {
         setOpen(false);
     };
@@ -62,6 +67,12 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
                         </Stack>
                         <TaskDescription task={task} />
 
+                        <DemoContainer sx={{ width: "fit-content", ml: "40px" }} components={["MobileDateTimePicker"]}>
+                            <DemoItem label="Due Date">
+                                <MobileDateTimePicker orientation={orientation} defaultValue={new Date()} slotProps={{ textField: { size: "small" } }} />
+                            </DemoItem>
+                        </DemoContainer>
+
                         <Stack mt={2} alignItems="center" gap={2} direction="row">
                             <FormatAlignRightIcon />
                             <DialogContentText variant="subtitle1">Activity</DialogContentText>
@@ -76,9 +87,7 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
                             <Button color="secondary" fullWidth variant="outlined">
                                 labels
                             </Button>
-                            <Button color="secondary" fullWidth variant="outlined">
-                                dates
-                            </Button>
+                            <TaskDatesMenu />
                             <TaskCoverMenu />
                             <Button color="secondary" fullWidth variant="outlined">
                                 checklist
