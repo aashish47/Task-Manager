@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box, IconButton, Stack, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Chip, IconButton, InputAdornment, Stack, useMediaQuery, useTheme } from "@mui/material";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import SubjectIcon from "@mui/icons-material/Subject";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
@@ -17,8 +17,9 @@ import TaskComments from "./TaskComments";
 import { TaskType } from "../types/taskTypes";
 import TaskCoverMenu from "./TaskCoverMenu";
 import { MobileDateTimePicker } from "@mui/x-date-pickers";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import TaskDatesMenu from "./TaskDates";
+import Checkbox from "@mui/material/Checkbox";
+import { useState } from "react";
 
 type TaskdialogProps = {
     open: boolean;
@@ -29,6 +30,9 @@ type TaskdialogProps = {
 
 const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }) => {
     const { name: taskName } = task;
+    const [checked, setChecked] = useState(false);
+    const chipLabel = checked ? "Completed" : "Overdue";
+    const chipColor = checked ? "success" : "error";
     const theme = useTheme();
     const isScreenMdAndAbove = useMediaQuery(theme.breakpoints.only("xs"));
     const orientation = isScreenMdAndAbove ? "portrait" : "landscape";
@@ -36,6 +40,9 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
         setOpen(false);
     };
 
+    const handleCheckbox = () => {
+        setChecked(!checked);
+    };
     return (
         <Dialog maxWidth="md" fullWidth open={open} onClose={handleClose}>
             <DialogTitle>
@@ -67,11 +74,35 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
                         </Stack>
                         <TaskDescription task={task} />
 
-                        <DemoContainer sx={{ width: "fit-content", ml: "40px" }} components={["MobileDateTimePicker"]}>
-                            <DemoItem label="Due Date">
-                                <MobileDateTimePicker orientation={orientation} defaultValue={new Date()} slotProps={{ textField: { size: "small" } }} />
-                            </DemoItem>
-                        </DemoContainer>
+                        <Stack sx={{ width: "fit-content", ml: "40px" }}>
+                            <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                <DialogContentText variant="caption">Due Date</DialogContentText>
+                                <IconButton>
+                                    <CloseIcon fontSize="small" />
+                                </IconButton>
+                            </Stack>
+
+                            <Stack direction="row">
+                                <Checkbox checked={checked} onChange={handleCheckbox} inputProps={{ "aria-label": "controlled" }} size="small" />
+
+                                <MobileDateTimePicker
+                                    orientation={orientation}
+                                    defaultValue={new Date()}
+                                    slotProps={{
+                                        textField: {
+                                            size: "small",
+                                            InputProps: {
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <Chip color={chipColor} label={chipLabel} />
+                                                    </InputAdornment>
+                                                ),
+                                            },
+                                        },
+                                    }}
+                                />
+                            </Stack>
+                        </Stack>
 
                         <Stack mt={2} alignItems="center" gap={2} direction="row">
                             <FormatAlignRightIcon />
