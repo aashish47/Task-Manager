@@ -2,13 +2,20 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, Container, IconButton, ImageList, ImageListItem, Stack, Typography } from "@mui/material";
-import useGetDefaultPhotos from "../hooks/useGetDefaultPhotos";
-import { MuiColorInput, MuiColorInputValue, MuiColorInputFormat } from "mui-color-input";
+import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import SearchCover from "./SearchCover";
+import { TaskType } from "../types/taskTypes";
+import CoverImages from "./CoverImages";
+import useGetDefaultPhotos from "../hooks/useGetDefaultPhotos";
+// @ts-ignore
+import { MuiColorInput, MuiColorInputValue, MuiColorInputFormat } from "mui-color-input";
 
-const TaskCoverMenu = () => {
+type TaskDatesCoverProps = {
+    task: TaskType;
+};
+
+const TaskCoverMenu: React.FC<TaskDatesCoverProps> = ({ task }) => {
     const defaultPhotos = useGetDefaultPhotos()?.response?.results;
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -24,6 +31,7 @@ const TaskCoverMenu = () => {
     const handleChange = (newValue: string) => {
         setValue(newValue);
     };
+
     return (
         <div>
             <Button
@@ -70,17 +78,9 @@ const TaskCoverMenu = () => {
                             <Typography variant="caption" fontWeight={500}>
                                 Photos fron Unspalsh
                             </Typography>
-                            {defaultPhotos && (
-                                <ImageList cols={3} gap={2}>
-                                    {defaultPhotos.map((photo) => (
-                                        <ImageListItem key={photo.id}>
-                                            <img src={photo.urls.thumb} alt={photo.description?.toString()} />
-                                        </ImageListItem>
-                                    ))}
-                                </ImageList>
-                            )}
+                            <CoverImages task={task} variant="standard" photos={defaultPhotos} />
                         </Box>
-                        <SearchCover handleCloseCoverMenu={handleClose} />
+                        <SearchCover task={task} handleCloseCoverMenu={handleClose} />
                     </Stack>
                 </Container>
             </Menu>

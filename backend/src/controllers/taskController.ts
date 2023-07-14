@@ -85,6 +85,7 @@ export const getTasksByBoardId = async (req: Request, res: Response) => {
 export const updateTask = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { newTask } = req.body;
+    console.log(newTask);
     try {
         const updatedTask = await taskService.updateTask(id, newTask);
         if (updatedTask) {

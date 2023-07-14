@@ -7,7 +7,7 @@ interface ITask extends Document {
     listId: string;
     boardId: string;
     createdBy: string;
-    dueDate: Date;
+    dueDate: Date | null;
     isCompleted: boolean;
     cover: string;
 }
@@ -20,6 +20,7 @@ const TaskSchema: Schema<ITask> = new Schema(
         },
         description: {
             type: String,
+            default: "",
         },
         workspaceId: {
             type: String,
@@ -42,12 +43,15 @@ const TaskSchema: Schema<ITask> = new Schema(
         },
         dueDate: {
             type: Date,
+            default: null,
         },
         isCompleted: {
             type: Boolean,
+            default: false,
         },
         cover: {
             type: String,
+            default: "",
         },
     },
     { timestamps: true }

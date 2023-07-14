@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box, Chip, IconButton, InputAdornment, Stack, useMediaQuery, useTheme } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import SubjectIcon from "@mui/icons-material/Subject";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
@@ -16,10 +16,9 @@ import TaskDescription from "./TaskDescription";
 import TaskComments from "./TaskComments";
 import { TaskType } from "../types/taskTypes";
 import TaskCoverMenu from "./TaskCoverMenu";
-import { MobileDateTimePicker } from "@mui/x-date-pickers";
 import TaskDatesMenu from "./TaskDates";
-import Checkbox from "@mui/material/Checkbox";
-import { useState } from "react";
+
+import TaskDueDate from "./TaskDueDate";
 
 type TaskdialogProps = {
     open: boolean;
@@ -30,19 +29,11 @@ type TaskdialogProps = {
 
 const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }) => {
     const { name: taskName } = task;
-    const [checked, setChecked] = useState(false);
-    const chipLabel = checked ? "Completed" : "Overdue";
-    const chipColor = checked ? "success" : "error";
-    const theme = useTheme();
-    const isScreenMdAndAbove = useMediaQuery(theme.breakpoints.only("xs"));
-    const orientation = isScreenMdAndAbove ? "portrait" : "landscape";
+
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleCheckbox = () => {
-        setChecked(!checked);
-    };
     return (
         <Dialog maxWidth="md" fullWidth open={open} onClose={handleClose}>
             <DialogTitle>
@@ -65,44 +56,16 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
                     </DialogActions>
                 </Stack>
             </DialogTitle>
-            <DialogContent sx={{ mt: 3 }}>
+            <DialogContent>
                 <Grid container spacing={2}>
                     <Grid xs={12} sm={9}>
-                        <Stack gap={2} alignItems="center" direction="row">
+                        <TaskDueDate task={task} />
+
+                        <Stack mt={2} gap={2} alignItems="center" direction="row">
                             <SubjectIcon />
                             <DialogContentText variant="subtitle1">Description</DialogContentText>
                         </Stack>
                         <TaskDescription task={task} />
-
-                        <Stack sx={{ width: "fit-content", ml: "40px" }}>
-                            <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                <DialogContentText variant="caption">Due Date</DialogContentText>
-                                <IconButton>
-                                    <CloseIcon fontSize="small" />
-                                </IconButton>
-                            </Stack>
-
-                            <Stack direction="row">
-                                <Checkbox checked={checked} onChange={handleCheckbox} inputProps={{ "aria-label": "controlled" }} size="small" />
-
-                                <MobileDateTimePicker
-                                    orientation={orientation}
-                                    defaultValue={new Date()}
-                                    slotProps={{
-                                        textField: {
-                                            size: "small",
-                                            InputProps: {
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <Chip color={chipColor} label={chipLabel} />
-                                                    </InputAdornment>
-                                                ),
-                                            },
-                                        },
-                                    }}
-                                />
-                            </Stack>
-                        </Stack>
 
                         <Stack mt={2} alignItems="center" gap={2} direction="row">
                             <FormatAlignRightIcon />
@@ -110,6 +73,7 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
                         </Stack>
                         <TaskComments task={task} />
                     </Grid>
+
                     <Grid sx={{ display: { xs: "none", sm: "block" } }} sm={3}>
                         <Stack gap={1}>
                             <Button color="secondary" fullWidth variant="outlined">
@@ -118,8 +82,8 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
                             <Button color="secondary" fullWidth variant="outlined">
                                 labels
                             </Button>
-                            <TaskDatesMenu />
-                            <TaskCoverMenu />
+                            <TaskDatesMenu task={task} />
+                            <TaskCoverMenu task={task} />
                             <Button color="secondary" fullWidth variant="outlined">
                                 checklist
                             </Button>

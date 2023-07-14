@@ -44,13 +44,12 @@ const handleTokenExpireError = async () => {
         });
 
         const data = response.data;
-        console.log(data);
 
         const idTokenNew = data.id_token;
         const refreshTokenNew = data.refresh_token;
         localStorage.setItem("ID_TOKEN", idTokenNew);
         localStorage.setItem("REFRESH_TOKEN", refreshTokenNew);
-    } catch (error: any) {
+    } catch (error) {
         console.log(error);
     }
 };
@@ -61,7 +60,7 @@ export const fetchWorkspaces = async () => {
     try {
         const response = await api.get(`/workspaces`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -70,7 +69,7 @@ export const createWorkspace = async (workspace: CreateWorkspaceType) => {
     try {
         const response = await api.post("/workspaces", workspace);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -81,7 +80,7 @@ export const fetchBoards = async () => {
     try {
         const response = await api.get(`/boards`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -90,7 +89,7 @@ export const createBoard = async (board: CreateBoardType) => {
     try {
         const response = await api.post("/boards", board);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -100,7 +99,7 @@ export const updateBoard = async ({ boardId, newBoard }: { boardId: string; newB
         const response = await api.put(`/boards/${boardId}`, { newBoard });
 
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -109,7 +108,7 @@ export const deleteBoard = async ({ boardId }: { boardId: string }) => {
     try {
         const response = await api.delete(`/boards/${boardId}`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -120,7 +119,7 @@ export const fetchLists = async () => {
     try {
         const response = await api.get(`/lists`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -129,7 +128,7 @@ export const fetchListsByBoardId = async ({ boardId }: { boardId: string }) => {
     try {
         const response = await api.get(`/lists/boards/${boardId}`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -138,7 +137,7 @@ export const createList = async (List: CreateListType) => {
     try {
         const response = await api.post("/lists", List);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -148,7 +147,7 @@ export const updateList = async ({ boardId, listId, newList }: { boardId: string
         const response = await api.put(`/lists/${listId}`, { newList });
 
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -157,7 +156,7 @@ export const deleteList = async ({ boardId, listId }: { boardId: string; listId:
     try {
         const response = await api.delete(`/lists/${listId}`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -168,7 +167,7 @@ export const fetchTasks = async () => {
     try {
         const response = await api.get(`/tasks`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -177,7 +176,7 @@ export const fetchTasksByBoardId = async ({ boardId }: { boardId: string }) => {
     try {
         const response = await api.get(`/tasks/boards/${boardId}`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -186,7 +185,7 @@ export const createTask = async (task: CreateTaskType) => {
     try {
         const response = await api.post("/tasks", task);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -194,9 +193,8 @@ export const createTask = async (task: CreateTaskType) => {
 export const updateTask = async ({ boardId, taskId, newTask }: { boardId: string; taskId: string; newTask: TaskType }) => {
     try {
         const response = await api.put(`/tasks/${taskId}`, { newTask });
-
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -224,7 +222,7 @@ export const moveTask = async ({
             newFinishList,
         });
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -233,7 +231,7 @@ export const deleteTask = async ({ boardId, taskId }: { boardId: string; taskId:
     try {
         const response = await api.delete(`/tasks/${taskId}`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -244,7 +242,7 @@ export const fetchNotifications = async () => {
     try {
         const response = await api.get("/notifications");
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -255,7 +253,7 @@ export const sendInvitation = async ({ boardId, clients }: { boardId: string; cl
     try {
         const response = await api.post("/invitation/send", { boardId, clients });
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -266,7 +264,7 @@ export const createUser = async () => {
     try {
         const response = await api.post("/users");
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -275,7 +273,7 @@ export const fetchUsers = async () => {
     try {
         const response = await api.get("/users");
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -287,7 +285,7 @@ export const searchUsersByName = async ({ name }: { name: string }) => {
     try {
         const response = await api.get(`/users/name/${name}`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -298,7 +296,7 @@ export const fetchCommentsByTaskId = async ({ taskId }: { taskId: string }) => {
     try {
         const response = await api.get(`/comments/task/${taskId}`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -307,7 +305,7 @@ export const createComment = async (comment: CreateCommentType) => {
     try {
         const response = await api.post("/comments", comment);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };
@@ -316,7 +314,7 @@ export const deleteComment = async ({ commentId, taskId }: { commentId: string; 
     try {
         const response = await api.delete(`/comments/${commentId}`);
         return response.data;
-    } catch (error: any) {
+    } catch (error) {
         await checkErrorType(error);
     }
 };

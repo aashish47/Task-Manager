@@ -37,8 +37,8 @@ export const deleteList = async (req: Request, res: Response) => {
         session.startTransaction();
         const deletedList = await listService.deleteList(id);
         if (deletedList) {
+            await taskService.deleteTaskByListId(id);
             const boardId = deletedList.boardId;
-            await taskService.deleteTaskByBoardId(boardId);
             const board = await boardService.getBoardById(boardId);
             if (board) {
                 const listsIds = board.listsIds.filter((listId) => listId !== id);

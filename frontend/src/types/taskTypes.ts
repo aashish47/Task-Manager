@@ -7,7 +7,7 @@ export type TaskType = {
     name: string;
     description: string;
     cover: string;
-    dueDate: Date;
+    dueDate: Date | null;
     isCompleted: boolean;
     updatedAt: string;
     __v: number;

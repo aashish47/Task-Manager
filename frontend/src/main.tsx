@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import SocketContextProvider from "./contexts/SocketContextProvider.tsx";
+import { enGB } from "date-fns/locale";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -26,7 +27,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
             <AuthContextProvider>
                 <SocketContextProvider>
                     <BrowserRouter>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enGB}>
                             <App />
                         </LocalizationProvider>
                     </BrowserRouter>

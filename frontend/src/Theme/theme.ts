@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import { blue, blueGrey } from "@mui/material/colors";
+import { blueGrey } from "@mui/material/colors";
 
 const defaultTheme = createTheme({});
 

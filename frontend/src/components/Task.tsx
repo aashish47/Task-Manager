@@ -1,11 +1,10 @@
-import { Card, CardContent, Link, Stack, TextField, Typography, useTheme } from "@mui/material";
+import { Card, CardContent, CardMedia, Link, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import useUpdateTaskMutation from "../hooks/useUpdateTaskMutation";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 import TaskActions from "./TaskActions";
 import { TaskType } from "../types/taskTypes";
-import { NavLink } from "react-router-dom";
 import TaskDialog from "./TaskDialog";
 
 type TaskProps = {
@@ -17,7 +16,8 @@ type TaskProps = {
 
 const Task: React.FC<TaskProps> = ({ boardId, task, index, listName }) => {
     const [open, setOpen] = useState(false);
-    const { _id: taskId, name: taskName } = task;
+    const { _id: taskId, name: taskName, cover } = task;
+    console.log(cover);
     const theme = useTheme();
     const mode = theme.palette.mode;
     const updateTaskMutation = useUpdateTaskMutation();
@@ -40,6 +40,7 @@ const Task: React.FC<TaskProps> = ({ boardId, task, index, listName }) => {
             await updateTaskMutation.mutateAsync({ boardId, taskId, newTask });
         }
     };
+
     return (
         <Draggable draggableId={taskId} index={index}>
             {(provided) => (
@@ -53,6 +54,7 @@ const Task: React.FC<TaskProps> = ({ boardId, task, index, listName }) => {
                         mr: 1,
                     }}
                 >
+                    {cover && <CardMedia sx={{ height: "150px" }} image={cover} />}
                     {!editTName ? (
                         <Link
                             color="inherit"
