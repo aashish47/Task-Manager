@@ -9,7 +9,7 @@ const useDeleteCommentMutation = () => {
         mutationFn: deleteComment,
         onSettled: (data, error, variables, context) => {
             const { taskId } = variables;
-            queryClient.invalidateQueries({ queryKey: ["Comments", taskId] });
+            // queryClient.invalidateQueries({ queryKey: ["Comments", taskId] });
             socket?.emit("invalidateComments", taskId);
         },
     });

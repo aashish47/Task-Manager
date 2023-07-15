@@ -29,7 +29,7 @@ const useUpdateBoardMutation = () => {
                 console.log(error);
                 queryClient.setQueryData(["Boards"], context?.previousBoardData);
             }
-            queryClient.invalidateQueries(["Boards"]);
+            // queryClient.invalidateQueries(["Boards"]);
             socket?.emit("invalidateBoards", boardId);
         },
     });

@@ -1,4 +1,4 @@
-import { Stack, Avatar, TextField, ClickAwayListener, useTheme, Button, Typography, Box, Card, CardContent, CardActions, IconButton } from "@mui/material";
+import { Stack, Avatar, TextField, ClickAwayListener, useTheme, Button, Typography, Box, Card, CardContent, IconButton } from "@mui/material";
 import { teal } from "@mui/material/colors";
 import RichTextEdtitor from "./RichTextEditor";
 import { useState } from "react";
@@ -73,7 +73,7 @@ const TaskComments: React.FC<TaskCommentsProps> = ({ task }) => {
                     const time = formatDistanceToNow(new Date(createdAt));
                     const created = format(new Date(createdAt), "PPPPpppp");
                     return (
-                        <Stack mt={1}>
+                        <Stack key={commentId} mt={1}>
                             <Stack alignItems="center" key={taskId} direction="row" gap={1}>
                                 <Avatar sx={{ mr: 1, bgcolor: mode === "dark" ? teal[200] : teal[700], width: "24px", height: "24px" }}>
                                     <Box sx={{ fontSize: "16px" }}>{createdBy.charAt(0)}</Box>

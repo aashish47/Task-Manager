@@ -43,8 +43,14 @@ const App = () => {
         if (!socket) {
             return;
         }
+
         socket.on("connect", () => {
             console.log("Socket connected!");
+        });
+
+        socket.on("disconnect", () => {
+            console.log("Socket disconnected!");
+            socket.connect();
         });
 
         socket.on("notifications", (totalNotifications) => {
@@ -80,7 +86,7 @@ const App = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline />
+            <CssBaseline enableColorScheme />
             <main>
                 {user ? (
                     <NavBarAuth newNotifications={newNotifications} setNewNotifications={setNewNotifications} darkmode={darkmode} setDarkmode={setDarkmode} />

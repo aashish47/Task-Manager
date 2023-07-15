@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Link, Stack, TextField, Typography, useTheme } from "@mui/material";
+import { Card, CardContent, CardMedia, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import useUpdateTaskMutation from "../hooks/useUpdateTaskMutation";
@@ -17,12 +17,12 @@ type TaskProps = {
 const Task: React.FC<TaskProps> = ({ boardId, task, index, listName }) => {
     const [open, setOpen] = useState(false);
     const { _id: taskId, name: taskName, cover } = task;
-    console.log(cover);
     const theme = useTheme();
     const mode = theme.palette.mode;
     const updateTaskMutation = useUpdateTaskMutation();
     const [editTName, setEditTName] = useState(false);
     const [inputTName, setInputTName] = useState(taskName);
+    const [changeValue, setChangeValue] = useState(inputTName);
 
     useEffect(() => {
         setInputTName(taskName);
@@ -35,69 +35,74 @@ const Task: React.FC<TaskProps> = ({ boardId, task, index, listName }) => {
 
     const handleClickAway = async () => {
         setEditTName(false);
-        if (task && inputTName) {
-            const newTask = { ...task, name: inputTName };
+        if (task && inputTName && changeValue !== inputTName) {
+            const newTask = { ...task, name: changeValue };
             await updateTaskMutation.mutateAsync({ boardId, taskId, newTask });
         }
     };
 
     return (
-        <Draggable draggableId={taskId} index={index}>
-            {(provided) => (
-                <Card
-                    {...provided.dragHandleProps}
-                    {...provided.draggableProps}
-                    ref={provided.innerRef}
-                    sx={{
-                        bgcolor: mode === "dark" ? "#22272b" : "white",
-                        mt: 2,
-                        mr: 1,
-                    }}
-                >
-                    {cover && <CardMedia sx={{ height: "150px" }} image={cover} />}
-                    {!editTName ? (
-                        <Link
-                            color="inherit"
-                            onContextMenu={(e) => {
-                                e.preventDefault();
-                                setEditTName(true);
-                            }}
-                            onClick={() => setOpen(true)}
-                        >
-                            <CardContent sx={{ "&:hover": { cursor: "pointer" }, mt: "1px", p: 1, paddingBottom: "8px !important" }}>
-                                <Stack direction="row" alignItems="flex-start" justifyContent="space-between">
-                                    <Typography>{inputTName}</Typography>
-                                    <TaskActions boardId={boardId} taskId={taskId} />
+        <>
+            <Draggable draggableId={taskId} index={index}>
+                {(provided) => (
+                    <Card
+                        onClick={() => setOpen(true)}
+                        component={"div"}
+                        {...provided.dragHandleProps}
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        sx={{
+                            borderRadius: 2,
+                            "&:hover": { cursor: "pointer" },
+                            bgcolor: mode === "dark" ? "#22272b" : "white",
+                            mb: 1,
+                            mr: 0.5,
+                        }}
+                    >
+                        {cover && <CardMedia sx={{ height: "150px" }} image={cover} />}
+                        {!editTName ? (
+                            <CardContent sx={{ mt: "1px", p: 1, paddingBottom: "8px !important" }}>
+                                <Stack
+                                    onContextMenu={(e) => {
+                                        e.preventDefault();
+                                        setEditTName(true);
+                                    }}
+                                    component={"div"}
+                                    direction="row"
+                                    alignItems="flex-start"
+                                    justifyContent="space-between"
+                                >
+                                    <Typography variant="body2">{inputTName}</Typography>
+                                    {/* <TaskActions boardId={boardId} taskId={taskId} /> */}
                                 </Stack>
                             </CardContent>
-                        </Link>
-                    ) : (
-                        <ClickAwayListener onClickAway={handleClickAway}>
-                            <TextField
-                                inputProps={{ style: { fontWeight: "400", fontSize: "1rem", lineHeight: "1.5", letterSpacing: "0.00938em" } }}
-                                onKeyDown={handleKeyDown}
-                                value={inputTName}
-                                onChange={(e) => setInputTName(e.target.value)}
-                                sx={{
-                                    "& .MuiInputBase-root": { padding: "8px" },
-                                    mt: "1px",
-                                    bgcolor: mode === "dark" ? "#22272b" : "white",
-                                }}
-                                size="small"
-                                variant="outlined"
-                                fullWidth
-                                autoFocus
-                                focused
-                                multiline
-                                // inputRef={(input) => input && input.focus()}
-                                onFocus={(e) => e.currentTarget.setSelectionRange(0, e.currentTarget.value.length)}
-                            />
-                        </ClickAwayListener>
-                    )}
-                    <TaskDialog listName={listName} task={task} open={open} setOpen={setOpen} />
-                </Card>
-            )}
-        </Draggable>
+                        ) : (
+                            <ClickAwayListener onClickAway={handleClickAway}>
+                                <TextField
+                                    inputProps={{ style: { fontWeight: "400", fontSize: "0.875rem", lineHeight: "1.43", letterSpacing: "0.01071em" } }}
+                                    onKeyDown={handleKeyDown}
+                                    value={changeValue}
+                                    onChange={(e) => setChangeValue(e.target.value)}
+                                    sx={{
+                                        "& .MuiInputBase-root": { padding: "8px", borderRadius: cover === "" ? "8px" : "0px 0px 8px 8px" },
+                                        mt: "1px",
+                                        bgcolor: mode === "dark" ? "#22272b" : "white",
+                                    }}
+                                    size="small"
+                                    fullWidth
+                                    autoFocus
+                                    focused
+                                    multiline
+                                    // inputRef={(input) => input && input.focus()}
+                                    onFocus={(e) => e.currentTarget.setSelectionRange(0, e.currentTarget.value.length)}
+                                />
+                            </ClickAwayListener>
+                        )}
+                    </Card>
+                )}
+            </Draggable>
+            <TaskDialog listName={listName} task={task} open={open} setOpen={setOpen} />
+        </>
     );
 };
 

@@ -52,8 +52,8 @@ const useMoveTaskMutation = () => {
                 queryClient.setQueryData(["Lists", boardId], context?.previousData.previousListData);
             }
 
-            queryClient.invalidateQueries(["Tasks", boardId]);
-            queryClient.invalidateQueries(["Lists", boardId]);
+            // queryClient.invalidateQueries(["Tasks", boardId]);
+            // queryClient.invalidateQueries(["Lists", boardId]);
             socket?.emit("invalidateTasks", boardId);
             socket?.emit("invalidateLists", boardId);
         },

@@ -48,6 +48,7 @@ const EnterListTitle: React.FC<EnterListTitleProps> = ({ first, setFirst, boardI
                     }}
                 >
                     <TextField
+                        inputProps={{ style: { letterSpacing: "0.00714em", lineHeight: 1.5, fontWeight: 500, fontSize: "0.875rem" } }}
                         focused
                         autoComplete="off"
                         value={name}

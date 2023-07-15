@@ -49,9 +49,9 @@ const BoardDrawer: React.FC<BoardDrawerProps> = ({ open, setOpen, workspace }) =
             anchor="left"
             open={open}
         >
-            <DrawerHeader sx={{ justifyContent: "space-between" }}>
+            <DrawerHeader sx={{ justifyContent: "space-between", minHeight: "49px!important" }}>
                 <Stack ml={1} gap={1} alignItems="center" direction="row">
-                    <WorkspaceAvatar wname={workspaceName} size={{ width: 36, height: 36 }} />
+                    <WorkspaceAvatar wname={workspaceName} size={{ width: 30, height: 30 }} />
                     <Typography variant="subtitle1">{workspaceName}</Typography>
                 </Stack>
                 <IconButton onClick={handleDrawerClose}>{theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>

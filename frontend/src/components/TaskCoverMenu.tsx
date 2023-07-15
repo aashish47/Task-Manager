@@ -78,7 +78,7 @@ const TaskCoverMenu: React.FC<TaskDatesCoverProps> = ({ task }) => {
                             <Typography variant="caption" fontWeight={500}>
                                 Photos fron Unspalsh
                             </Typography>
-                            <CoverImages task={task} variant="standard" photos={defaultPhotos} />
+                            <CoverImages handleClose={handleClose} task={task} variant="standard" photos={defaultPhotos} />
                         </Box>
                         <SearchCover task={task} handleCloseCoverMenu={handleClose} />
                     </Stack>

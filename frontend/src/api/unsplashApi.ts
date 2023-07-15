@@ -7,7 +7,7 @@ const api = createApi({
 export const searchPhotos = async ({ query }: { query: string }) => {
     try {
         console.log(`Request : ${query}`);
-        const response = await api.search.getPhotos({ query, perPage: 30 });
+        const response = await api.search.getPhotos({ query, perPage: 30, orientation: "landscape" });
 
         return response;
     } catch (error) {

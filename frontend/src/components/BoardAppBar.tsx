@@ -49,7 +49,7 @@ const BoardAppBar: React.FC<BoardAppBarProps> = ({ open, setOpen, board }) => {
 
     return (
         <AppBar position="static" open={open}>
-            <Toolbar>
+            <Toolbar variant="dense">
                 <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" sx={{ mr: 2, ...(open && { display: "none" }) }}>
                     <MenuIcon />
                 </IconButton>
@@ -81,7 +81,14 @@ const BoardAppBar: React.FC<BoardAppBarProps> = ({ open, setOpen, board }) => {
                         </ClickAwayListener>
                     )}
                     <Stack direction="row" gap={1}>
-                        <Button onClick={() => setOpenInvite(!openInvite)} color="secondary" variant="contained" startIcon={<PersonAddAltIcon />}>
+                        <Button
+                            sx={{ alignSelf: "center" }}
+                            size="small"
+                            onClick={() => setOpenInvite(!openInvite)}
+                            color="secondary"
+                            variant="contained"
+                            startIcon={<PersonAddAltIcon />}
+                        >
                             Invite
                         </Button>
                         <InviteDialog boardId={boardId} open={openInvite} setOpen={setOpenInvite} />

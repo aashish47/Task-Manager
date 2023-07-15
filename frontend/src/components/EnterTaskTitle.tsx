@@ -48,6 +48,7 @@ const EnterTaskTitle: React.FC<EnterTaskTitleProps> = ({ first, setFirst, listId
                     }}
                 >
                     <TextField
+                        inputProps={{ style: { fontWeight: "400", fontSize: "0.875rem", lineHeight: "1.43", letterSpacing: "0.01071em" } }}
                         value={name}
                         onChange={handleChangeName}
                         sx={{ bgcolor: mode === "dark" ? "#22272b" : "white" }}

@@ -9,8 +9,8 @@ const useCreateListMutation = () => {
         mutationFn: createList,
         onSuccess: (data, variables, context) => {
             const { boardId } = variables;
-            queryClient.invalidateQueries({ queryKey: ["Lists", boardId] });
-            queryClient.invalidateQueries({ queryKey: ["Boards"] });
+            // queryClient.invalidateQueries({ queryKey: ["Lists", boardId] });
+            // queryClient.invalidateQueries({ queryKey: ["Boards"] });
             socket?.emit("invalidateLists", boardId);
             socket?.emit("invalidateBoards", boardId);
         },

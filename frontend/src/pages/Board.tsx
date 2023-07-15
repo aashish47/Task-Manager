@@ -9,7 +9,7 @@ import useListsContext from "../hooks/useListsContext";
 import TaskList from "../components/TaskList";
 import useMoveTaskMutation from "../hooks/useMoveTaskMutation";
 import useUpdateListMutation from "../hooks/useUpdateListMutation";
-import { onDragEnd } from "../utils/dragUtils";
+import { onDragEnd } from "../helpers/dragHelpers";
 import Main from "../components/Main";
 import { StrictModeDroppable as Droppable } from "../components/StrictModeDroppable";
 import useUpdateBoardMutation from "../hooks/useUpdateBoardMutation";
@@ -65,7 +65,7 @@ const Board = () => {
                     <Droppable droppableId={boardId} direction="horizontal" type="lists">
                         {(provided) => (
                             <Main ref={provided.innerRef} {...provided.droppableProps} open={open}>
-                                <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 140px)" }}>
+                                <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 110px)" }}>
                                     {lists &&
                                         lists.map((list, index) => {
                                             return list && <TaskList key={list._id} index={index} list={list} boardId={boardId} />;

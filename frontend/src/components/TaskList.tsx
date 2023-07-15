@@ -1,4 +1,4 @@
-import { Box, Stack, TextField, Typography, useTheme } from "@mui/material";
+import { Box, OutlinedInput, Stack, TextField, Typography, typographyClasses, useTheme } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import useTasksContext from "../hooks/useTasksContext";
 import Task from "./Task";
@@ -38,7 +38,7 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
     const tasks = tasksIds.map((taskId) => taskLookup?.get(taskId));
 
     const [first, setFirst] = React.useState(true);
-    const maxHeight = first ? "calc(100vh - 240px)" : "calc(100vh - 210px)";
+    const maxHeight = first ? "calc(100vh - 230px)" : "calc(100vh - 200px)";
     const containerRef = useRef<HTMLElement | null>(null);
 
     useEffect(() => {
@@ -104,15 +104,15 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
                     {...provided.draggableProps}
                     ref={provided.innerRef}
                     sx={{
-                        flexBasis: "300px",
+                        flexBasis: "280px",
                         height: "fit-content",
                         flexShrink: "0",
                         p: 1,
-                        borderRadius: 2,
+                        borderRadius: 3,
                         bgcolor: mode === "dark" ? "#100901" : "#ededed",
                     }}
                 >
-                    <Stack direction="row" gap={1} alignItems="center" justifyContent="space-between">
+                    <Stack pb={1} direction="row" gap={1} alignItems="center" justifyContent="space-between">
                         {!editLName ? (
                             <Typography
                                 sx={{
@@ -125,7 +125,7 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
                                 }}
                                 onClick={() => setEditLName(true)}
                                 {...provided.dragHandleProps}
-                                variant="subtitle1"
+                                variant="subtitle2"
                                 component={"div"}
                             >
                                 {inputLName}
@@ -138,7 +138,7 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
                                     onFocus={(e) => e.currentTarget.setSelectionRange(0, e.currentTarget.value.length)}
                                     size="small"
                                     fullWidth
-                                    inputProps={{ style: { lineHeight: 1.5, fontWeight: 400, fontSize: "1rem" } }}
+                                    inputProps={{ style: { letterSpacing: "0.00714em", lineHeight: 1.5, fontWeight: 500, fontSize: "0.875rem" } }}
                                     onKeyDown={handleKeyDown}
                                     value={inputLName}
                                     onChange={(e) => setInputLName(e.target.value)}
@@ -169,7 +169,7 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
                         </Box>
                     </Box>
 
-                    <Box sx={{ mt: 1, pr: 3 }}>
+                    <Box sx={{ mt: 1 }}>
                         <AddTaskButton first={first} setFirst={setFirst} />
                     </Box>
                 </Box>

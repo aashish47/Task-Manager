@@ -9,7 +9,7 @@ const useCreateCommentMutation = () => {
         mutationFn: createComment,
         onSuccess: (data, variables, context) => {
             const { taskId } = variables;
-            queryClient.invalidateQueries({ queryKey: ["Comments", taskId] });
+            // queryClient.invalidateQueries({ queryKey: ["Comments", taskId] });
             socket?.emit("invalidateComments", taskId);
         },
     });

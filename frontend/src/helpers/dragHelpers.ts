@@ -1,8 +1,8 @@
 import { DropResult } from "react-beautiful-dnd";
-import { ListType } from "../hooks/useListsContext";
 import { UseMutationResult } from "@tanstack/react-query";
-import { TaskType } from "../hooks/useTasksContext";
-import { BoardType } from "../hooks/useBoardsContext";
+import { BoardType } from "../types/boardTypes";
+import { ListType } from "../types/listTypes";
+import { TaskType } from "../types/taskTypes";
 
 export const onDragEnd = async (
     result: DropResult,

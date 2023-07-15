@@ -99,7 +99,7 @@ const SearchCover: React.FC<SearchCoverProps> = ({ task, handleCloseCoverMenu })
                     </Box>
 
                     <Box id="scroll" sx={{ mt: 1, maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}>
-                        <CoverImages task={task} variant="masonry" photos={searchPhotos} />
+                        <CoverImages handleClose={handleCloseCoverMenu} task={task} variant="standard" photos={searchPhotos} />
                     </Box>
                 </Container>
             </Menu>

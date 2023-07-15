@@ -9,8 +9,8 @@ const useCreateTaskMutation = () => {
         mutationFn: createTask,
         onSuccess: (data, variables, context) => {
             const { boardId } = variables;
-            queryClient.invalidateQueries({ queryKey: ["Tasks", boardId] });
-            queryClient.invalidateQueries({ queryKey: ["Lists", boardId] });
+            // queryClient.invalidateQueries({ queryKey: ["Tasks", boardId] });
+            // queryClient.invalidateQueries({ queryKey: ["Lists", boardId] });
             socket?.emit("invalidateTasks", boardId);
             socket?.emit("invalidateLists", boardId);
         },

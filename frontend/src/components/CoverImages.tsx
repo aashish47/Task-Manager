@@ -7,13 +7,15 @@ type CoverImages = {
     task: TaskType;
     photos: Basic[] | undefined;
     variant: "masonry" | "quilted" | "standard" | "woven";
+    handleClose: () => void;
 };
 
-const CoverImages: React.FC<CoverImages> = ({ task, photos, variant }) => {
-    const { _id: taskId, boardId, cover } = task;
+const CoverImages: React.FC<CoverImages> = ({ task, photos, variant, handleClose }) => {
+    const { _id: taskId, boardId } = task;
     const updateTaskMutation = useUpdateTaskMutation();
 
     const handleImageClick = async (cover: string) => {
+        handleClose();
         const newTask = { ...task, cover };
         await updateTaskMutation.mutateAsync({ boardId, taskId, newTask });
     };
@@ -25,7 +27,7 @@ const CoverImages: React.FC<CoverImages> = ({ task, photos, variant }) => {
                     const { thumb, regular } = urls;
                     return (
                         <ImageListItem onClick={() => handleImageClick(regular)} sx={{ p: 0 }} component={ListItemButton} key={id}>
-                            <img src={thumb} alt={description ?? ""} />
+                            <img loading="lazy" src={thumb} alt={description ?? ""} />
                         </ImageListItem>
                     );
                 })}

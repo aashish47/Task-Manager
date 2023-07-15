@@ -4,6 +4,7 @@ import { BoardType, CreateBoardType } from "../types/boardTypes";
 import { CreateListType, ListType } from "../types/listTypes";
 import { CreateTaskType, TaskType } from "../types/taskTypes";
 import { CreateCommentType } from "../types/commentTypes";
+import { updateToken } from "../helpers/tokenManager";
 
 const api = axios.create({
     baseURL: "http://localhost:3000/api",
@@ -49,6 +50,7 @@ const handleTokenExpireError = async () => {
         const refreshTokenNew = data.refresh_token;
         localStorage.setItem("ID_TOKEN", idTokenNew);
         localStorage.setItem("REFRESH_TOKEN", refreshTokenNew);
+        updateToken(idTokenNew);
     } catch (error) {
         console.log(error);
     }

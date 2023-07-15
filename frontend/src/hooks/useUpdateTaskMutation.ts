@@ -27,7 +27,7 @@ const useUpdateTaskMutation = () => {
                 console.log(error);
                 queryClient.setQueryData(["Tasks", boardId], context?.previousTaskData);
             }
-            queryClient.invalidateQueries(["Tasks", boardId]);
+            // queryClient.invalidateQueries(["Tasks", boardId]);
             socket?.emit("invalidateTasks", boardId);
         },
     });

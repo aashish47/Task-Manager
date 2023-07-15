@@ -27,7 +27,7 @@ const useUpdateListMutation = () => {
                 console.log(error);
                 queryClient.setQueryData(["Lists", boardId], context?.previousListData);
             }
-            queryClient.invalidateQueries(["Lists", boardId]);
+            // queryClient.invalidateQueries(["Lists", boardId]);
             socket?.emit("invalidateLists", boardId);
         },
     });

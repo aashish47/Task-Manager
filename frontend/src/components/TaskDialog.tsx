@@ -19,6 +19,7 @@ import TaskCoverMenu from "./TaskCoverMenu";
 import TaskDatesMenu from "./TaskDates";
 
 import TaskDueDate from "./TaskDueDate";
+import { updateToken } from "../helpers/tokenManager";
 
 type TaskdialogProps = {
     open: boolean;
@@ -29,7 +30,6 @@ type TaskdialogProps = {
 
 const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }) => {
     const { name: taskName } = task;
-
     const handleClose = () => {
         setOpen(false);
     };
