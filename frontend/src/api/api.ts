@@ -26,7 +26,7 @@ const checkErrorType = async (error: any) => {
     }
 };
 
-const handleTokenExpireError = async () => {
+export const handleTokenExpireError = async () => {
     console.log("firebase token expire");
     try {
         const apiKey = import.meta.env.VITE_API_KEY;

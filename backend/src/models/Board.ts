@@ -7,6 +7,7 @@ export interface IBoard extends Document {
     createdBy: string;
     members: string[];
     admin: string;
+    cover: string;
 
     addList: (listId: string) => void;
     addMember: (member: string) => void;
@@ -41,6 +42,10 @@ const BoardSchema: Schema<IBoard> = new Schema(
         ],
         admin: {
             type: String,
+        },
+        cover: {
+            type: String,
+            default: "",
         },
     },
     { timestamps: true }

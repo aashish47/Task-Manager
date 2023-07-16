@@ -150,8 +150,7 @@ io.on("connection", async (socket) => {
         console.log("Map:", connected);
     } catch (error: any) {
         console.error("Socket connection error:", error);
-
-        socket.emit("error", error.message);
+        socket.emit("error", error.code);
         socket.disconnect(true);
     }
 });

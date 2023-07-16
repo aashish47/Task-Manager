@@ -32,7 +32,7 @@ const Board = () => {
     const updateBoardMutation = useUpdateBoardMutation();
 
     const board = boardData ? boardData.find((board) => board._id === boardId) : null;
-    const { listsIds, workspaceId } = board || {};
+    const { listsIds, workspaceId, cover = "" } = board || {};
     let workspace = workspaceData ? workspaceData.find((workspace) => workspace._id === workspaceId) : null;
     if (!workspace) {
         workspace = {
@@ -55,7 +55,7 @@ const Board = () => {
     const lists = listsIds?.map((listId) => listLookup?.get(listId));
 
     return board && user && board.members.includes(user.uid) ? (
-        <Box sx={{ display: "flex", mt: 0.1 }}>
+        <Box sx={{ backgroundSize: "cover", backgroundImage: `url(${cover})`, display: "flex", mt: 0.1 }}>
             <CssBaseline />
             <BoardDrawer open={open} setOpen={setOpen} workspace={workspace} />
             <Stack sx={{ width: "100%" }}>
@@ -65,7 +65,7 @@ const Board = () => {
                     <Droppable droppableId={boardId} direction="horizontal" type="lists">
                         {(provided) => (
                             <Main ref={provided.innerRef} {...provided.droppableProps} open={open}>
-                                <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 110px)" }}>
+                                <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 108px)" }}>
                                     {lists &&
                                         lists.map((list, index) => {
                                             return list && <TaskList key={list._id} index={index} list={list} boardId={boardId} />;

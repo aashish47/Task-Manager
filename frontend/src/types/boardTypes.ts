@@ -6,6 +6,7 @@ export type BoardType = {
     listsIds: [string];
     members: string[];
     admin: string;
+    cover: string;
     updatedAt: string;
     __v: number;
     _id: string;

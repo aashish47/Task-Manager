@@ -90,6 +90,7 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
                             <Button color="secondary" fullWidth variant="outlined">
                                 Delete
                             </Button>
+                            {/* <Button onClick={() => updateToken("hello")}>token</Button> */}
                         </Stack>
                     </Grid>
                 </Grid>

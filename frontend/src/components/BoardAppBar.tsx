@@ -48,8 +48,8 @@ const BoardAppBar: React.FC<BoardAppBarProps> = ({ open, setOpen, board }) => {
     };
 
     return (
-        <AppBar position="static" open={open}>
-            <Toolbar variant="dense">
+        <AppBar sx={{ backgroundColor: mode === "dark" ? "rgb(0 0 0 / 10%)" : "rgb(255 255 255 / 10%)" }} position="static" open={open}>
+            <Toolbar sx={{ backdropFilter: "blur(8px)" }} variant="dense">
                 <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" sx={{ mr: 2, ...(open && { display: "none" }) }}>
                     <MenuIcon />
                 </IconButton>

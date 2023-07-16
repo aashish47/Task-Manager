@@ -15,6 +15,7 @@ import Board from "./pages/Board";
 import "./styles/App.css";
 import { useQueryClient } from "@tanstack/react-query";
 import useSocketContext from "./hooks/useSocketContext";
+import { handleTokenExpireError } from "./api/api";
 
 const checkBoardPage = (location: Location) => {
     const isBoardPage = location.pathname.startsWith("/b");
@@ -40,7 +41,7 @@ const App = () => {
     }, [location]);
 
     useEffect(() => {
-        if (!socket) {
+        if (!socket || !user) {
             return;
         }
 
@@ -74,15 +75,22 @@ const App = () => {
             queryClient.invalidateQueries(["Comments", taskId]);
         });
 
+        socket.on("error", (error) => {
+            if (error === "auth/argument-error") {
+                handleTokenExpireError();
+            }
+        });
+
         return () => {
             socket.off("notifications");
             socket.off("invalidateTasks");
             socket.off("invalidateBoards");
             socket.off("invalidateLists");
             socket.off("invalidateComments");
+            socket.off("error");
             socket.disconnect();
         };
-    }, [queryClient, socket]);
+    }, [queryClient, socket, user]);
 
     return (
         <ThemeProvider theme={theme}>

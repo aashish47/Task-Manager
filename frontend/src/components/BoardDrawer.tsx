@@ -23,6 +23,7 @@ const BoardDrawer: React.FC<BoardDrawerProps> = ({ open, setOpen, workspace }) =
     const listItems = ["Boards", "Highlights", "Members", "Workspace Settings"];
     const listIcons = [<DashboardIcon />, <FavoriteBorderIcon />, <GroupsIcon />, <SettingsIcon />];
     const theme = useTheme();
+    const mode = theme.palette.mode;
     const navigate = useNavigate();
     const { _id: workspaceId, name: workspaceName } = workspace;
     const boardsData = useBoardsContext();
@@ -38,7 +39,11 @@ const BoardDrawer: React.FC<BoardDrawerProps> = ({ open, setOpen, workspace }) =
             sx={{
                 width: drawerWidth,
                 flexShrink: 0,
+                "& .MuiPaper-root": {
+                    backgroundColor: mode === "dark" ? "rgb(0 0 0 / 70%)" : "rgb(255 255 255 / 70%)",
+                },
                 "& .MuiDrawer-paper": {
+                    backdropFilter: "blur(16px)",
                     width: drawerWidth,
                     boxSizing: "border-box",
                     top: "auto",
