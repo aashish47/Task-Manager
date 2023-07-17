@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Stack } from "@mui/material";
+import { Stack, useTheme } from "@mui/material";
 import { DragDropContext } from "react-beautiful-dnd";
 import CreateList from "../components/CreateList";
 import useListsContext from "../hooks/useListsContext";
@@ -20,8 +20,20 @@ import useWorkspacesContext from "../hooks/useWorkspaceContext";
 import BoardDrawer from "../components/BoardDrawer";
 import BoardAppBar from "../components/BoardAppBar";
 
+const background = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    mixBlendMode: "multiply",
+};
+
 const Board = () => {
     const { bid: boardId = "" } = useParams();
+    const theme = useTheme();
+    const mode = theme.palette.mode;
     const user = useAuthContext();
     const boardData = useBoardsContext();
     const workspaceData = useWorkspacesContext();
@@ -55,17 +67,19 @@ const Board = () => {
     const lists = listsIds?.map((listId) => listLookup?.get(listId));
 
     return board && user && board.members.includes(user.uid) ? (
-        <Box sx={{ backgroundSize: "cover", backgroundImage: `url(${cover})`, display: "flex", mt: 0.1 }}>
+        <Box sx={{ position: "relative", backgroundImage: `url(${cover})`, backgroundSize: "cover", backgroundPosition: "center", display: "flex" }}>
+            {mode === "dark" && <Box sx={background} />}
             <CssBaseline />
             <BoardDrawer open={open} setOpen={setOpen} workspace={workspace} />
-            <Stack sx={{ width: "100%" }}>
+
+            <Stack sx={{ zIndex: 1, width: "100%" }}>
                 <BoardAppBar open={open} setOpen={setOpen} board={board} />
 
                 <DragDropContext onDragEnd={(result) => onDragEnd(result, moveTaskMutation, updateListMutation, updateBoardMutation, lists, board)}>
                     <Droppable droppableId={boardId} direction="horizontal" type="lists">
                         {(provided) => (
                             <Main ref={provided.innerRef} {...provided.droppableProps} open={open}>
-                                <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 108px)" }}>
+                                <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 106px)" }}>
                                     {lists &&
                                         lists.map((list, index) => {
                                             return list && <TaskList key={list._id} index={index} list={list} boardId={boardId} />;

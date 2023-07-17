@@ -37,6 +37,7 @@ const BoardDrawer: React.FC<BoardDrawerProps> = ({ open, setOpen, workspace }) =
     return (
         <Drawer
             sx={{
+                // zIndex: 2,
                 width: drawerWidth,
                 flexShrink: 0,
                 "& .MuiPaper-root": {

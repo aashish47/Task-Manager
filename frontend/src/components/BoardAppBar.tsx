@@ -48,8 +48,8 @@ const BoardAppBar: React.FC<BoardAppBarProps> = ({ open, setOpen, board }) => {
     };
 
     return (
-        <AppBar sx={{ backgroundColor: mode === "dark" ? "rgb(0 0 0 / 10%)" : "rgb(255 255 255 / 10%)" }} position="static" open={open}>
-            <Toolbar sx={{ backdropFilter: "blur(8px)" }} variant="dense">
+        <AppBar sx={{ backgroundColor: mode === "dark" ? "rgb(0 0 0 / 40%)" : "rgb(255 255 255 / 40%)" }} position="static" open={open}>
+            <Toolbar sx={{ minHeight: "49px", backdropFilter: "blur(4px)" }} variant="dense">
                 <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" sx={{ mr: 2, ...(open && { display: "none" }) }}>
                     <MenuIcon />
                 </IconButton>
@@ -93,7 +93,7 @@ const BoardAppBar: React.FC<BoardAppBarProps> = ({ open, setOpen, board }) => {
                         </Button>
                         <InviteDialog boardId={boardId} open={openInvite} setOpen={setOpenInvite} />
 
-                        <BoardActions boardId={boardId} />
+                        <BoardActions board={board} />
                     </Stack>
                 </Stack>
             </Toolbar>

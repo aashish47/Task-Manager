@@ -1,32 +1,32 @@
 import { ImageList, ImageListItem, ListItemButton } from "@mui/material";
 import { Basic } from "unsplash-js/dist/methods/photos/types";
-import { TaskType } from "../types/taskTypes";
-import useUpdateTaskMutation from "../hooks/useUpdateTaskMutation";
+import { BoardType } from "../types/boardTypes";
+import useUpdateBoardMutation from "../hooks/useUpdateBoardMutation";
 
 type CoverImages = {
-    task: TaskType;
+    board: BoardType;
     photos: Basic[] | undefined;
     variant: "masonry" | "quilted" | "standard" | "woven";
     handleClose: () => void;
 };
 
-const CoverImages: React.FC<CoverImages> = ({ task, photos, variant, handleClose }) => {
-    const { _id: taskId, boardId } = task;
-    const updateTaskMutation = useUpdateTaskMutation();
+const CoverImages: React.FC<CoverImages> = ({ board, photos, variant, handleClose }) => {
+    const { _id: boardId } = board;
+    const updateBoardMutation = useUpdateBoardMutation();
 
     const handleImageClick = async (cover: string) => {
         handleClose();
-        const newTask = { ...task, cover };
-        await updateTaskMutation.mutateAsync({ boardId, taskId, newTask });
+        const newBoard = { ...board, cover };
+        await updateBoardMutation.mutateAsync({ boardId, newBoard });
     };
     return (
         photos && (
             <ImageList variant={variant} cols={3} gap={2}>
                 {photos.map((photo) => {
                     const { urls, description, id } = photo;
-                    const { thumb, small } = urls;
+                    const { thumb, full } = urls;
                     return (
-                        <ImageListItem onClick={() => handleImageClick(small)} sx={{ p: 0 }} component={ListItemButton} key={id}>
+                        <ImageListItem onClick={() => handleImageClick(full)} sx={{ p: 0 }} component={ListItemButton} key={id}>
                             <img loading="lazy" src={thumb} alt={description ?? ""} />
                         </ImageListItem>
                     );

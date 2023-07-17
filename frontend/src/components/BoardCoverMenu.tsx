@@ -5,18 +5,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import SearchCover from "./SearchCover";
-import { TaskType } from "../types/taskTypes";
+import { BoardType } from "../types/boardTypes";
 import CoverImages from "./CoverImages";
 import useGetDefaultPhotos from "../hooks/useGetDefaultPhotos";
 // @ts-ignore
 import { MuiColorInput, MuiColorInputValue, MuiColorInputFormat } from "mui-color-input";
-import { BoardType } from "../types/boardTypes";
+// import { BoardType } from "../types/boardTypes";
+import BoardCoverImages from "./BoardCoverImages";
+import BoardSearchCover from "./BoardSearchCover";
 
-type TaskDatesCoverProps = {
-    task: TaskType;
+type BoardCoverMenuProps = {
+    board: BoardType;
 };
 
-const TaskCoverMenu: React.FC<TaskDatesCoverProps> = ({ task }) => {
+const BoardCoverMenu: React.FC<BoardCoverMenuProps> = ({ board }) => {
     const defaultPhotos = useGetDefaultPhotos()?.response?.results;
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -48,7 +50,7 @@ const TaskCoverMenu: React.FC<TaskDatesCoverProps> = ({ task }) => {
                 cover
             </Button>
             <Menu
-                sx={{ top: "-10px" }}
+                sx={{ top: "12px", left: "12px" }}
                 slotProps={{ paper: { sx: { width: "350px", height: "100%" } } }}
                 id="basic-menu"
                 anchorEl={anchorEl}
@@ -79,9 +81,9 @@ const TaskCoverMenu: React.FC<TaskDatesCoverProps> = ({ task }) => {
                             <Typography variant="caption" fontWeight={500}>
                                 Photos fron Unspalsh
                             </Typography>
-                            <CoverImages handleClose={handleClose} task={task} variant="standard" photos={defaultPhotos} />
+                            <BoardCoverImages handleClose={handleClose} board={board} variant="standard" photos={defaultPhotos} />
                         </Box>
-                        <SearchCover task={task} handleCloseCoverMenu={handleClose} />
+                        <BoardSearchCover board={board} handleCloseCoverMenu={handleClose} />
                     </Stack>
                 </Container>
             </Menu>
@@ -89,4 +91,4 @@ const TaskCoverMenu: React.FC<TaskDatesCoverProps> = ({ task }) => {
     );
 };
 
-export default TaskCoverMenu;
+export default BoardCoverMenu;
