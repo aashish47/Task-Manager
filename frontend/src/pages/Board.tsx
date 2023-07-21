@@ -17,8 +17,9 @@ import useBoardsContext from "../hooks/useBoardsContext";
 import useAuthContext from "../hooks/useAuthContext";
 import { ListType } from "../types/listTypes";
 import useWorkspacesContext from "../hooks/useWorkspaceContext";
-import BoardDrawer from "../components/BoardDrawer";
+import BoardLeftDrawer from "../components/BoardLeftDrawer";
 import BoardAppBar from "../components/BoardAppBar";
+import BoardRightDrawer from "../components/BoardRightDrawer";
 
 const background = {
     position: "absolute",
@@ -37,7 +38,8 @@ const Board = () => {
     const user = useAuthContext();
     const boardData = useBoardsContext();
     const workspaceData = useWorkspacesContext();
-    const [open, setOpen] = useState(false);
+    const [openLeftDrawer, setOpenLeftDrawer] = useState(false);
+    const [openRightDrawer, setOpenRightDrawer] = useState(false);
     const unOrderedLists: ListType[] | undefined = useListsContext(boardId);
     const moveTaskMutation = useMoveTaskMutation();
     const updateListMutation = useUpdateListMutation();
@@ -70,15 +72,21 @@ const Board = () => {
         <Box sx={{ position: "relative", backgroundImage: `url(${cover})`, backgroundSize: "cover", backgroundPosition: "center", display: "flex" }}>
             {mode === "dark" && <Box sx={background} />}
             <CssBaseline />
-            <BoardDrawer open={open} setOpen={setOpen} workspace={workspace} />
+            <BoardLeftDrawer open={openLeftDrawer} setOpen={setOpenLeftDrawer} workspace={workspace} />
 
             <Stack sx={{ zIndex: 1, width: "100%" }}>
-                <BoardAppBar open={open} setOpen={setOpen} board={board} />
+                <BoardAppBar
+                    openLeftDrawer={openLeftDrawer}
+                    setOpenLeftDrawer={setOpenLeftDrawer}
+                    openRightDrawer={openRightDrawer}
+                    setOpenRightDrawer={setOpenRightDrawer}
+                    board={board}
+                />
 
                 <DragDropContext onDragEnd={(result) => onDragEnd(result, moveTaskMutation, updateListMutation, updateBoardMutation, lists, board)}>
                     <Droppable droppableId={boardId} direction="horizontal" type="lists">
                         {(provided) => (
-                            <Main ref={provided.innerRef} {...provided.droppableProps} open={open}>
+                            <Main ref={provided.innerRef} {...provided.droppableProps} left={openLeftDrawer} right={openRightDrawer}>
                                 <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 106px)" }}>
                                     {lists &&
                                         lists.map((list, index) => {
@@ -92,6 +100,7 @@ const Board = () => {
                     </Droppable>
                 </DragDropContext>
             </Stack>
+            <BoardRightDrawer open={openRightDrawer} setOpen={setOpenRightDrawer} board={board} />
         </Box>
     ) : (
         <div>Not a Member</div>

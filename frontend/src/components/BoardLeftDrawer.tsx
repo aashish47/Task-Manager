@@ -13,13 +13,13 @@ import { useTheme } from "@mui/material/styles";
 import useBoardsContext from "../hooks/useBoardsContext";
 import { useNavigate } from "react-router-dom";
 
-type BoardDrawerProps = {
+type BoardLeftDrawerProps = {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     workspace: WorkspaceType;
 };
 
-const BoardDrawer: React.FC<BoardDrawerProps> = ({ open, setOpen, workspace }) => {
+const BoardLeftDrawer: React.FC<BoardLeftDrawerProps> = ({ open, setOpen, workspace }) => {
     const listItems = ["Boards", "Highlights", "Members", "Workspace Settings"];
     const listIcons = [<DashboardIcon />, <FavoriteBorderIcon />, <GroupsIcon />, <SettingsIcon />];
     const theme = useTheme();
@@ -113,4 +113,4 @@ const BoardDrawer: React.FC<BoardDrawerProps> = ({ open, setOpen, workspace }) =
     );
 };
 
-export default BoardDrawer;
+export default BoardLeftDrawer;

@@ -14,18 +14,3 @@ export const searchPhotos = async ({ query }: { query: string }) => {
         console.log("something went wrong!", error);
     }
 };
-
-export const getDefaultPhotos = async () => {
-    try {
-        console.log(`Request : default`);
-        const response = await api.topics.getPhotos({
-            topicIdOrSlug: "wallpapers",
-            orientation: "landscape",
-            perPage: 12,
-        });
-
-        return response;
-    } catch (error) {
-        console.log("something went wrong!", error);
-    }
-};

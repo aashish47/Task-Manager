@@ -7,17 +7,18 @@ import { useState } from "react";
 import SearchCover from "./SearchCover";
 import { TaskType } from "../types/taskTypes";
 import CoverImages from "./CoverImages";
-import useGetDefaultPhotos from "../hooks/useGetDefaultPhotos";
+import useSearchPhotos from "../hooks/useSearchPhotos";
 // @ts-ignore
 import { MuiColorInput, MuiColorInputValue, MuiColorInputFormat } from "mui-color-input";
-import { BoardType } from "../types/boardTypes";
 
 type TaskDatesCoverProps = {
     task: TaskType;
 };
 
 const TaskCoverMenu: React.FC<TaskDatesCoverProps> = ({ task }) => {
-    const defaultPhotos = useGetDefaultPhotos()?.response?.results;
+    // const defaultPhotos = useGetDefaultPhotos()?.response?.results;
+    const searchPhotos = useSearchPhotos("Wallpapers")?.response?.results;
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -79,7 +80,7 @@ const TaskCoverMenu: React.FC<TaskDatesCoverProps> = ({ task }) => {
                             <Typography variant="caption" fontWeight={500}>
                                 Photos fron Unspalsh
                             </Typography>
-                            <CoverImages handleClose={handleClose} task={task} variant="standard" photos={defaultPhotos} />
+                            <CoverImages handleClose={handleClose} task={task} variant="standard" photos={searchPhotos?.slice(0, 12)} />
                         </Box>
                         <SearchCover task={task} handleCloseCoverMenu={handleClose} />
                     </Stack>

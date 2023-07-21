@@ -1,37 +1,38 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import { Box, Container, IconButton, Stack, TextField, Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { Box, Container, Divider, Drawer, IconButton, TextField, Typography, useTheme } from "@mui/material";
 import useSearchPhotos from "../hooks/useSearchPhotos";
-import CoverImages from "./CoverImages";
 import { BoardType } from "../types/boardTypes";
 import BoardCoverImages from "./BoardCoverImages";
+import { drawerWidth } from "../constants/constants";
+import DrawerHeader from "./DrawerHeader";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 type SearchCoverProps = {
     board: BoardType;
-    handleCloseCoverMenu: () => void;
+    handleCloseBackgroundDrawer: () => void;
 };
 
-const BoardSearchCover: React.FC<SearchCoverProps> = ({ board, handleCloseCoverMenu }) => {
+const BoardSearchCover: React.FC<SearchCoverProps> = ({ board, handleCloseBackgroundDrawer }) => {
     const [value, setValue] = React.useState("");
     const [query, setQuery] = React.useState("Wallpapers");
     const searchPhotos = useSearchPhotos(query)?.response?.results;
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
+    const [open, setOpen] = React.useState<boolean>(false);
+    const theme = useTheme();
+    // const open = Boolean(anchorEl);
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
+    const handleClick = () => {
+        setOpen(true);
     };
 
     const handleClose = () => {
-        setAnchorEl(null);
+        setOpen(false);
     };
 
-    const handleCloseMenu = () => {
-        handleCloseCoverMenu();
-        handleClose();
+    const handleCloseAll = () => {
+        setOpen(false);
+        handleCloseBackgroundDrawer();
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -42,7 +43,7 @@ const BoardSearchCover: React.FC<SearchCoverProps> = ({ board, handleCloseCoverM
     };
 
     return (
-        <div>
+        <Box>
             <Button
                 size="small"
                 color="secondary"
@@ -57,37 +58,30 @@ const BoardSearchCover: React.FC<SearchCoverProps> = ({ board, handleCloseCoverM
                 Search for photos
             </Button>
 
-            <Menu
-                anchorOrigin={{
-                    vertical: "center",
-                    horizontal: "center",
+            <Drawer
+                sx={{
+                    width: drawerWidth,
+                    flexShrink: 0,
+                    "& .MuiDrawer-paper": {
+                        width: drawerWidth,
+                        boxSizing: "border-box",
+                        top: "48px",
+                        height: "100%",
+                    },
                 }}
-                transformOrigin={{
-                    vertical: "center",
-                    horizontal: "center",
-                }}
-                sx={{ top: "12px", left: "12px" }}
-                slotProps={{ paper: { sx: { overflowY: "hidden", width: "350px", height: "100%" } } }}
-                id="basic-menu"
-                anchorEl={anchorEl}
+                variant="persistent"
+                anchor="right"
                 open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                    "aria-labelledby": "basic-button",
-                }}
             >
+                <DrawerHeader sx={{ justifyContent: "space-between", minHeight: "49px!important" }}>
+                    <IconButton onClick={handleClose}>{theme.direction === "rtl" ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
+                    <Typography variant="subtitle1">Search Unsplash for photos</Typography>
+                    <Box sx={{ width: 40, height: 40 }} />
+                </DrawerHeader>
+                <Divider />
+
                 <Container fixed>
                     <Box id="fix" sx={{ position: "sticky" }}>
-                        <Stack alignItems="center" direction="row">
-                            <IconButton onClick={handleClose}>
-                                <ChevronLeftIcon />
-                            </IconButton>
-                            <Typography sx={{ flexGrow: 2, textAlign: "center" }}>Photo Search</Typography>
-                            <IconButton onClick={handleCloseMenu}>
-                                <CloseIcon />
-                            </IconButton>
-                        </Stack>
-
                         <TextField
                             sx={{ mt: 1 }}
                             fullWidth
@@ -99,12 +93,12 @@ const BoardSearchCover: React.FC<SearchCoverProps> = ({ board, handleCloseCoverM
                         />
                     </Box>
 
-                    <Box id="scroll" sx={{ mt: 1, maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}>
-                        <BoardCoverImages handleClose={handleCloseCoverMenu} board={board} variant="standard" photos={searchPhotos} />
+                    <Box id="scroll" sx={{ mt: 1, maxHeight: "calc(100vh - 160px)", overflowY: "auto" }}>
+                        <BoardCoverImages handleClose={handleCloseAll} board={board} variant="standard" photos={searchPhotos} />
                     </Box>
                 </Container>
-            </Menu>
-        </div>
+            </Drawer>
+        </Box>
     );
 };
 

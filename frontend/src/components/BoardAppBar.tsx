@@ -1,6 +1,5 @@
 import { Toolbar, IconButton, Stack, Typography, ClickAwayListener, TextField, Button, Divider } from "@mui/material";
 import AppBar from "./AppBar";
-import BoardActions from "./BoardActions";
 import InviteDialog from "./InviteDialog";
 import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
@@ -8,14 +7,17 @@ import useUpdateBoardMutation from "../hooks/useUpdateBoardMutation";
 import { BoardType } from "../types/boardTypes";
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 type BoardAppBarProps = {
-    open: boolean;
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    openLeftDrawer: boolean;
+    setOpenLeftDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+    openRightDrawer: boolean;
+    setOpenRightDrawer: React.Dispatch<React.SetStateAction<boolean>>;
     board: BoardType;
 };
 
-const BoardAppBar: React.FC<BoardAppBarProps> = ({ open, setOpen, board }) => {
+const BoardAppBar: React.FC<BoardAppBarProps> = ({ openLeftDrawer, setOpenLeftDrawer, openRightDrawer, setOpenRightDrawer, board }) => {
     const { _id: boardId, name: boardName } = board;
     const theme = useTheme();
     const mode = theme.palette.mode;
@@ -29,8 +31,12 @@ const BoardAppBar: React.FC<BoardAppBarProps> = ({ open, setOpen, board }) => {
         setInputBName(boardName);
     }, [boardName]);
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
+    const handleLeftDrawerOpen = () => {
+        setOpenLeftDrawer(true);
+    };
+
+    const handleRightDrawerOpen = () => {
+        setOpenRightDrawer(true);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -48,9 +54,20 @@ const BoardAppBar: React.FC<BoardAppBarProps> = ({ open, setOpen, board }) => {
     };
 
     return (
-        <AppBar sx={{ backgroundColor: mode === "dark" ? "rgb(0 0 0 / 40%)" : "rgb(255 255 255 / 40%)" }} position="static" open={open}>
+        <AppBar
+            sx={{ backgroundColor: mode === "dark" ? "rgb(0 0 0 / 40%)" : "rgb(255 255 255 / 40%)" }}
+            position="static"
+            left={openLeftDrawer}
+            right={openRightDrawer}
+        >
             <Toolbar sx={{ minHeight: "49px", backdropFilter: "blur(4px)" }} variant="dense">
-                <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" sx={{ mr: 2, ...(open && { display: "none" }) }}>
+                <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleLeftDrawerOpen}
+                    edge="start"
+                    sx={{ mr: 2, ...(openLeftDrawer && { display: "none" }) }}
+                >
                     <MenuIcon />
                 </IconButton>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: "100%" }}>
@@ -92,10 +109,17 @@ const BoardAppBar: React.FC<BoardAppBarProps> = ({ open, setOpen, board }) => {
                             Invite
                         </Button>
                         <InviteDialog boardId={boardId} open={openInvite} setOpen={setOpenInvite} />
-
-                        <BoardActions board={board} />
                     </Stack>
                 </Stack>
+                <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleRightDrawerOpen}
+                    edge="end"
+                    sx={{ ml: 2, ...(openRightDrawer && { display: "none" }) }}
+                >
+                    <MoreHorizIcon />
+                </IconButton>
             </Toolbar>
             <Divider />
         </AppBar>
