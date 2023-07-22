@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
-import { socketContext } from "../hooks/useSocketContext";
+import { socketContext } from "../hooks/context/useSocketContext";
 import { setTokenUpdateCallback } from "../helpers/tokenManager";
 
 const SocketContextProvider = ({ children }: { children: ReactNode }) => {

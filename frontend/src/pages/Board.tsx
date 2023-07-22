@@ -4,22 +4,22 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Stack, useTheme } from "@mui/material";
 import { DragDropContext } from "react-beautiful-dnd";
-import CreateList from "../components/CreateList";
-import useListsContext from "../hooks/useListsContext";
-import TaskList from "../components/TaskList";
-import useMoveTaskMutation from "../hooks/useMoveTaskMutation";
-import useUpdateListMutation from "../hooks/useUpdateListMutation";
+import CreateList from "../components/list/CreateList";
+import useListsContext from "../hooks/list/useListsContext";
+import TaskList from "../components/task/TaskList";
+import useMoveTaskMutation from "../hooks/task/useMoveTaskMutation";
+import useUpdateListMutation from "../hooks/list/useUpdateListMutation";
 import { onDragEnd } from "../helpers/dragHelpers";
-import Main from "../components/Main";
-import { StrictModeDroppable as Droppable } from "../components/StrictModeDroppable";
-import useUpdateBoardMutation from "../hooks/useUpdateBoardMutation";
-import useBoardsContext from "../hooks/useBoardsContext";
-import useAuthContext from "../hooks/useAuthContext";
+import Main from "../components/board/Main";
+import { StrictModeDroppable as Droppable } from "../components/common/StrictModeDroppable";
+import useUpdateBoardMutation from "../hooks/board/useUpdateBoardMutation";
+import useBoardsContext from "../hooks/board/useBoardsContext";
+import useAuthContext from "../hooks/context/useAuthContext";
 import { ListType } from "../types/listTypes";
-import useWorkspacesContext from "../hooks/useWorkspaceContext";
-import BoardLeftDrawer from "../components/BoardLeftDrawer";
-import BoardAppBar from "../components/BoardAppBar";
-import BoardRightDrawer from "../components/BoardRightDrawer";
+import useWorkspacesContext from "../hooks/workspace/useWorkspaceContext";
+import BoardLeftDrawer from "../components/workspace/BoardLeftDrawer";
+import BoardAppBar from "../components/board/BoardAppBar";
+import BoardRightDrawer from "../components/board/BoardRightDrawer";
 
 const background = {
     position: "absolute",

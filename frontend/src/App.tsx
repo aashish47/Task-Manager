@@ -1,20 +1,20 @@
 import { Routes, Route, Navigate, useLocation, Location } from "react-router-dom";
 import Login from "./pages/Login";
-import Home from "./components/Home";
+import Home from "./components/home/Home";
 import Landing from "./pages/Landing";
-import NavBar from "./components/NavBar";
-import NavBarAuth from "./components/NavBarAuth";
-import { CssBaseline, Divider, ThemeProvider } from "@mui/material";
+import NavBar from "./components/layout/NavBar";
+import NavBarAuth from "./components/layout/NavBarAuth";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { createCustomTheme } from "./Theme/theme";
-import WorkspaceHome from "./components/WorkspaceHome";
+import WorkspaceHome from "./components/workspace/WorkspaceHome";
 import LayoutHome from "./pages/LayoutHome";
-import AllBoards from "./components/AllBoards";
-import useAuthContext from "./hooks/useAuthContext";
+import AllBoards from "./components/home/AllBoards";
+import useAuthContext from "./hooks/context/useAuthContext";
 import Board from "./pages/Board";
 import "./styles/App.css";
 import { useQueryClient } from "@tanstack/react-query";
-import useSocketContext from "./hooks/useSocketContext";
+import useSocketContext from "./hooks/context/useSocketContext";
 import { handleTokenExpireError } from "./api/api";
 
 const checkBoardPage = (location: Location) => {
