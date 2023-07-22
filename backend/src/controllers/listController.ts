@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import listService from "../services/listService";
+import mongoose from "mongoose";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 import BoardModel from "../models/Board";
-import mongoose from "mongoose";
 import boardService from "../services/boardService";
+import listService from "../services/listService";
 import taskService from "../services/taskService";
 
 export const createList = async (req: Request, res: Response) => {

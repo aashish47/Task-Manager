@@ -1,16 +1,16 @@
-import { Stack, Avatar, TextField, ClickAwayListener, useTheme, Button, Typography, Box, Card, CardContent, IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Avatar, Box, Button, Card, CardContent, ClickAwayListener, IconButton, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { teal } from "@mui/material/colors";
-import RichTextEdtitor from "./RichTextEditor";
+import { format, formatDistanceToNow } from "date-fns";
 import { useState } from "react";
 import useAuthContext from "../../hooks/context/useAuthContext";
-import { TaskType } from "../../types/taskTypes";
-import useCreateCommentMutation from "../../hooks/task/useCreateComment";
 import useCommentsContext from "../../hooks/task/useCommentsContext";
-import "../../styles/TaskComments.css";
-import { format, formatDistanceToNow } from "date-fns";
-import DatePopover from "./DatePopover";
-import DeleteIcon from "@mui/icons-material/Delete";
+import useCreateCommentMutation from "../../hooks/task/useCreateComment";
 import useDeleteCommentMutation from "../../hooks/task/useDeleteCommentMutation";
+import "../../styles/TaskComments.css";
+import { TaskType } from "../../types/taskTypes";
+import DatePopover from "./DatePopover";
+import RichTextEdtitor from "./RichTextEditor";
 
 type TaskCommentsProps = {
     task: TaskType;

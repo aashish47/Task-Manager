@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material";
+import useWorkspacesContext from "../../hooks/workspace/useWorkspaceContext";
 import WorkspaceAvater from "../workspace/WorkspaceAvatar";
 import WorkspaceBoards from "../workspace/WorkspaceBoards";
-import useWorkspacesContext from "../../hooks/workspace/useWorkspaceContext";
 
 const AllBoards = () => {
     const workspaces = useWorkspacesContext();

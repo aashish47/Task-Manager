@@ -1,7 +1,7 @@
-import { Collapse, Stack, TextField, Button, IconButton, useTheme } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { Button, Collapse, IconButton, Stack, TextField, useTheme } from "@mui/material";
 import React from "react";
 import useAuthContext from "../../hooks/context/useAuthContext";
-import CloseIcon from "@mui/icons-material/Close";
 import useCreateListMutation from "../../hooks/list/useCreateListMutation";
 import { CreateListType } from "../../types/listTypes";
 

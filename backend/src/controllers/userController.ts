@@ -1,6 +1,6 @@
+import { Request, Response } from "express";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 import userService from "../services/userService";
-import { Request, Response } from "express";
 
 export const createUser = async (req: CustomRequest, res: Response) => {
     const { uid, email, name } = req.user!;

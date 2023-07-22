@@ -1,17 +1,17 @@
-import SettingsIcon from "@mui/icons-material/Settings";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import GroupsIcon from "@mui/icons-material/Groups";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Drawer, Stack, Typography, IconButton, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar } from "@mui/material";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import GroupsIcon from "@mui/icons-material/Groups";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Avatar, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 import { drawerWidth } from "../../constants/constants";
+import useBoardsContext from "../../hooks/board/useBoardsContext";
+import { WorkspaceType } from "../../types/workspaceTypes";
 import DrawerHeader from "./DrawerHeader";
 import WorkspaceAvatar from "./WorkspaceAvatar";
-import { WorkspaceType } from "../../types/workspaceTypes";
-import { useTheme } from "@mui/material/styles";
-import useBoardsContext from "../../hooks/board/useBoardsContext";
-import { useNavigate } from "react-router-dom";
 
 type BoardLeftDrawerProps = {
     open: boolean;

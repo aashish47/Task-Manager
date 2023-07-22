@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import NotificationService from "../services/notificationService";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
+import NotificationService from "../services/notificationService";
 
 export const deleteNotification = async (req: Request, res: Response) => {
     const { id } = req.params;

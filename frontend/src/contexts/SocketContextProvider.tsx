@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
-import { socketContext } from "../hooks/context/useSocketContext";
 import { setTokenUpdateCallback } from "../helpers/tokenManager";
+import { socketContext } from "../hooks/context/useSocketContext";
 
 const SocketContextProvider = ({ children }: { children: ReactNode }) => {
     const [socket, setSocket] = useState<Socket | null>(null);

@@ -1,7 +1,7 @@
 import { ImageList, ImageListItem, ListItemButton } from "@mui/material";
 import { Basic } from "unsplash-js/dist/methods/photos/types";
-import { BoardType } from "../../types/boardTypes";
 import useUpdateBoardMutation from "../../hooks/board/useUpdateBoardMutation";
+import { BoardType } from "../../types/boardTypes";
 
 type CoverImages = {
     board: BoardType;

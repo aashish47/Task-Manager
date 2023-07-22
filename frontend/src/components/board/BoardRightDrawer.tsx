@@ -1,15 +1,15 @@
-import SettingsIcon from "@mui/icons-material/Settings";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import GroupsIcon from "@mui/icons-material/Groups";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Drawer, Typography, IconButton, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box } from "@mui/material";
-import { drawerWidth } from "../../constants/constants";
-import DrawerHeader from "../workspace/DrawerHeader";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import GroupsIcon from "@mui/icons-material/Groups";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import BoardChangeBackground from "./BoardChangeBackground";
+import { drawerWidth } from "../../constants/constants";
 import { BoardType } from "../../types/boardTypes";
+import DrawerHeader from "../workspace/DrawerHeader";
+import BoardChangeBackground from "./BoardChangeBackground";
 
 type BoardRightDrawerProps = {
     open: boolean;

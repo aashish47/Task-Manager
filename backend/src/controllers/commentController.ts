@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import commentService from "../services/commentService";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
+import commentService from "../services/commentService";
 
 export const createComment = async (req: CustomRequest, res: Response) => {
     try {

@@ -1,8 +1,8 @@
-import { Stack, DialogContentText, IconButton, InputAdornment, Checkbox, Chip, useMediaQuery, useTheme } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { Checkbox, Chip, DialogContentText, IconButton, InputAdornment, Stack, useMediaQuery, useTheme } from "@mui/material";
 import { MobileDateTimePicker } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
 import useUpdateTaskMutation from "../../hooks/task/useUpdateTaskMutation";
-import CloseIcon from "@mui/icons-material/Close";
 import { TaskType } from "../../types/taskTypes";
 
 type TaskDueDateProps = {

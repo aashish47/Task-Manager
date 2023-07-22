@@ -1,7 +1,7 @@
-import { ReactNode, useEffect, useState } from "react";
-import { authContext } from "../hooks/context/useAuthContext";
-import { auth } from "../firebase/firebase";
 import { User } from "firebase/auth";
+import { ReactNode, useEffect, useState } from "react";
+import { auth } from "../firebase/firebase";
+import { authContext } from "../hooks/context/useAuthContext";
 import useCreateUserMutation from "../hooks/user/useCreateUser";
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {

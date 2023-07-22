@@ -1,5 +1,4 @@
-import mongoose, { Schema, UpdateQuery } from "mongoose";
-import ListModel, { IList } from "../models/List";
+import ListModel from "../models/List";
 
 const createList = async (newList: Object) => {
     const list = new ListModel(newList);

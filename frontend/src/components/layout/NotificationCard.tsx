@@ -1,7 +1,7 @@
 import { Avatar, Card, CardContent, CardHeader, Divider, Link } from "@mui/material";
-import { NotificationType } from "../../types/notificationTypes";
 import { red } from "@mui/material/colors";
 import { NavLink } from "react-router-dom";
+import { NotificationType } from "../../types/notificationTypes";
 
 type NotificationCardProps = {
     notification: NotificationType;

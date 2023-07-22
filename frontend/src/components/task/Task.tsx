@@ -1,8 +1,8 @@
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { Card, CardContent, CardMedia, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import useUpdateTaskMutation from "../../hooks/task/useUpdateTaskMutation";
-import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { TaskType } from "../../types/taskTypes";
 import TaskDialog from "./TaskDialog";
 

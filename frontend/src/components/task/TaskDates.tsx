@@ -1,8 +1,8 @@
-import * as React from "react";
+import { useMediaQuery, useTheme } from "@mui/material";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import { StaticDateTimePicker } from "@mui/x-date-pickers";
-import { useMediaQuery, useTheme } from "@mui/material";
+import * as React from "react";
 import { useEffect, useState } from "react";
 import useUpdateTaskMutation from "../../hooks/task/useUpdateTaskMutation";
 import { TaskType } from "../../types/taskTypes";

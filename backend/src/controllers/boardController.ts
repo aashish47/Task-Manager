@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import boardService from "../services/boardService";
-import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 import mongoose from "mongoose";
+import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
+import boardService from "../services/boardService";
 import listService from "../services/listService";
 import taskService from "../services/taskService";
 

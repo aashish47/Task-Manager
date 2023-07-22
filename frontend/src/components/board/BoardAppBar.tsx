@@ -1,13 +1,13 @@
-import { Toolbar, IconButton, Stack, Typography, ClickAwayListener, TextField, Button, Divider } from "@mui/material";
-import AppBar from "./AppBar";
-import InviteDialog from "./InviteDialog";
-import { useEffect, useState } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import { Button, ClickAwayListener, Divider, IconButton, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useEffect, useState } from "react";
 import useUpdateBoardMutation from "../../hooks/board/useUpdateBoardMutation";
 import { BoardType } from "../../types/boardTypes";
-import MenuIcon from "@mui/icons-material/Menu";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import AppBar from "./AppBar";
+import InviteDialog from "./InviteDialog";
 
 type BoardAppBarProps = {
     openLeftDrawer: boolean;

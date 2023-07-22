@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import workspaceService from "../services/workspaceService";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
+import workspaceService from "../services/workspaceService";
 
 export const createWorkspace = async (req: CustomRequest, res: Response) => {
     const createdBy = req.user?.uid!;

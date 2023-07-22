@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
-import { addCollaborator, deleteInvitationDetails, generateUniqueKey, saveInvitationDetails, validateInvitationKey } from "../services/invitationService";
-import { connected, io } from "../app";
-import Notification from "../models/Notification";
-import notificationService from "../services/notificationService";
 import mongoose from "mongoose";
-import Board, { IBoard } from "../models/Board";
-import boardService from "../services/boardService";
+import { connected, io } from "../app";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
+import { IBoard } from "../models/Board";
+import boardService from "../services/boardService";
+import { addCollaborator, deleteInvitationDetails, validateInvitationKey } from "../services/invitationService";
+import notificationService from "../services/notificationService";
 
 export const sendInvitation = async (req: CustomRequest, res: Response) => {
     const user = req.user;

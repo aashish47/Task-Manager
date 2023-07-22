@@ -1,23 +1,23 @@
 import {
     Button,
-    TextField,
     Dialog,
+    DialogActions,
     DialogContent,
     DialogTitle,
-    DialogActions,
+    Divider,
     FormControl,
     InputLabel,
     MenuItem,
     Select,
     SelectChangeEvent,
-    Divider,
+    TextField,
 } from "@mui/material";
 
 import React from "react";
-import useWorkspaceData from "../../hooks/workspace/useWorkspaceContext";
-import useAuthContext from "../../hooks/context/useAuthContext";
-import useCreateBoardMutation from "../../hooks/board/useCreateBoardMutation";
 import { useNavigate } from "react-router-dom";
+import useCreateBoardMutation from "../../hooks/board/useCreateBoardMutation";
+import useAuthContext from "../../hooks/context/useAuthContext";
+import useWorkspaceData from "../../hooks/workspace/useWorkspaceContext";
 import { CreateBoardType } from "../../types/boardTypes";
 
 type CreateBoardProps = {

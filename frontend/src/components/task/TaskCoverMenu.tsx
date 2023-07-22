@@ -1,15 +1,15 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import * as React from "react";
 import { useState } from "react";
-import SearchCover from "./SearchCover";
+import useSearchPhotos from "../../hooks/photo/useSearchPhotos";
 import { TaskType } from "../../types/taskTypes";
 import CoverImages from "../common/CoverImages";
-import useSearchPhotos from "../../hooks/photo/useSearchPhotos";
+import SearchCover from "./SearchCover";
 // @ts-ignore
-import { MuiColorInput, MuiColorInputValue, MuiColorInputFormat } from "mui-color-input";
+import { MuiColorInput, MuiColorInputFormat, MuiColorInputValue } from "mui-color-input";
 
 type TaskDatesCoverProps = {
     task: TaskType;

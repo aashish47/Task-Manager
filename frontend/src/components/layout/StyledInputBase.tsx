@@ -1,5 +1,5 @@
-import { styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import { styled } from "@mui/material/styles";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: "inherit",

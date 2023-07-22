@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-import taskService from "../services/taskService";
+import mongoose from "mongoose";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 import ListModel from "../models/List";
-import mongoose, { Schema, Types } from "mongoose";
-import Task from "../models/Task";
 import listService from "../services/listService";
+import taskService from "../services/taskService";
 
 export const createTask = async (req: Request, res: Response) => {
     const { listId } = req.body;

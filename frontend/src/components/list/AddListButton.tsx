@@ -1,5 +1,5 @@
-import { Collapse, Button, useTheme } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { Button, Collapse, useTheme } from "@mui/material";
 
 type AddListButtonProps = {
     first: boolean;

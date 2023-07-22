@@ -1,12 +1,12 @@
-import * as React from "react";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import WorkspacesIcon from "@mui/icons-material/Workspaces";
+import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { Typography } from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import WorkspacesIcon from "@mui/icons-material/Workspaces";
-import CreateWorkspace from "./CreateWorkspace";
+import * as React from "react";
 import CreateBoard from "./CreateBoard";
+import CreateWorkspace from "./CreateWorkspace";
 
 const stylesMenu = {
     display: "flex",

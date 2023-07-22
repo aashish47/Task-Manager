@@ -1,7 +1,7 @@
 import { ImageList, ImageListItem, ListItemButton } from "@mui/material";
 import { Basic } from "unsplash-js/dist/methods/photos/types";
-import { TaskType } from "../../types/taskTypes";
 import useUpdateTaskMutation from "../../hooks/task/useUpdateTaskMutation";
+import { TaskType } from "../../types/taskTypes";
 
 type CoverImages = {
     task: TaskType;

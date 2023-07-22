@@ -1,21 +1,21 @@
-import { Routes, Route, Navigate, useLocation, Location } from "react-router-dom";
-import Login from "./pages/Login";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { Location, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { handleTokenExpireError } from "./api/api";
+import AllBoards from "./components/home/AllBoards";
 import Home from "./components/home/Home";
-import Landing from "./pages/Landing";
 import NavBar from "./components/layout/NavBar";
 import NavBarAuth from "./components/layout/NavBarAuth";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { useEffect, useState } from "react";
-import { createCustomTheme } from "./Theme/theme";
 import WorkspaceHome from "./components/workspace/WorkspaceHome";
-import LayoutHome from "./pages/LayoutHome";
-import AllBoards from "./components/home/AllBoards";
 import useAuthContext from "./hooks/context/useAuthContext";
-import Board from "./pages/Board";
-import "./styles/App.css";
-import { useQueryClient } from "@tanstack/react-query";
 import useSocketContext from "./hooks/context/useSocketContext";
-import { handleTokenExpireError } from "./api/api";
+import Board from "./pages/Board";
+import Landing from "./pages/Landing";
+import LayoutHome from "./pages/LayoutHome";
+import Login from "./pages/Login";
+import "./styles/App.css";
+import { createCustomTheme } from "./theme/theme";
 
 const checkBoardPage = (location: Location) => {
     const isBoardPage = location.pathname.startsWith("/b");

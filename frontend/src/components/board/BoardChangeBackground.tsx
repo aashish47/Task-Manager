@@ -1,18 +1,18 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import { Box, Container, Divider, Drawer, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
-import { BoardType } from "../../types/boardTypes";
-import BoardCoverImages from "./BoardCoverImages";
-import BoardSearchCover from "./BoardSearchCover";
-import { drawerWidth } from "../../constants/constants";
-import DrawerHeader from "../workspace/DrawerHeader";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-// @ts-ignore
-import { MuiColorInput, MuiColorInputValue, MuiColorInputFormat } from "mui-color-input";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { Box, Container, Divider, Drawer, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Typography, useTheme } from "@mui/material";
+import Button from "@mui/material/Button";
+import * as React from "react";
+import { useState } from "react";
+import { drawerWidth } from "../../constants/constants";
 import useSearchPhotos from "../../hooks/photo/useSearchPhotos";
+import { BoardType } from "../../types/boardTypes";
+import DrawerHeader from "../workspace/DrawerHeader";
+import BoardCoverImages from "./BoardCoverImages";
+import BoardSearchCover from "./BoardSearchCover";
+// @ts-ignore
+import { MuiColorInput, MuiColorInputFormat, MuiColorInputValue } from "mui-color-input";
 
 type BoardChangeBackgroundProps = {
     board: BoardType;

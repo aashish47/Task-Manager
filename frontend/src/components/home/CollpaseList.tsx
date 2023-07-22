@@ -1,14 +1,14 @@
-import Collapse from "@mui/material/Collapse";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import SettingsIcon from "@mui/icons-material/Settings";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import { ListItemButton, ListItemIcon, ListItemText, List } from "@mui/material";
-import useWorkspaceContext from "../../hooks/workspace/useWorkspaceContext";
-import { useNavigate, useParams } from "react-router-dom";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import Collapse from "@mui/material/Collapse";
 import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import useWorkspaceContext from "../../hooks/workspace/useWorkspaceContext";
 import WorkspaceAvatar from "../workspace/WorkspaceAvatar";
 
 type CollapseListProps = {

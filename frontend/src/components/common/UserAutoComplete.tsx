@@ -1,4 +1,4 @@
-import { AutocompleteInputChangeReason, AutocompleteChangeReason, AutocompleteChangeDetails, Autocomplete, Chip, TextField } from "@mui/material";
+import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, AutocompleteInputChangeReason, Chip, TextField } from "@mui/material";
 import { SyntheticEvent } from "react";
 import useSearchUsersByName from "../../hooks/user/useSearchUsersByName";
 

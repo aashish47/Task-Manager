@@ -1,6 +1,6 @@
+import { Stack } from "@mui/material";
 import { ReactNode } from "react";
 import SidebarLeft from "../components/home/SidebarLeft";
-import { Stack } from "@mui/material";
 
 type LayoutHomeProps = {
     children: ReactNode;

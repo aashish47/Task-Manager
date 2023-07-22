@@ -1,12 +1,12 @@
-import * as React from "react";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import CloseIcon from "@mui/icons-material/Close";
+import { Box, Container, IconButton, Stack, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
-import { Box, Container, IconButton, Stack, TextField, Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import * as React from "react";
 import useSearchPhotos from "../../hooks/photo/useSearchPhotos";
-import CoverImages from "../common/CoverImages";
 import { TaskType } from "../../types/taskTypes";
+import CoverImages from "../common/CoverImages";
 
 type SearchCoverProps = {
     task: TaskType;

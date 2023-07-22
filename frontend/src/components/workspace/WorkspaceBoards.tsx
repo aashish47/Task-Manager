@@ -1,7 +1,7 @@
-import React from "react";
-import useBoardsContext from "../../hooks/board/useBoardsContext";
 import { Card, CardContent, Link, Stack, Typography } from "@mui/material";
+import React from "react";
 import { NavLink } from "react-router-dom";
+import useBoardsContext from "../../hooks/board/useBoardsContext";
 
 type WorkspaceBoardsProps = {
     workspaceId: string;

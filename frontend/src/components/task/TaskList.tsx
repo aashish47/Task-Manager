@@ -1,16 +1,16 @@
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { Box, Stack, TextField, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import useTasksContext from "../../hooks/task/useTasksContext";
-import Task from "./Task";
-import AddTaskButton from "./AddTaskButton";
-import EnterTaskTitle from "./EnterTaskTitle";
-import { StrictModeDroppable as Droppable } from "../common/StrictModeDroppable";
 import { Draggable } from "react-beautiful-dnd";
 import useUpdateListMutation from "../../hooks/list/useUpdateListMutation";
-import ClickAwayListener from "@mui/base/ClickAwayListener";
-import ListActions from "../list/ListActions";
+import useTasksContext from "../../hooks/task/useTasksContext";
 import { ListType } from "../../types/listTypes";
 import { TaskType } from "../../types/taskTypes";
+import { StrictModeDroppable as Droppable } from "../common/StrictModeDroppable";
+import ListActions from "../list/ListActions";
+import AddTaskButton from "./AddTaskButton";
+import EnterTaskTitle from "./EnterTaskTitle";
+import Task from "./Task";
 
 type TaskListProps = {
     index: number;

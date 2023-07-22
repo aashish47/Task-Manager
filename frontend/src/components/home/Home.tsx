@@ -1,7 +1,7 @@
-import { List, ListSubheader } from "@mui/material";
-import SidebarRight from "./SidebarRight";
-import HomeTasksCards from "./HomeTasksCards";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { List, ListSubheader } from "@mui/material";
+import HomeTasksCards from "./HomeTasksCards";
+import SidebarRight from "./SidebarRight";
 
 const Home = () => {
     return (

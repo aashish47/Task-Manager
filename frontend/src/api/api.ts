@@ -1,10 +1,10 @@
 import axios from "axios";
-import { CreateWorkspaceType } from "../types/workspaceTypes";
+import { updateToken } from "../helpers/tokenManager";
 import { BoardType, CreateBoardType } from "../types/boardTypes";
+import { CreateCommentType } from "../types/commentTypes";
 import { CreateListType, ListType } from "../types/listTypes";
 import { CreateTaskType, TaskType } from "../types/taskTypes";
-import { CreateCommentType } from "../types/commentTypes";
-import { updateToken } from "../helpers/tokenManager";
+import { CreateWorkspaceType } from "../types/workspaceTypes";
 
 const api = axios.create({
     baseURL: "http://localhost:3000/api",

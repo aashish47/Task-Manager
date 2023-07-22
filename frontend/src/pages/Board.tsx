@@ -1,25 +1,25 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Stack, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Stack, useTheme } from "@mui/material";
+import { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import CreateList from "../components/list/CreateList";
-import useListsContext from "../hooks/list/useListsContext";
-import TaskList from "../components/task/TaskList";
-import useMoveTaskMutation from "../hooks/task/useMoveTaskMutation";
-import useUpdateListMutation from "../hooks/list/useUpdateListMutation";
-import { onDragEnd } from "../helpers/dragHelpers";
-import Main from "../components/board/Main";
-import { StrictModeDroppable as Droppable } from "../components/common/StrictModeDroppable";
-import useUpdateBoardMutation from "../hooks/board/useUpdateBoardMutation";
-import useBoardsContext from "../hooks/board/useBoardsContext";
-import useAuthContext from "../hooks/context/useAuthContext";
-import { ListType } from "../types/listTypes";
-import useWorkspacesContext from "../hooks/workspace/useWorkspaceContext";
-import BoardLeftDrawer from "../components/workspace/BoardLeftDrawer";
+import { useParams } from "react-router-dom";
 import BoardAppBar from "../components/board/BoardAppBar";
 import BoardRightDrawer from "../components/board/BoardRightDrawer";
+import Main from "../components/board/Main";
+import { StrictModeDroppable as Droppable } from "../components/common/StrictModeDroppable";
+import CreateList from "../components/list/CreateList";
+import TaskList from "../components/task/TaskList";
+import BoardLeftDrawer from "../components/workspace/BoardLeftDrawer";
+import { onDragEnd } from "../helpers/dragHelpers";
+import useBoardsContext from "../hooks/board/useBoardsContext";
+import useUpdateBoardMutation from "../hooks/board/useUpdateBoardMutation";
+import useAuthContext from "../hooks/context/useAuthContext";
+import useListsContext from "../hooks/list/useListsContext";
+import useUpdateListMutation from "../hooks/list/useUpdateListMutation";
+import useMoveTaskMutation from "../hooks/task/useMoveTaskMutation";
+import useWorkspacesContext from "../hooks/workspace/useWorkspaceContext";
+import { ListType } from "../types/listTypes";
 
 const background = {
     position: "absolute",

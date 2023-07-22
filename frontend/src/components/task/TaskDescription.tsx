@@ -1,8 +1,8 @@
-import { Stack, Box, TextField, ClickAwayListener, Button, Typography } from "@mui/material";
-import RichTextEdtitor from "./RichTextEditor";
+import { Box, Button, ClickAwayListener, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { TaskType } from "../../types/taskTypes";
 import useUpdateTaskMutation from "../../hooks/task/useUpdateTaskMutation";
+import { TaskType } from "../../types/taskTypes";
+import RichTextEdtitor from "./RichTextEditor";
 
 type TaskDescriptionProps = {
     task: TaskType;

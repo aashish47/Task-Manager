@@ -1,22 +1,22 @@
-import * as React from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import SubjectIcon from "@mui/icons-material/Subject";
+import { Box, IconButton, Stack } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box, IconButton, Stack } from "@mui/material";
-import EventNoteIcon from "@mui/icons-material/EventNote";
-import SubjectIcon from "@mui/icons-material/Subject";
-import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import CloseIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Unstable_Grid2/";
-import TaskDescription from "./TaskDescription";
-import TaskComments from "./TaskComments";
+import * as React from "react";
 import { TaskType } from "../../types/taskTypes";
+import TaskComments from "./TaskComments";
 import TaskCoverMenu from "./TaskCoverMenu";
 import TaskDatesMenu from "./TaskDates";
+import TaskDescription from "./TaskDescription";
 import TaskDueDate from "./TaskDueDate";
 
 type TaskdialogProps = {

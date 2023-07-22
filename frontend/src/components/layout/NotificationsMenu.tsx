@@ -1,6 +1,6 @@
-import { IconButton, Badge, Menu, Typography, Box, Divider, MenuList } from "@mui/material";
-import { useState } from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { Badge, Box, Divider, IconButton, Menu, MenuList, Typography } from "@mui/material";
+import { useState } from "react";
 import useNotificationsContext from "../../hooks/notification/useNotificationsContext";
 import NotificationCard from "./NotificationCard";
 

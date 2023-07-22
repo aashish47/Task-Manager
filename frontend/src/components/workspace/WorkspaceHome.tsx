@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
-import WorkspaceBoards from "./WorkspaceBoards";
-import { Divider, Stack, Typography } from "@mui/material";
-import WorkspaceDetailsBar from "./WorkspaceDetailsBar";
-import useWorkspacesContext from "../../hooks/workspace/useWorkspaceContext";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import { Divider, Stack, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
+import useWorkspacesContext from "../../hooks/workspace/useWorkspaceContext";
+import WorkspaceBoards from "./WorkspaceBoards";
+import WorkspaceDetailsBar from "./WorkspaceDetailsBar";
 
 const WorkspaceHome = () => {
     const { wname = "", wid = "" } = useParams<{ wname: string; wid: string }>();
