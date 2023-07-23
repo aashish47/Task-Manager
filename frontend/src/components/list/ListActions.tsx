@@ -1,5 +1,6 @@
+import CloseIcon from "@mui/icons-material/Close";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { IconButton } from "@mui/material";
+import { Container, IconButton, Stack, Typography } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
@@ -43,10 +44,20 @@ const ListActions: React.FC<ListActionsProps> = ({ boardId, listId }) => {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
+                slotProps={{ paper: { sx: { width: "300px" } } }}
                 MenuListProps={{
                     "aria-labelledby": "basic-button",
                 }}
             >
+                <Container fixed>
+                    <Stack alignItems="center" direction="row">
+                        <Typography sx={{ flexGrow: 2, textAlign: "center" }}>List Actions</Typography>
+                        <IconButton onClick={handleClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Stack>
+                </Container>
+                <MenuItem>Sort by</MenuItem>
                 <MenuItem onClick={handleDelete}>Delete</MenuItem>
             </Menu>
         </div>

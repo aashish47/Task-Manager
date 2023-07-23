@@ -14,9 +14,9 @@ const CoverImages: React.FC<CoverImages> = ({ board, photos, variant, handleClos
     const { _id: boardId } = board;
     const updateBoardMutation = useUpdateBoardMutation();
 
-    const handleImageClick = async (cover: string) => {
+    const handleImageClick = async (coverUrls: { full: string; raw: string; small: string; thumb: string; regular: string }) => {
         handleClose();
-        const newBoard = { ...board, cover };
+        const newBoard = { ...board, coverUrls };
         await updateBoardMutation.mutateAsync({ boardId, newBoard });
     };
     return (
@@ -24,9 +24,9 @@ const CoverImages: React.FC<CoverImages> = ({ board, photos, variant, handleClos
             <ImageList variant={variant} cols={3} gap={2}>
                 {photos.map((photo) => {
                     const { urls, description, id } = photo;
-                    const { thumb, full } = urls;
+                    const { thumb } = urls;
                     return (
-                        <ImageListItem onClick={() => handleImageClick(full)} sx={{ p: 0 }} component={ListItemButton} key={id}>
+                        <ImageListItem onClick={() => handleImageClick(urls)} sx={{ p: 0 }} component={ListItemButton} key={id}>
                             <img loading="lazy" src={thumb} alt={description ?? ""} />
                         </ImageListItem>
                     );

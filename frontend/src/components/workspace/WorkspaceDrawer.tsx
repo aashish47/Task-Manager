@@ -1,7 +1,6 @@
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Avatar, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from "@mui/material";
@@ -13,27 +12,40 @@ import { WorkspaceType } from "../../types/workspaceTypes";
 import DrawerHeader from "./DrawerHeader";
 import WorkspaceAvatar from "./WorkspaceAvatar";
 
-type BoardLeftDrawerProps = {
+type WorkspaceDrawerProps = {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     workspace: WorkspaceType;
 };
 
-const BoardLeftDrawer: React.FC<BoardLeftDrawerProps> = ({ open, setOpen, workspace }) => {
-    const listItems = ["Boards", "Highlights", "Members", "Workspace Settings"];
-    const listIcons = [<DashboardIcon />, <FavoriteBorderIcon />, <GroupsIcon />, <SettingsIcon />];
-    const theme = useTheme();
-    const mode = theme.palette.mode;
-    const navigate = useNavigate();
-    const { _id: workspaceId, name: workspaceName } = workspace;
-    const boardsData = useBoardsContext();
-    const workspaceBoards = boardsData?.filter((board) => board.workspaceId === workspaceId);
+const WorkspaceDrawer: React.FC<WorkspaceDrawerProps> = ({ open, setOpen, workspace }) => {
     const handleDrawerClose = () => {
         setOpen(false);
     };
     const handleBoardListClick = (name: string, _id: string) => {
         navigate(`/b/${name}/${_id}`);
     };
+    const handleBoardsClick = () => {
+        navigate(`/w/${workspaceName}/${workspaceId}`);
+    };
+    const handleMembersClick = () => {
+        navigate(`/w/${workspaceName}/${workspaceId}/members`);
+    };
+    const handleSettingsClick = () => {
+        navigate(`/w/${workspaceName}/${workspaceId}/settings`);
+    };
+
+    const listItems = ["Boards", "Members", "Workspace Settings"];
+    const listIcons = [<DashboardIcon />, <GroupsIcon />, <SettingsIcon />];
+    const listItemsButtonClick = [handleBoardsClick, handleMembersClick, handleSettingsClick];
+
+    const theme = useTheme();
+    const mode = theme.palette.mode;
+    const navigate = useNavigate();
+    const { _id: workspaceId, name: workspaceName } = workspace;
+    const boardsData = useBoardsContext();
+    const workspaceBoards = boardsData?.filter((board) => board.workspaceId === workspaceId);
+
     return (
         <Drawer
             sx={{
@@ -65,27 +77,21 @@ const BoardLeftDrawer: React.FC<BoardLeftDrawerProps> = ({ open, setOpen, worksp
             <Divider />
             <List>
                 <ListItem key={listItems[0]} disablePadding>
-                    <ListItemButton>
+                    <ListItemButton onClick={listItemsButtonClick[0]}>
                         <ListItemIcon>{listIcons[0]}</ListItemIcon>
                         <ListItemText secondary={listItems[0]} />
                     </ListItemButton>
                 </ListItem>
                 <ListItem key={listItems[1]} disablePadding>
-                    <ListItemButton>
+                    <ListItemButton onClick={listItemsButtonClick[1]}>
                         <ListItemIcon>{listIcons[1]}</ListItemIcon>
                         <ListItemText secondary={listItems[1]} />
                     </ListItemButton>
                 </ListItem>
                 <ListItem key={listItems[2]} disablePadding>
-                    <ListItemButton>
+                    <ListItemButton onClick={listItemsButtonClick[2]}>
                         <ListItemIcon>{listIcons[2]}</ListItemIcon>
                         <ListItemText secondary={listItems[2]} />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem key={listItems[3]} disablePadding>
-                    <ListItemButton>
-                        <ListItemIcon>{listIcons[3]}</ListItemIcon>
-                        <ListItemText secondary={listItems[3]} />
                     </ListItemButton>
                 </ListItem>
             </List>
@@ -96,12 +102,13 @@ const BoardLeftDrawer: React.FC<BoardLeftDrawerProps> = ({ open, setOpen, worksp
             <List>
                 {workspaceBoards &&
                     workspaceBoards.map((board) => {
-                        const { _id, name } = board;
+                        const { _id, name, coverUrls } = board;
+                        const { thumb } = coverUrls;
                         return (
                             <ListItem key={_id} disablePadding>
                                 <ListItemButton onClick={() => handleBoardListClick(name, _id)}>
                                     <ListItemIcon>
-                                        <Avatar sx={{ width: 24, height: 24 }} variant="square"></Avatar>
+                                        <Avatar sx={{ width: 24, height: 24 }} variant="square" src={thumb} />
                                     </ListItemIcon>
                                     <ListItemText secondary={name} />
                                 </ListItemButton>
@@ -113,4 +120,4 @@ const BoardLeftDrawer: React.FC<BoardLeftDrawerProps> = ({ open, setOpen, worksp
     );
 };
 
-export default BoardLeftDrawer;
+export default WorkspaceDrawer;

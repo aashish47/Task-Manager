@@ -7,6 +7,7 @@ import AllBoards from "./components/home/AllBoards";
 import Home from "./components/home/Home";
 import NavBar from "./components/layout/NavBar";
 import NavBarAuth from "./components/layout/NavBarAuth";
+import WorkspaceBoardsWithHeading from "./components/workspace/WorkspaceBoardsWithHeading";
 import WorkspaceHome from "./components/workspace/WorkspaceHome";
 import useAuthContext from "./hooks/context/useAuthContext";
 import useSocketContext from "./hooks/context/useSocketContext";
@@ -14,6 +15,7 @@ import Board from "./pages/Board";
 import Landing from "./pages/Landing";
 import LayoutHome from "./pages/LayoutHome";
 import Login from "./pages/Login";
+import WorkspaceLayout from "./pages/WorkpaceLayout";
 import "./styles/App.css";
 import { createCustomTheme } from "./theme/theme";
 
@@ -141,6 +143,20 @@ const App = () => {
                         }
                     />
                     <Route path="/b/:bname/:bid" element={user ? <Board /> : <Navigate to="/login" />} />
+                    <Route
+                        path="/w/:wname/:wid"
+                        element={
+                            user ? (
+                                <WorkspaceLayout>
+                                    <WorkspaceBoardsWithHeading />
+                                </WorkspaceLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <Route path="/w/:wname/:wid/members" element={user ? <WorkspaceLayout>members</WorkspaceLayout> : <Navigate to="/login" />} />
+                    <Route path="/w/:wname/:wid/settings" element={user ? <WorkspaceLayout>settings</WorkspaceLayout> : <Navigate to="/login" />} />
                 </Routes>
             </main>
         </ThemeProvider>

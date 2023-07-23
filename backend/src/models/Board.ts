@@ -1,4 +1,4 @@
-import { Document, Schema, Model, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
 
 export interface IBoard extends Document {
     name: string;
@@ -7,7 +7,7 @@ export interface IBoard extends Document {
     createdBy: string;
     members: string[];
     admin: string;
-    cover: string;
+    coverUrls: { full: string; raw: string; small: string; thumb: string; regular: string };
 
     addList: (listId: string) => void;
     addMember: (member: string) => void;
@@ -43,9 +43,9 @@ const BoardSchema: Schema<IBoard> = new Schema(
         admin: {
             type: String,
         },
-        cover: {
-            type: String,
-            default: "",
+        coverUrls: {
+            type: Object,
+            default: { full: "", raw: "", small: "", regular: "", thumb: "" },
         },
     },
     { timestamps: true }

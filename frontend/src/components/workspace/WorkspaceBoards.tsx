@@ -16,13 +16,14 @@ const WorkspaceBoards: React.FC<WorkspaceBoardsProps> = ({ workspaceId }) => {
             <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap">
                 {boards &&
                     boards.map((board) => {
-                        const { _id, name } = board;
+                        const { _id, name, coverUrls } = board;
+                        const { regular } = coverUrls;
                         return (
                             <Link
                                 sx={{
                                     transition: "transform 0.2s ease",
                                     "&:hover": {
-                                        transform: "scale(1.05)",
+                                        boxShadow: "0 0 10px 5px",
                                     },
                                     width: { xs: "100%", sm: "47%", md: "31%", lg: "23%" },
                                 }}
@@ -30,9 +31,11 @@ const WorkspaceBoards: React.FC<WorkspaceBoardsProps> = ({ workspaceId }) => {
                                 to={`/b/${name}/${_id}`}
                                 key={_id}
                             >
-                                <Card sx={{ height: 100 }}>
+                                <Card sx={{ height: 100, backgroundImage: `url(${regular})`, backgroundSize: "cover", backgroundPosition: "center" }}>
                                     <CardContent>
-                                        <Typography variant="subtitle2">{board.name}</Typography>
+                                        <Typography sx={{ color: "white" }} variant="body1" fontWeight={700}>
+                                            {name}
+                                        </Typography>
                                     </CardContent>
                                 </Card>
                             </Link>

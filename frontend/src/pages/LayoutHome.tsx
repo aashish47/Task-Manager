@@ -8,7 +8,7 @@ type LayoutHomeProps = {
 
 const LayoutHome: React.FC<LayoutHomeProps> = ({ children }) => {
     return (
-        <Stack direction="row" justifyContent="center" sx={{ gap: "50px", mt: 5, mb: 5 }}>
+        <Stack direction="row" justifyContent="center" sx={{ gap: "50px", my: 5, mx: 1 }}>
             <SidebarLeft />
             {children}
         </Stack>

@@ -10,7 +10,7 @@ import Main from "../components/board/Main";
 import { StrictModeDroppable as Droppable } from "../components/common/StrictModeDroppable";
 import CreateList from "../components/list/CreateList";
 import TaskList from "../components/task/TaskList";
-import BoardLeftDrawer from "../components/workspace/BoardLeftDrawer";
+import WorkspaceDrawer from "../components/workspace/WorkspaceDrawer";
 import { onDragEnd } from "../helpers/dragHelpers";
 import useBoardsContext from "../hooks/board/useBoardsContext";
 import useUpdateBoardMutation from "../hooks/board/useUpdateBoardMutation";
@@ -38,7 +38,7 @@ const Board = () => {
     const user = useAuthContext();
     const boardData = useBoardsContext();
     const workspaceData = useWorkspacesContext();
-    const [openLeftDrawer, setOpenLeftDrawer] = useState(false);
+    const [openLeftDrawer, setOpenLeftDrawer] = useState(true);
     const [openRightDrawer, setOpenRightDrawer] = useState(false);
     const unOrderedLists: ListType[] | undefined = useListsContext(boardId);
     const moveTaskMutation = useMoveTaskMutation();
@@ -46,7 +46,9 @@ const Board = () => {
     const updateBoardMutation = useUpdateBoardMutation();
 
     const board = boardData ? boardData.find((board) => board._id === boardId) : null;
-    const { listsIds, workspaceId, cover = "" } = board || {};
+    const { listsIds, workspaceId, coverUrls } = board || {};
+    const full = coverUrls ? coverUrls.full : "";
+
     let workspace = workspaceData ? workspaceData.find((workspace) => workspace._id === workspaceId) : null;
     if (!workspace) {
         workspace = {
@@ -69,11 +71,11 @@ const Board = () => {
     const lists = listsIds?.map((listId) => listLookup?.get(listId));
 
     return board && user && board.members.includes(user.uid) ? (
-        <Box sx={{ position: "relative", backgroundImage: `url(${cover})`, backgroundSize: "cover", backgroundPosition: "center", display: "flex" }}>
-            {mode === "dark" && <Box sx={background} />}
+        <Box sx={{ position: "relative", backgroundImage: `url(${full})`, backgroundSize: "cover", backgroundPosition: "center", display: "flex" }}>
             <CssBaseline />
-            <BoardLeftDrawer open={openLeftDrawer} setOpen={setOpenLeftDrawer} workspace={workspace} />
+            <WorkspaceDrawer open={openLeftDrawer} setOpen={setOpenLeftDrawer} workspace={workspace} />
 
+            {mode === "dark" && <Box sx={background} />}
             <Stack sx={{ zIndex: 1, width: "100%" }}>
                 <BoardAppBar
                     openLeftDrawer={openLeftDrawer}
@@ -87,7 +89,7 @@ const Board = () => {
                     <Droppable droppableId={boardId} direction="horizontal" type="lists">
                         {(provided) => (
                             <Main ref={provided.innerRef} {...provided.droppableProps} left={openLeftDrawer} right={openRightDrawer}>
-                                <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 106px)" }}>
+                                <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 107px)" }}>
                                     {lists &&
                                         lists.map((list, index) => {
                                             return list && <TaskList key={list._id} index={index} list={list} boardId={boardId} />;
