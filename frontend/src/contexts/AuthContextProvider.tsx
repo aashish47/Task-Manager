@@ -32,7 +32,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         });
 
         return () => unsubscribe();
-    }, []);
+    }, [createUserMutation]);
 
     if (!isLoaded) {
         return <div>Loading...</div>;

@@ -5,9 +5,6 @@ const defaultTheme = createTheme({});
 
 export const createCustomTheme = (darkmode: boolean) => {
     const textColor = darkmode ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)";
-    const secondary1 = darkmode
-        ? { main: blueGrey.A100, light: blueGrey[50], dark: blueGrey.A400 }
-        : { main: blueGrey.A400, light: blueGrey[50], dark: blueGrey.A700 };
 
     const secondary = darkmode ? { main: blueGrey[50] } : { main: blueGrey[900] };
 
