@@ -16,8 +16,8 @@ const TaskDueDate: React.FC<TaskDueDateProps> = ({ task }) => {
     const chipLabel = checked ? "Completed" : "Overdue";
     const chipColor = checked ? "success" : "error";
     const theme = useTheme();
-    const isScreenMdAndAbove = useMediaQuery(theme.breakpoints.only("xs"));
-    const orientation = isScreenMdAndAbove ? "portrait" : "landscape";
+    const isScreenSmall = useMediaQuery(theme.breakpoints.only("xs"));
+    const orientation = isScreenSmall ? "portrait" : "landscape";
     const [value, setValue] = useState<Date | null>(null);
     const updateTaskMutation = useUpdateTaskMutation();
 

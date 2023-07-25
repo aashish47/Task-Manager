@@ -262,9 +262,9 @@ export const sendInvitation = async ({ boardId, clients }: { boardId: string; cl
 
 // User functions
 
-export const createUser = async () => {
+export const createUser = async (newUser: { uid: string; name: string; email: string }) => {
     try {
-        const response = await api.post("/users");
+        const response = await api.post("/users", newUser);
         return response.data;
     } catch (error) {
         await checkErrorType(error);

@@ -1,9 +1,9 @@
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { drawerWidth } from "../../constants/constants";
@@ -18,8 +18,8 @@ type BoardRightDrawerProps = {
 };
 
 const BoardRightDrawer: React.FC<BoardRightDrawerProps> = ({ open, setOpen, board }) => {
-    const listItems = ["About this board", "Change background", "Members", "Workspace Settings"];
-    const listIcons = [<DashboardIcon />, <FavoriteBorderIcon />, <GroupsIcon />, <SettingsIcon />];
+    const listItems = ["About this board", "Change background", "Members", "Delete this board"];
+    const listIcons = [<DashboardIcon />, <FavoriteBorderIcon />, <GroupsIcon />, <DeleteIcon />];
     const theme = useTheme();
 
     const handleDrawerClose = () => {

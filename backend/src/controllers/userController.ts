@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 import userService from "../services/userService";
 
-export const createUser = async (req: CustomRequest, res: Response) => {
-    const { uid, email, name } = req.user!;
+export const createUser = async (req: Request, res: Response) => {
+    const { uid } = req.body;
 
     try {
         const existingUser = await userService.getUserByUid(uid);
@@ -13,7 +13,7 @@ export const createUser = async (req: CustomRequest, res: Response) => {
             return;
         }
 
-        const newUser = await userService.createUser({ uid, name, email });
+        const newUser = await userService.createUser(req.body);
         res.json(newUser);
     } catch (error: any) {
         res.status(500).json({ error: error.message });

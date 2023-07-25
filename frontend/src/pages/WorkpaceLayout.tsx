@@ -30,7 +30,7 @@ const WorkspaceLayout: React.FC<WorkspaceLayoutProps> = ({ children }) => {
     const { description, name: wname } = workspace;
     const [openLeftDrawer, setOpenLeftDrawer] = useState(true);
     return (
-        <Stack direction="row">
+        <Stack direction="row" sx={{ overflowX: "hidden" }}>
             <WorkspaceDrawer open={openLeftDrawer} setOpen={setOpenLeftDrawer} workspace={workspace} />
 
             <Main left={openLeftDrawer}>

@@ -12,13 +12,16 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
+                const { displayName: name, email, uid } = user;
                 try {
                     const idToken = await user.getIdToken();
                     const refreshToken = user.refreshToken;
                     localStorage.setItem("ID_TOKEN", idToken);
                     localStorage.setItem("REFRESH_TOKEN", refreshToken);
                     setUser(user as User);
-                    await createUserMutation.mutateAsync();
+                    if (email && name) {
+                        await createUserMutation.mutateAsync({ uid, name, email });
+                    }
                 } catch (error) {
                     console.log("error occured", error);
                 }

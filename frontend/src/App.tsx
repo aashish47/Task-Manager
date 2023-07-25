@@ -8,7 +8,12 @@ import Home from "./components/home/Home";
 import NavBar from "./components/layout/NavBar";
 import NavBarAuth from "./components/layout/NavBarAuth";
 import WorkspaceBoardsWithHeading from "./components/workspace/WorkspaceBoardsWithHeading";
+import WorkspaceGuests from "./components/workspace/WorkspaceGuests";
 import WorkspaceHome from "./components/workspace/WorkspaceHome";
+import WorkspaceMembers from "./components/workspace/WorkspaceMembers";
+import WorkspaceMembersLayout from "./components/workspace/WorkspaceMembersLayout";
+import WorkspaceRequests from "./components/workspace/WorkspaceRequests";
+import WorkspaceSettings from "./components/workspace/WorkspaceSettings";
 import useAuthContext from "./hooks/context/useAuthContext";
 import useSocketContext from "./hooks/context/useSocketContext";
 import Board from "./pages/Board";
@@ -155,8 +160,60 @@ const App = () => {
                             )
                         }
                     />
-                    <Route path="/w/:wname/:wid/members" element={user ? <WorkspaceLayout>members</WorkspaceLayout> : <Navigate to="/login" />} />
-                    <Route path="/w/:wname/:wid/settings" element={user ? <WorkspaceLayout>settings</WorkspaceLayout> : <Navigate to="/login" />} />
+                    <Route
+                        path="/w/:wname/:wid/members"
+                        element={
+                            user ? (
+                                <WorkspaceLayout>
+                                    <WorkspaceMembersLayout>
+                                        <WorkspaceMembers />
+                                    </WorkspaceMembersLayout>
+                                </WorkspaceLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <Route
+                        path="/w/:wname/:wid/members/guests"
+                        element={
+                            user ? (
+                                <WorkspaceLayout>
+                                    <WorkspaceMembersLayout>
+                                        <WorkspaceGuests />
+                                    </WorkspaceMembersLayout>
+                                </WorkspaceLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <Route
+                        path="/w/:wname/:wid/members/requests"
+                        element={
+                            user ? (
+                                <WorkspaceLayout>
+                                    <WorkspaceMembersLayout>
+                                        <WorkspaceRequests />
+                                    </WorkspaceMembersLayout>
+                                </WorkspaceLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <Route
+                        path="/w/:wname/:wid/settings"
+                        element={
+                            user ? (
+                                <WorkspaceLayout>
+                                    <WorkspaceSettings />
+                                </WorkspaceLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
                 </Routes>
             </main>
         </ThemeProvider>
