@@ -4,6 +4,8 @@ interface IUser extends Document {
     uid: string;
     name: string;
     email: string;
+    workspaces: string[];
+    boards: string[];
 }
 
 const UserSchema: Schema<IUser> = new Schema(
@@ -20,6 +22,15 @@ const UserSchema: Schema<IUser> = new Schema(
         email: {
             type: String,
             required: true,
+        },
+        workspaces: {
+            type: [String],
+            default: [],
+        },
+
+        boards: {
+            type: [String],
+            default: [],
         },
     },
     { timestamps: true }

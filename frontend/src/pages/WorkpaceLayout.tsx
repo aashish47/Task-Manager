@@ -2,7 +2,7 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import { Box, Divider, IconButton, Stack } from "@mui/material";
 import { ReactNode, useState } from "react";
 import { useParams } from "react-router-dom";
-import Main from "../components/board/Main";
+import Main from "../components/common/Main";
 import WorkspaceDetailsBar from "../components/workspace/WorkspaceDetailsBar";
 import WorkspaceDrawer from "../components/workspace/WorkspaceDrawer";
 import useWorkspacesContext from "../hooks/workspace/useWorkspaceContext";

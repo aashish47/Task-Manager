@@ -8,10 +8,10 @@ type NotificationCardProps = {
 };
 
 const NotificationCard: React.FC<NotificationCardProps> = ({ notification }) => {
-    const { boardName, boardLink, sender } = notification;
+    const { name, link, sender, type } = notification;
     return (
         <Card sx={{ width: "100%", mt: 2 }}>
-            <CardHeader titleTypographyProps={{ variant: "subtitle1" }} sx={{ p: 1 }} title={boardName} />
+            <CardHeader titleTypographyProps={{ variant: "subtitle1" }} sx={{ p: 1 }} title={name} />
             <Divider />
             <CardHeader
                 titleTypographyProps={{ variant: "subtitle2" }}
@@ -25,9 +25,9 @@ const NotificationCard: React.FC<NotificationCardProps> = ({ notification }) => 
             />
 
             <CardContent sx={{ p: 1, "&.MuiCardContent-root:last-child": { p: 1 } }}>
-                {`${sender} added you to the board `}
-                <Link component={NavLink} to={boardLink}>
-                    {boardName}
+                {`${sender} added you to the ${type} `}
+                <Link component={NavLink} to={link}>
+                    {name}
                 </Link>
             </CardContent>
         </Card>

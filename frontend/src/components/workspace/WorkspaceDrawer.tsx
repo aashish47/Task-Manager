@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { drawerWidth } from "../../constants/constants";
 import useBoardsContext from "../../hooks/board/useBoardsContext";
 import { WorkspaceType } from "../../types/workspaceTypes";
-import DrawerHeader from "./DrawerHeader";
+import DrawerHeader from "../common/DrawerHeader";
 import WorkspaceAvatar from "./WorkspaceAvatar";
 
 type WorkspaceDrawerProps = {

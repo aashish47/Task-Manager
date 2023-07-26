@@ -35,11 +35,10 @@ const BoardSchema: Schema<IBoard> = new Schema(
             type: String,
             required: true,
         },
-        members: [
-            {
-                type: String,
-            },
-        ],
+        members: {
+            type: [String],
+            default: [],
+        },
         admin: {
             type: String,
         },

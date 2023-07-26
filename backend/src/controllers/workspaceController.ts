@@ -1,4 +1,7 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
+import { createMultipleNotifications } from "../helpers/createMultipleNotifications";
+import { sendMultipleNotifications } from "../helpers/sendMultipleNotification";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 import workspaceService from "../services/workspaceService";
 
@@ -63,6 +66,34 @@ export const getWorkspaceById = async (req: Request, res: Response) => {
             res.status(404).json({ error: "Workspace not found" });
         }
     } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const updateWorkspaceMembers = async (req: CustomRequest, res: Response) => {
+    const user = req.user;
+    const { id: workspaceId } = req.params;
+    const { members } = req.body;
+
+    const session = await mongoose.startSession();
+    try {
+        session.startTransaction();
+        const workspace = await workspaceService.getWorkspaceById(workspaceId);
+        if (workspace) {
+            const { name } = workspace;
+            workspace.addMembers(members);
+            await workspace.save();
+            await createMultipleNotifications({ members, sender: user?.name, id: workspaceId, name, type: "workspace" });
+        } else {
+            throw Error("Workspace not found");
+        }
+        await session.commitTransaction();
+        session.endSession();
+        await sendMultipleNotifications(members);
+        res.status(200).json({ message: "Members added successfully" });
+    } catch (error: any) {
+        session.abortTransaction();
+        session.endSession();
         res.status(500).json({ error: error.message });
     }
 };

@@ -17,6 +17,10 @@ const updateNotification = async (id: any, updaterQuery: object) => {
     return await Notification.findByIdAndUpdate(id, updaterQuery, { new: true });
 };
 
+const updateNotificationByUid = async (uid: string, updaterQuery: object) => {
+    return await Notification.updateMany({ uid }, updaterQuery);
+};
+
 const getNotificationById = async (id: string) => {
     return await Notification.findById(id);
 };
@@ -26,5 +30,6 @@ export default {
     deleteNotification,
     getAllNotifications,
     updateNotification,
+    updateNotificationByUid,
     getNotificationById,
 };

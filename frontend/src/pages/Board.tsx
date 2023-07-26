@@ -6,7 +6,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import BoardAppBar from "../components/board/BoardAppBar";
 import BoardRightDrawer from "../components/board/BoardRightDrawer";
-import Main from "../components/board/Main";
+import Main from "../components/common/Main";
 import { StrictModeDroppable as Droppable } from "../components/common/StrictModeDroppable";
 import CreateList from "../components/list/CreateList";
 import TaskList from "../components/task/TaskList";

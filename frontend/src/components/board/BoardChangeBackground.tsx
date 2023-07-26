@@ -8,7 +8,7 @@ import { useState } from "react";
 import { drawerWidth } from "../../constants/constants";
 import useSearchPhotos from "../../hooks/photo/useSearchPhotos";
 import { BoardType } from "../../types/boardTypes";
-import DrawerHeader from "../workspace/DrawerHeader";
+import DrawerHeader from "../common/DrawerHeader";
 import BoardCoverImages from "./BoardCoverImages";
 import BoardSearchCover from "./BoardSearchCover";
 // @ts-ignore

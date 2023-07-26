@@ -76,6 +76,15 @@ export const createWorkspace = async (workspace: CreateWorkspaceType) => {
     }
 };
 
+export const updateWorkspaceMembers = async ({ workspaceId, members }: { workspaceId: string; members: string[] }) => {
+    try {
+        const response = await api.put(`/workspaces/${workspaceId}/members`, { members });
+        return response.data;
+    } catch (error) {
+        await checkErrorType(error);
+    }
+};
+
 // Boards Functions
 
 export const fetchBoards = async () => {

@@ -1,12 +1,13 @@
-import { Model, Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 export interface INotification extends Document {
     uid: string;
     sender: string;
-    boardName: string;
-    boardLink: string;
+    name: string;
+    link: string;
     isPending: boolean;
     isRead: boolean;
+    type: string;
 }
 
 const NotificationSchema: Schema<INotification> = new Schema(
@@ -19,23 +20,27 @@ const NotificationSchema: Schema<INotification> = new Schema(
             type: String,
             required: true,
         },
-        boardName: {
+        name: {
             type: String,
             required: true,
         },
-        boardLink: {
+        link: {
             type: String,
             required: true,
         },
         isPending: {
             type: Boolean,
             required: true,
-            default: false,
+            default: true,
         },
         isRead: {
             type: Boolean,
             required: true,
             default: false,
+        },
+        type: {
+            type: String,
+            required: true,
         },
     },
     { timestamps: true }

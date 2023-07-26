@@ -19,7 +19,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
                     localStorage.setItem("ID_TOKEN", idToken);
                     localStorage.setItem("REFRESH_TOKEN", refreshToken);
                     setUser(user as User);
-                    if (email && name) {
+                    if (name && email && uid) {
                         await createUserMutation.mutateAsync({ uid, name, email });
                     }
                 } catch (error) {
@@ -32,7 +32,8 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         });
 
         return () => unsubscribe();
-    }, [createUserMutation]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     if (!isLoaded) {
         return <div>Loading...</div>;

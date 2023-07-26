@@ -48,7 +48,7 @@ export const sendInvitation = async (req: CustomRequest, res: Response) => {
                     isPending = true;
                     message = "Invitation will be sent when the user is online";
                 }
-                await notificationService.createNotification({ uid: clientId, sender: user?.name, boardName, boardLink, isPending });
+                await notificationService.createNotification({ uid: clientId, sender: user?.name, name: boardName, link: boardLink, isPending, type: "board" });
             } catch (error) {
                 throw error;
             }

@@ -8,7 +8,7 @@ import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListI
 import { useTheme } from "@mui/material/styles";
 import { drawerWidth } from "../../constants/constants";
 import { BoardType } from "../../types/boardTypes";
-import DrawerHeader from "../workspace/DrawerHeader";
+import DrawerHeader from "../common/DrawerHeader";
 import BoardChangeBackground from "./BoardChangeBackground";
 
 type BoardRightDrawerProps = {
