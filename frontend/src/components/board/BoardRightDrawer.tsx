@@ -10,6 +10,7 @@ import { drawerWidth } from "../../constants/constants";
 import { BoardType } from "../../types/boardTypes";
 import DrawerHeader from "../common/DrawerHeader";
 import BoardChangeBackground from "./BoardChangeBackground";
+import BoardDelete from "./BoardDelete";
 
 type BoardRightDrawerProps = {
     open: boolean;
@@ -21,6 +22,7 @@ const BoardRightDrawer: React.FC<BoardRightDrawerProps> = ({ open, setOpen, boar
     const listItems = ["About this board", "Change background", "Members", "Delete this board"];
     const listIcons = [<DashboardIcon />, <FavoriteBorderIcon />, <GroupsIcon />, <DeleteIcon />];
     const theme = useTheme();
+    const { _id: boardId } = board;
 
     const handleDrawerClose = () => {
         setOpen(false);
@@ -66,12 +68,7 @@ const BoardRightDrawer: React.FC<BoardRightDrawerProps> = ({ open, setOpen, boar
                         <ListItemText secondary={listItems[2]} />
                     </ListItemButton>
                 </ListItem>
-                <ListItem key={listItems[3]} disablePadding>
-                    <ListItemButton>
-                        <ListItemIcon>{listIcons[3]}</ListItemIcon>
-                        <ListItemText secondary={listItems[3]} />
-                    </ListItemButton>
-                </ListItem>
+                <BoardDelete boardId={boardId} />
             </List>
         </Drawer>
     );

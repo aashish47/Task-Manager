@@ -13,6 +13,10 @@ const getAllWorkspaces = async (createdBy: string) => {
     return await Workspace.find({ createdBy });
 };
 
+const getAllWorkspacesByMembers = async (createdBy: string) => {
+    return await Workspace.find({ members: createdBy });
+};
+
 const updateWorkspace = async (id: string, name: string, description: string) => {
     return await Workspace.findByIdAndUpdate(id, { name, description }, { new: true });
 };
@@ -25,6 +29,7 @@ export default {
     createWorkspace,
     deleteWorkspace,
     getAllWorkspaces,
+    getAllWorkspacesByMembers,
     updateWorkspace,
     getWorkspaceById,
 };

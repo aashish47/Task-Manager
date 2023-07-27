@@ -39,10 +39,16 @@ const CollapseList: React.FC<CollapseListProps> = ({ selectedIndex, setSelectedI
             })
         );
     };
-    const handleClickBoards = (workspaceId: string, workspaceName: string) => {
+    const handleBoardsClick = (workspaceId: string, workspaceName: string) => {
         navigate(`/w/${workspaceName}/${workspaceId}/home`);
     };
 
+    const handleMembersClick = (workspaceId: string, workspaceName: string) => {
+        navigate(`/w/${workspaceName}/${workspaceId}/members`);
+    };
+    const handleSettingsClick = (workspaceId: string, workspaceName: string) => {
+        navigate(`/w/${workspaceName}/${workspaceId}/settings`);
+    };
     /*
     currentTarget = Name of the Button
     index = workspaceIdcurrentTarget
@@ -55,13 +61,13 @@ const CollapseList: React.FC<CollapseListProps> = ({ selectedIndex, setSelectedI
         setSelectedIndex(index);
 
         if (currentTarget === "Boards") {
-            handleClickBoards(workspaceId, workspaceName);
+            handleBoardsClick(workspaceId, workspaceName);
         } else if (currentTarget === "Highlights") {
             console.log();
         } else if (currentTarget === "Members") {
-            console.log();
+            handleMembersClick(workspaceId, workspaceName);
         } else if (currentTarget === "Settings") {
-            console.log();
+            handleSettingsClick(workspaceId, workspaceName);
         }
     };
 

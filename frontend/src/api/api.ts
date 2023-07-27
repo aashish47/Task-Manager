@@ -58,7 +58,7 @@ export const handleTokenExpireError = async () => {
 
 // Workespaces Functions
 
-export const fetchWorkspaces = async () => {
+export const getWorkspacesByMembers = async () => {
     try {
         const response = await api.get(`/workspaces`);
         return response.data;
@@ -73,6 +73,15 @@ export const createWorkspace = async (workspace: CreateWorkspaceType) => {
         return response.data;
     } catch (error) {
         await checkErrorType(error);
+    }
+};
+
+export const getWorkspaceById = async ({ workspaceId }: { workspaceId: string }) => {
+    try {
+        const response = await api.get(`/workspaces/${workspaceId}`);
+        return response.data;
+    } catch (error) {
+        checkErrorType(error);
     }
 };
 

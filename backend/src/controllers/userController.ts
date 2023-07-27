@@ -8,7 +8,7 @@ export const createUser = async (req: Request, res: Response) => {
     try {
         const existingUser = await userService.getUserByUid(uid);
 
-        if (existingUser.length > 0) {
+        if (existingUser) {
             res.status(200).json({ message: "User with the same UID already exists" });
             return;
         }

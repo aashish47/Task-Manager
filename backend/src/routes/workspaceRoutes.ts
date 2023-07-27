@@ -2,7 +2,7 @@ import express from "express";
 import {
     createWorkspace,
     deleteWorkspace,
-    getAllWorkspaces,
+    getAllWorkspacesByMembers,
     getWorkspaceById,
     updateWorkspace,
     updateWorkspaceMembers,
@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-router.get("/", getAllWorkspaces);
+router.get("/", getAllWorkspacesByMembers);
 
 router.get("/:id", getWorkspaceById);
 

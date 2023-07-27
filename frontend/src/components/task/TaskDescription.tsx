@@ -34,7 +34,7 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ task }) => {
             )}
 
             {!editDescription && description && (
-                <Typography sx={{ mx: "15px", lineHeight: 0.52 }} variant="body2" component={"div"} onClick={() => setEditDescription(true)}>
+                <Typography sx={{ mx: "15px", lineHeight: 1.43 }} variant="body2" component={"div"} onClick={() => setEditDescription(true)}>
                     <div dangerouslySetInnerHTML={{ __html: value }} />
                 </Typography>
             )}

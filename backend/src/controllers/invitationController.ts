@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import { connected, io } from "../app";
+import { getSender } from "../helpers/getSender";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
 import { IBoard } from "../models/Board";
 import boardService from "../services/boardService";
@@ -9,6 +10,7 @@ import notificationService from "../services/notificationService";
 
 export const sendInvitation = async (req: CustomRequest, res: Response) => {
     const user = req.user;
+    const sender = await getSender(user);
     const { boardId, clients } = req.body;
     let board: IBoard | null;
 
@@ -48,7 +50,15 @@ export const sendInvitation = async (req: CustomRequest, res: Response) => {
                     isPending = true;
                     message = "Invitation will be sent when the user is online";
                 }
-                await notificationService.createNotification({ uid: clientId, sender: user?.name, name: boardName, link: boardLink, isPending, type: "board" });
+
+                await notificationService.createNotification({
+                    uid: clientId,
+                    sender,
+                    name: boardName,
+                    link: boardLink,
+                    isPending,
+                    type: "board",
+                });
             } catch (error) {
                 throw error;
             }

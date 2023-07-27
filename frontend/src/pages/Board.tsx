@@ -18,7 +18,6 @@ import useAuthContext from "../hooks/context/useAuthContext";
 import useListsContext from "../hooks/list/useListsContext";
 import useUpdateListMutation from "../hooks/list/useUpdateListMutation";
 import useMoveTaskMutation from "../hooks/task/useMoveTaskMutation";
-import useWorkspacesContext from "../hooks/workspace/useWorkspaceContext";
 import { ListType } from "../types/listTypes";
 
 const background = {
@@ -37,7 +36,6 @@ const Board = () => {
     const mode = theme.palette.mode;
     const user = useAuthContext();
     const boardData = useBoardsContext();
-    const workspaceData = useWorkspacesContext();
     const [openLeftDrawer, setOpenLeftDrawer] = useState(true);
     const [openRightDrawer, setOpenRightDrawer] = useState(false);
     const unOrderedLists: ListType[] | undefined = useListsContext(boardId);
@@ -48,19 +46,6 @@ const Board = () => {
     const board = boardData ? boardData.find((board) => board._id === boardId) : null;
     const { listsIds, workspaceId, coverUrls } = board || {};
     const full = coverUrls ? coverUrls.full : "";
-
-    let workspace = workspaceData ? workspaceData.find((workspace) => workspace._id === workspaceId) : null;
-    if (!workspace) {
-        workspace = {
-            createdAt: "",
-            createdBy: "",
-            description: "",
-            name: "",
-            updatedAt: "",
-            __v: 0,
-            _id: "",
-        };
-    }
 
     let listLookup: Map<string, ListType> | null = null;
     if (unOrderedLists) {
@@ -73,7 +58,7 @@ const Board = () => {
     return board && user && board.members.includes(user.uid) ? (
         <Box sx={{ position: "relative", backgroundImage: `url(${full})`, backgroundSize: "cover", backgroundPosition: "center", display: "flex" }}>
             <CssBaseline />
-            <WorkspaceDrawer open={openLeftDrawer} setOpen={setOpenLeftDrawer} workspace={workspace} />
+            <WorkspaceDrawer open={openLeftDrawer} setOpen={setOpenLeftDrawer} />
 
             {mode === "dark" && <Box sx={background} />}
             <Stack sx={{ zIndex: 1, width: "100%" }}>

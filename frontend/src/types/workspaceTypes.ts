@@ -4,6 +4,7 @@ export type WorkspaceType = {
     description: string;
     name: string;
     updatedAt: string;
+    members: string[];
     __v: number;
     _id: string;
 };

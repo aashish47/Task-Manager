@@ -23,15 +23,6 @@ const UserSchema: Schema<IUser> = new Schema(
             type: String,
             required: true,
         },
-        workspaces: {
-            type: [String],
-            default: [],
-        },
-
-        boards: {
-            type: [String],
-            default: [],
-        },
     },
     { timestamps: true }
 );

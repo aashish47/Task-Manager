@@ -20,7 +20,6 @@ const InviteDialog: React.FC<InviteDialogProps> = ({ boardId, open, setOpen }) =
 
     const handleButtonClick = async () => {
         const clients = tags;
-        console.log(clients);
         try {
             await sendInvitationMutation.mutateAsync({ boardId, clients });
         } catch (error: any) {

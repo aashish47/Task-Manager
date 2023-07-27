@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchWorkspaces } from "../../api/api";
+import { getWorkspacesByMembers } from "../../api/api";
 import { WorkspaceType } from "../../types/workspaceTypes";
 
 const useWorkspacesContext = () => {
-    const { data: workspaces } = useQuery<Array<WorkspaceType>>(["Workspaces"], () => fetchWorkspaces());
+    const { data: workspaces } = useQuery<Array<WorkspaceType>>(["Workspaces"], () => getWorkspacesByMembers());
 
     return workspaces;
 };

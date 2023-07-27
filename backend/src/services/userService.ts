@@ -38,7 +38,7 @@ const getUserById = async (id: string) => {
 };
 
 const getUserByUid = async (uid: string) => {
-    return await User.find({ uid });
+    return await User.findOne({ uid });
 };
 
 export default {
