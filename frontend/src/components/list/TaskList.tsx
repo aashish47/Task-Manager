@@ -7,10 +7,10 @@ import useTasksContext from "../../hooks/task/useTasksContext";
 import { ListType } from "../../types/listTypes";
 import { TaskType } from "../../types/taskTypes";
 import { StrictModeDroppable as Droppable } from "../common/StrictModeDroppable";
-import ListActions from "../list/ListActions";
-import AddTaskButton from "./AddTaskButton";
-import EnterTaskTitle from "./EnterTaskTitle";
-import Task from "./Task";
+import AddTaskButton from "../task/AddTaskButton";
+import EnterTaskTitle from "../task/EnterTaskTitle";
+import Task from "../task/Task";
+import ListActions from "./ListActions";
 
 type TaskListProps = {
     index: number;
@@ -91,7 +91,7 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
 
     const handleClickAway = async () => {
         setEditLName(false);
-        if (list && inputLName) {
+        if (list && inputLName !== listName) {
             const newList = { ...list, name: inputLName };
             await updateListMutation.mutateAsync({ boardId, listId, newList });
         }
@@ -148,9 +148,9 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
                                 />
                             </ClickAwayListener>
                         )}
-                        <ListActions boardId={boardId} listId={listId} />
+                        <ListActions boardId={boardId} listId={listId} name={listName} />
                     </Stack>
-                    <Box ref={containerRef} id="container" sx={{ overflowY: "auto", overflowX: "hidden", maxHeight }}>
+                    <Box ref={containerRef} id="container" sx={{ overflow: "auto", maxHeight }}>
                         <Droppable type="tasks" droppableId={listId}>
                             {(provided) => (
                                 <div style={{ minHeight: "1px" }} {...provided.droppableProps} ref={provided.innerRef}>

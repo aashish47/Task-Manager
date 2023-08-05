@@ -6,6 +6,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useUpdateWorkspaceMembers from "../../hooks/workspace/useUpdateWorkspaceMembes";
+import useWorkspacesContext from "../../hooks/workspace/useWorkspaceContext";
 import UserAutocomplete from "../common/UserAutoComplete";
 
 const WorkspaceInvite = () => {
@@ -14,6 +15,9 @@ const WorkspaceInvite = () => {
     const [name, setName] = useState("");
     const [tags, setTags] = useState<string[]>([]);
     const updateWorkspaceMembers = useUpdateWorkspaceMembers();
+    const workspaces = useWorkspacesContext();
+    const workspace = workspaces?.find((workspace) => workspace._id === workspaceId);
+    const members = [...(workspace?.members ?? []), ...(workspace?.guests ?? [])];
 
     const handleButtonClick = async () => {
         const members = tags;
@@ -41,7 +45,7 @@ const WorkspaceInvite = () => {
                 <DialogTitle>Share Workspace</DialogTitle>
                 <form autoComplete="off">
                     <DialogContent>
-                        <UserAutocomplete tags={tags} setTags={setTags} name={name} setName={setName} />
+                        <UserAutocomplete members={members} tags={tags} setTags={setTags} name={name} setName={setName} />
                     </DialogContent>
 
                     <DialogActions>

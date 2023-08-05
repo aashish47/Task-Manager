@@ -26,11 +26,14 @@ import { createCustomTheme } from "./theme/theme";
 
 const checkBoardPage = (location: Location) => {
     const isBoardPage = location.pathname.startsWith("/b");
-    const rootElement = document.querySelector("body");
-    if (isBoardPage && rootElement) {
-        rootElement.classList.add("overflow-hidden");
+    const html = document.querySelector("html");
+    const body = document.querySelector("body");
+    if (isBoardPage && html && body) {
+        html.classList.add("overflow-hidden");
+        body.classList.add("overflow-hidden");
     } else {
-        rootElement?.classList.remove("overflow-hidden");
+        html?.classList.remove("overflow-hidden");
+        body?.classList.remove("overflow-hidden");
     }
 };
 
@@ -64,6 +67,10 @@ const App = () => {
         socket.on("notifications", (totalNotifications) => {
             queryClient.invalidateQueries(["Notifications"]);
             setNewNotifications(totalNotifications);
+        });
+
+        socket.on("invalidateWorkspaces", () => {
+            queryClient.invalidateQueries(["Workspaces"]);
         });
 
         socket.on("invalidateBoards", () => {

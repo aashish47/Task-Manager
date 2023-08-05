@@ -17,6 +17,10 @@ const deleteTaskByListId = async (listId: string) => {
     return await TaskModel.deleteMany({ listId });
 };
 
+const deleteTaskByWorkspaceId = async (workspaceId: string) => {
+    return await TaskModel.deleteMany({ workspaceId });
+};
+
 const getAllTasks = async (createdBy: string) => {
     return await TaskModel.find({ createdBy });
 };
@@ -38,6 +42,7 @@ export default {
     deleteTask,
     deleteTaskByBoardId,
     deleteTaskByListId,
+    deleteTaskByWorkspaceId,
     getAllTasks,
     updateTask,
     getTaskById,

@@ -1,17 +1,21 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useDeleteBoardMutation from "../../hooks/board/useDeleteBoardMutation";
+import DeleteDialog from "../common/DeleteDialog";
 
 type BoardDeleteProps = {
     boardId: string;
+    name: string;
 };
 
-const BoardDelete: React.FC<BoardDeleteProps> = ({ boardId }) => {
-    const name = "Delete this board";
+const BoardDelete: React.FC<BoardDeleteProps> = ({ boardId, name }) => {
+    const [open, setOpen] = useState(false);
+    const listItem = "Delete this board";
     const deleteBoardMutation = useDeleteBoardMutation();
     const navigate = useNavigate();
-    const handleDeleteBoardClick = async () => {
+    const handleDelete = async () => {
         try {
             await deleteBoardMutation.mutateAsync({ boardId });
             navigate("/");
@@ -21,14 +25,15 @@ const BoardDelete: React.FC<BoardDeleteProps> = ({ boardId }) => {
     };
     return (
         <div>
-            <ListItem key={name} disablePadding>
-                <ListItemButton onClick={handleDeleteBoardClick}>
+            <ListItem key={listItem} disablePadding>
+                <ListItemButton onClick={() => setOpen(true)}>
                     <ListItemIcon>
                         <DeleteIcon />
                     </ListItemIcon>
-                    <ListItemText secondary={name} />
+                    <ListItemText secondary={listItem} />
                 </ListItemButton>
             </ListItem>
+            <DeleteDialog type="board" name={name} handleDelete={handleDelete} open={open} setOpen={setOpen} />
         </div>
     );
 };

@@ -19,10 +19,10 @@ type BoardRightDrawerProps = {
 };
 
 const BoardRightDrawer: React.FC<BoardRightDrawerProps> = ({ open, setOpen, board }) => {
-    const listItems = ["About this board", "Change background", "Members", "Delete this board"];
+    const { _id: boardId, members, name } = board;
+    const listItems = ["About this board", "Change background", `Members (${members.length})`, "Delete this board"];
     const listIcons = [<DashboardIcon />, <FavoriteBorderIcon />, <GroupsIcon />, <DeleteIcon />];
     const theme = useTheme();
-    const { _id: boardId } = board;
 
     const handleDrawerClose = () => {
         setOpen(false);
@@ -68,7 +68,7 @@ const BoardRightDrawer: React.FC<BoardRightDrawerProps> = ({ open, setOpen, boar
                         <ListItemText secondary={listItems[2]} />
                     </ListItemButton>
                 </ListItem>
-                <BoardDelete boardId={boardId} />
+                <BoardDelete boardId={boardId} name={name} />
             </List>
         </Drawer>
     );

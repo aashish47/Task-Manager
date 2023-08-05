@@ -5,6 +5,7 @@ export type WorkspaceType = {
     name: string;
     updatedAt: string;
     members: string[];
+    guests: string[];
     __v: number;
     _id: string;
 };

@@ -12,15 +12,22 @@ type UserAutoCompleteProps = {
     setName: React.Dispatch<React.SetStateAction<string>>;
     tags: string[];
     setTags: React.Dispatch<React.SetStateAction<string[]>>;
+    members: string[];
 };
 
-const UserAutocomplete: React.FC<UserAutoCompleteProps> = ({ name, setName, tags, setTags }) => {
+const UserAutocomplete: React.FC<UserAutoCompleteProps> = ({ name, setName, tags, setTags, members }) => {
     const users = useSearchUsersByName(name) ?? [];
 
-    const options: option[] = users.map((user) => ({
-        label: user.name,
-        value: user.uid,
-    }));
+    const options: option[] = [];
+
+    for (let i = 0; i < users.length; i++) {
+        if (!members.includes(users[i].uid)) {
+            options.push({
+                label: users[i].name,
+                value: users[i].uid,
+            });
+        }
+    }
 
     const handleInputChange = (event: SyntheticEvent<Element, Event>, value: string, reason: AutocompleteInputChangeReason) => {
         setName(value);

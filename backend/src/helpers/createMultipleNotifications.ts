@@ -13,7 +13,7 @@ export const createMultipleNotifications = async ({
     name: string;
     type: string;
 }) => {
-    const link = `http://localhost:5173/w/${name}/${id}`;
+    const link = `http://localhost:5173/${type === "workspace" ? "w" : "b"}/${name}/${id}`;
     try {
         for (const member of members) {
             await notificationService.createNotification({ uid: member, sender, link, name, type });

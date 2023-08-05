@@ -55,8 +55,9 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 export const getUserByUid = async (req: CustomRequest, res: Response) => {
+    const { uid } = req.params;
     try {
-        const user = await userService.getUserByUid(req.user?.uid!);
+        const user = await userService.getUserByUid(uid);
         if (user) {
             res.json(user);
         } else {

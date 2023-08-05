@@ -16,6 +16,7 @@ import { TaskType } from "../../types/taskTypes";
 import TaskComments from "./TaskComments";
 import TaskCoverMenu from "./TaskCoverMenu";
 import TaskDatesMenu from "./TaskDates";
+import TaskDelete from "./TaskDelete";
 import TaskDescription from "./TaskDescription";
 import TaskDueDate from "./TaskDueDate";
 
@@ -85,9 +86,7 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
                             <Button color="secondary" fullWidth variant="outlined">
                                 checklist
                             </Button>
-                            <Button color="secondary" fullWidth variant="outlined">
-                                Delete
-                            </Button>
+                            <TaskDelete task={task} />
                         </Stack>
                     </Grid>
                 </Grid>

@@ -4,24 +4,27 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
-import useSendInvitationMutation from "../../hooks/board/useSendInvitation";
+import useUpdateBoardMembers from "../../hooks/board/useUpdateBoardMembers";
+import { BoardType } from "../../types/boardTypes";
 import UserAutocomplete from "../common/UserAutoComplete";
 
-type InviteDialogProps = {
-    boardId: string;
+type BoardInviteProps = {
+    board: BoardType;
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const InviteDialog: React.FC<InviteDialogProps> = ({ boardId, open, setOpen }) => {
+const BoardInvite: React.FC<BoardInviteProps> = ({ board, open, setOpen }) => {
     const [name, setName] = useState("");
     const [tags, setTags] = useState<string[]>([]);
-    const sendInvitationMutation = useSendInvitationMutation();
+    const updateBoardMembers = useUpdateBoardMembers();
+    const { _id: boardId, members } = board;
 
     const handleButtonClick = async () => {
-        const clients = tags;
+        const members = tags;
+
         try {
-            await sendInvitationMutation.mutateAsync({ boardId, clients });
+            await updateBoardMembers.mutateAsync({ boardId, members });
         } catch (error: any) {
             console.log("Error adding member", error.messaage);
         }
@@ -39,7 +42,7 @@ const InviteDialog: React.FC<InviteDialogProps> = ({ boardId, open, setOpen }) =
             <DialogTitle>Share Board</DialogTitle>
             <form autoComplete="off">
                 <DialogContent>
-                    <UserAutocomplete tags={tags} setTags={setTags} name={name} setName={setName} />
+                    <UserAutocomplete members={members} tags={tags} setTags={setTags} name={name} setName={setName} />
                 </DialogContent>
 
                 <DialogActions>
@@ -50,4 +53,4 @@ const InviteDialog: React.FC<InviteDialogProps> = ({ boardId, open, setOpen }) =
     );
 };
 
-export default InviteDialog;
+export default BoardInvite;

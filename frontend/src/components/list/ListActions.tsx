@@ -5,13 +5,16 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 import useDeleteListMutation from "../../hooks/list/useDeleteListMutation";
+import DeleteDialog from "../common/DeleteDialog";
 
 type ListActionsProps = {
     boardId: string;
     listId: string;
+    name: string;
 };
 
-const ListActions: React.FC<ListActionsProps> = ({ boardId, listId }) => {
+const ListActions: React.FC<ListActionsProps> = ({ boardId, listId, name }) => {
+    const [openDelete, setOpenDelete] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const deleteListMutation = useDeleteListMutation();
@@ -20,8 +23,12 @@ const ListActions: React.FC<ListActionsProps> = ({ boardId, listId }) => {
         setAnchorEl(event.currentTarget);
     };
     const handleDelete = async () => {
-        await deleteListMutation.mutateAsync({ boardId, listId });
-        handleClose();
+        try {
+            await deleteListMutation.mutateAsync({ boardId, listId });
+            handleClose();
+        } catch (error) {
+            console.log(error);
+        }
     };
     const handleClose = () => {
         setAnchorEl(null);
@@ -58,8 +65,9 @@ const ListActions: React.FC<ListActionsProps> = ({ boardId, listId }) => {
                     </Stack>
                 </Container>
                 <MenuItem>Sort by</MenuItem>
-                <MenuItem onClick={handleDelete}>Delete</MenuItem>
+                <MenuItem onClick={() => setOpenDelete(true)}>Delete</MenuItem>
             </Menu>
+            <DeleteDialog type="list" name={name} handleDelete={handleDelete} open={openDelete} setOpen={setOpenDelete} />
         </div>
     );
 };

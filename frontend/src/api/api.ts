@@ -4,7 +4,7 @@ import { BoardType, CreateBoardType } from "../types/boardTypes";
 import { CreateCommentType } from "../types/commentTypes";
 import { CreateListType, ListType } from "../types/listTypes";
 import { CreateTaskType, TaskType } from "../types/taskTypes";
-import { CreateWorkspaceType } from "../types/workspaceTypes";
+import { CreateWorkspaceType, WorkspaceType } from "../types/workspaceTypes";
 
 const api = axios.create({
     baseURL: "http://localhost:3000/api",
@@ -85,9 +85,28 @@ export const getWorkspaceById = async ({ workspaceId }: { workspaceId: string })
     }
 };
 
+export const updateWorkspace = async ({ workspaceId, newWorkspace }: { workspaceId: string; newWorkspace: WorkspaceType }) => {
+    try {
+        const response = await api.put(`/workspaces/${workspaceId}`, { newWorkspace });
+
+        return response.data;
+    } catch (error) {
+        await checkErrorType(error);
+    }
+};
+
 export const updateWorkspaceMembers = async ({ workspaceId, members }: { workspaceId: string; members: string[] }) => {
     try {
         const response = await api.put(`/workspaces/${workspaceId}/members`, { members });
+        return response.data;
+    } catch (error) {
+        await checkErrorType(error);
+    }
+};
+
+export const deleteWorkspace = async ({ workspaceId }: { workspaceId: string }) => {
+    try {
+        const response = await api.delete(`/workspaces/${workspaceId}`);
         return response.data;
     } catch (error) {
         await checkErrorType(error);
@@ -127,6 +146,15 @@ export const updateBoard = async ({ boardId, newBoard }: { boardId: string; newB
 export const deleteBoard = async ({ boardId }: { boardId: string }) => {
     try {
         const response = await api.delete(`/boards/${boardId}`);
+        return response.data;
+    } catch (error) {
+        await checkErrorType(error);
+    }
+};
+
+export const updateBoardMembers = async ({ boardId, members }: { boardId: string; members: string[] }) => {
+    try {
+        const response = await api.put(`/boards/${boardId}/members`, { members });
         return response.data;
     } catch (error) {
         await checkErrorType(error);
@@ -267,17 +295,6 @@ export const fetchNotifications = async () => {
     }
 };
 
-// Invitation functions
-
-export const sendInvitation = async ({ boardId, clients }: { boardId: string; clients: string[] }) => {
-    try {
-        const response = await api.post("/invitation/send", { boardId, clients });
-        return response.data;
-    } catch (error) {
-        await checkErrorType(error);
-    }
-};
-
 // User functions
 
 export const createUser = async (newUser: { uid: string; name: string; email: string }) => {
@@ -289,9 +306,9 @@ export const createUser = async (newUser: { uid: string; name: string; email: st
     }
 };
 
-export const fetchUsers = async () => {
+export const getUserByUid = async ({ uid }: { uid: string }) => {
     try {
-        const response = await api.get("/users");
+        const response = await api.get(`/users/uid/${uid}`);
         return response.data;
     } catch (error) {
         await checkErrorType(error);

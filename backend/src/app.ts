@@ -8,7 +8,6 @@ import { authenticateFirebaseToken, authenticateToken } from "./middlewares/auth
 import Notification from "./models/Notification";
 import boardRoutes from "./routes/boardRoutes";
 import commentRoutes from "./routes/commentRoutes";
-import invitationRoutes from "./routes/invitationRoutes";
 import listRoutes from "./routes/listRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
 import taskRoutes from "./routes/taskRoutes";
@@ -17,6 +16,7 @@ import workspaceRoutes from "./routes/workspaceRoutes";
 import boardService from "./services/boardService";
 import notificationService from "./services/notificationService";
 import taskService from "./services/taskService";
+import workspaceService from "./services/workspaceService";
 
 const app = express();
 const server = http.createServer(app);
@@ -40,7 +40,6 @@ app.use("/api/workspaces", workspaceRoutes);
 app.use("/api/boards", boardRoutes);
 app.use("/api/lists", listRoutes);
 app.use("/api/tasks", taskRoutes);
-app.use("/api/invitation", invitationRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/comments", commentRoutes);
@@ -74,6 +73,18 @@ io.on("connection", async (socket) => {
                 notificationService.updateNotification(id, { isPending: false });
             });
         }
+
+        socket.on("invalidateWorkspaces", async (workspaceId) => {
+            const workspace = await workspaceService.getWorkspaceById(workspaceId);
+            const members = workspace?.members;
+            if (members) {
+                members.map((member) => {
+                    if (connected.has(member)) {
+                        io.to(member).emit("invalidateWorkspaces");
+                    }
+                });
+            }
+        });
 
         socket.on("invalidateBoards", async (boardId) => {
             const board = await boardService.getBoardById(boardId);

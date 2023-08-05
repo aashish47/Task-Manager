@@ -9,7 +9,7 @@ import BoardRightDrawer from "../components/board/BoardRightDrawer";
 import Main from "../components/common/Main";
 import { StrictModeDroppable as Droppable } from "../components/common/StrictModeDroppable";
 import CreateList from "../components/list/CreateList";
-import TaskList from "../components/task/TaskList";
+import TaskList from "../components/list/TaskList";
 import WorkspaceDrawer from "../components/workspace/WorkspaceDrawer";
 import { onDragEnd } from "../helpers/dragHelpers";
 import useBoardsContext from "../hooks/board/useBoardsContext";
@@ -70,11 +70,11 @@ const Board = () => {
                     board={board}
                 />
 
-                <DragDropContext onDragEnd={(result) => onDragEnd(result, moveTaskMutation, updateListMutation, updateBoardMutation, lists, board)}>
-                    <Droppable droppableId={boardId} direction="horizontal" type="lists">
-                        {(provided) => (
-                            <Main ref={provided.innerRef} {...provided.droppableProps} left={openLeftDrawer} right={openRightDrawer}>
-                                <Stack direction="row" spacing={1} sx={{ overflowX: "auto", overflowY: "hidden", height: "calc(100vh - 107px)" }}>
+                <Main left={openLeftDrawer} right={openRightDrawer} sx={{ overflow: "auto", height: "calc(100vh - 99px)" }}>
+                    <DragDropContext onDragEnd={(result) => onDragEnd(result, moveTaskMutation, updateListMutation, updateBoardMutation, lists, board)}>
+                        <Droppable droppableId={boardId} direction="horizontal" type="lists">
+                            {(provided) => (
+                                <Stack ref={provided.innerRef} {...provided.droppableProps} direction="row" spacing={1}>
                                     {lists &&
                                         lists.map((list, index) => {
                                             return list && <TaskList key={list._id} index={index} list={list} boardId={boardId} />;
@@ -82,10 +82,10 @@ const Board = () => {
                                     {provided.placeholder}
                                     {workspaceId && <CreateList workspaceId={workspaceId} boardId={boardId} />}{" "}
                                 </Stack>
-                            </Main>
-                        )}
-                    </Droppable>
-                </DragDropContext>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+                </Main>
             </Stack>
             <BoardRightDrawer open={openRightDrawer} setOpen={setOpenRightDrawer} board={board} />
         </Box>

@@ -5,8 +5,10 @@ interface IWorkspace extends Document {
     description?: string;
     createdBy: string;
     members: string[];
+    guests: string[];
     admin: string;
     addMembers: (members: string[]) => void;
+    addGuests: (members: string[]) => void;
     setAdmin: (admin: string) => void;
 }
 
@@ -27,6 +29,10 @@ const WorkspaceSchema: Schema<IWorkspace> = new Schema(
             type: [String],
             default: [],
         },
+        guests: {
+            type: [String],
+            default: [],
+        },
         admin: String,
     },
 
@@ -35,6 +41,10 @@ const WorkspaceSchema: Schema<IWorkspace> = new Schema(
 
 WorkspaceSchema.methods.addMembers = function (members: string[]) {
     this.members.push(...members);
+};
+
+WorkspaceSchema.methods.addGuests = function (guests: string[]) {
+    this.guests.push(...guests);
 };
 
 WorkspaceSchema.methods.setAdmin = function (admin: string) {

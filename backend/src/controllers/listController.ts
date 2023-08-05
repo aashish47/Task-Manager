@@ -15,7 +15,6 @@ export const createList = async (req: Request, res: Response) => {
         const board = await BoardModel.findById(boardId);
         if (board) {
             board.addList(newList._id);
-
             await board.save();
         } else {
             throw new Error("Board not found");

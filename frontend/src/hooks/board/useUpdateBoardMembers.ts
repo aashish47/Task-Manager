@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { sendInvitation } from "../../api/api";
+import { updateBoardMembers } from "../../api/api";
 
-const useSendInvitationMutation = () => {
+const useUpdateBoardMembers = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: sendInvitation,
+        mutationFn: updateBoardMembers,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["Boards"] });
         },
     });
 };
 
-export default useSendInvitationMutation;
+export default useUpdateBoardMembers;

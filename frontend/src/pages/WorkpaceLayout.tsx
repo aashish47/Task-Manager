@@ -5,16 +5,16 @@ import { useParams } from "react-router-dom";
 import Main from "../components/common/Main";
 import WorkspaceDetailsBar from "../components/workspace/WorkspaceDetailsBar";
 import WorkspaceDrawer from "../components/workspace/WorkspaceDrawer";
-import useGetWorkspaceById from "../hooks/workspace/useGetWorkspaceById";
+import useWorkspacesContext from "../hooks/workspace/useWorkspaceContext";
 
 type WorkspaceLayoutProps = {
     children: ReactNode;
 };
 
 const WorkspaceLayout: React.FC<WorkspaceLayoutProps> = ({ children }) => {
-    const { wid: workspaceId = "" } = useParams();
-    const workspace = useGetWorkspaceById(workspaceId);
-    const { description = "", name: wname = "" } = workspace ?? {};
+    const { wid: workspaceId } = useParams();
+    const workspaces = useWorkspacesContext();
+    const workspace = workspaces?.find((workspace) => workspace._id === workspaceId);
     const [openLeftDrawer, setOpenLeftDrawer] = useState(true);
     return (
         <Stack direction="row" sx={{ overflowX: "hidden" }}>
@@ -29,7 +29,7 @@ const WorkspaceLayout: React.FC<WorkspaceLayoutProps> = ({ children }) => {
                     )}
                     <Box sx={{ m: 5, width: "100vw" }}>
                         <Stack>
-                            <WorkspaceDetailsBar wname={wname} description={description} />
+                            {workspace && <WorkspaceDetailsBar workspace={workspace} />}
                             <Divider sx={{ my: 2 }} />
                             {children}
                         </Stack>

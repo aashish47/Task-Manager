@@ -4,6 +4,9 @@ import { createMultipleNotifications } from "../helpers/createMultipleNotificati
 import { getSender } from "../helpers/getSender";
 import { sendMultipleNotifications } from "../helpers/sendMultipleNotification";
 import { CustomRequest } from "../middlewares/authenticateFirebaseToken";
+import boardService from "../services/boardService";
+import listService from "../services/listService";
+import taskService from "../services/taskService";
 import workspaceService from "../services/workspaceService";
 
 export const createWorkspace = async (req: CustomRequest, res: Response) => {
@@ -28,14 +31,25 @@ export const createWorkspace = async (req: CustomRequest, res: Response) => {
 
 export const deleteWorkspace = async (req: Request, res: Response) => {
     const { id } = req.params;
+    const session = await mongoose.startSession();
     try {
+        session.startTransaction();
         const deletedWorkspace = await workspaceService.deleteWorkspace(id);
+        await boardService.deleteBoardByWorkspaceId(id);
+        await listService.deleteListByWorkspaceId(id);
+        await taskService.deleteTaskByWorkspaceId(id);
         if (deletedWorkspace) {
+            session.commitTransaction();
+            session.endSession();
             res.json(deletedWorkspace);
         } else {
+            session.abortTransaction();
+            session.endSession();
             res.status(404).json({ error: "Workspace not found" });
         }
     } catch (error: any) {
+        session.abortTransaction();
+        session.endSession();
         res.status(500).json({ error: error.message });
     }
 };
@@ -64,9 +78,9 @@ export const getAllWorkspacesByMembers = async (req: CustomRequest, res: Respons
 
 export const updateWorkspace = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { name, description } = req.body;
+    const { newWorkspace } = req.body;
     try {
-        const updatedWorkspace = await workspaceService.updateWorkspace(id, name, description);
+        const updatedWorkspace = await workspaceService.updateWorkspace(id, newWorkspace);
         if (updatedWorkspace) {
             res.json(updatedWorkspace);
         } else {
@@ -81,6 +95,20 @@ export const getWorkspaceById = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const workspace = await workspaceService.getWorkspaceById(id);
+        if (workspace) {
+            res.json(workspace);
+        } else {
+            res.status(404).json({ error: "Workspace not found" });
+        }
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getWorkspaceByUid = async (req: Request, res: Response) => {
+    const { uid } = req.params;
+    try {
+        const workspace = await workspaceService.getWorkspaceByUid(uid);
         if (workspace) {
             res.json(workspace);
         } else {

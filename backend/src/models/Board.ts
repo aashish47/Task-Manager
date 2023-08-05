@@ -10,7 +10,7 @@ export interface IBoard extends Document {
     coverUrls: { full: string; raw: string; small: string; thumb: string; regular: string };
 
     addList: (listId: string) => void;
-    addMember: (member: string) => void;
+    addMembers: (member: string[]) => void;
     setAdmin: (admin: string) => void;
 }
 
@@ -54,8 +54,8 @@ BoardSchema.methods.addList = function (listId: string) {
     this.listsIds.push(listId);
 };
 
-BoardSchema.methods.addMember = function (member: string) {
-    this.members.push(member);
+BoardSchema.methods.addMembers = function (member: string[]) {
+    this.members.push(...member);
 };
 
 BoardSchema.methods.setAdmin = function (admin: string) {

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import useUpdateBoardMutation from "../../hooks/board/useUpdateBoardMutation";
 import { BoardType } from "../../types/boardTypes";
 import AppBar from "./AppBar";
-import InviteDialog from "./InviteDialog";
+import BoardInvite from "./BoardInvite";
 
 type BoardAppBarProps = {
     openLeftDrawer: boolean;
@@ -47,7 +47,7 @@ const BoardAppBar: React.FC<BoardAppBarProps> = ({ openLeftDrawer, setOpenLeftDr
 
     const handleClickAway = async () => {
         setEditBName(false);
-        if (board && inputBName) {
+        if (board && inputBName !== boardName) {
             const newBoard = { ...board, name: inputBName };
             await updateBoardMutation.mutateAsync({ boardId, newBoard });
         }
@@ -108,7 +108,7 @@ const BoardAppBar: React.FC<BoardAppBarProps> = ({ openLeftDrawer, setOpenLeftDr
                         >
                             Invite
                         </Button>
-                        <InviteDialog boardId={boardId} open={openInvite} setOpen={setOpenInvite} />
+                        <BoardInvite board={board} open={openInvite} setOpen={setOpenInvite} />
                     </Stack>
                 </Stack>
                 <IconButton

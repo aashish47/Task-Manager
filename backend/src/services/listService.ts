@@ -13,6 +13,10 @@ const deleteListByBoardId = async (boardId: string) => {
     return await ListModel.deleteMany({ boardId });
 };
 
+const deleteListByWorkspaceId = async (workspaceId: string) => {
+    return await ListModel.deleteMany({ workspaceId });
+};
+
 const getAllLists = async (createdBy: string) => {
     return await ListModel.find({ createdBy });
 };
@@ -33,6 +37,7 @@ export default {
     createList,
     deleteList,
     deleteListByBoardId,
+    deleteListByWorkspaceId,
     getAllLists,
     updateList,
     getListById,

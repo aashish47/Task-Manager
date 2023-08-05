@@ -9,6 +9,10 @@ const deleteBoard = async (id: string) => {
     return await Board.findByIdAndDelete(id);
 };
 
+const deleteBoardByWorkspaceId = async (workspaceId: string) => {
+    return await Board.deleteMany({ workspaceId });
+};
+
 const getAllBoards = async (userId: string) => {
     return await Board.find({ members: userId });
 };
@@ -24,6 +28,7 @@ const getBoardById = async (id: string) => {
 export default {
     createBoard,
     deleteBoard,
+    deleteBoardByWorkspaceId,
     getAllBoards,
     updateBoard,
     getBoardById,

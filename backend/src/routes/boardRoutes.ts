@@ -1,5 +1,5 @@
 import express from "express";
-import { createBoard, deleteBoard, getAllBoards, getBoardById, updateBoard } from "../controllers/boardController";
+import { createBoard, deleteBoard, getAllBoards, getBoardById, updateBoard, updateBoardMembers } from "../controllers/boardController";
 
 const router = express.Router();
 
@@ -10,6 +10,8 @@ router.get("/:id", getBoardById);
 router.post("/", createBoard);
 
 router.put("/:id", updateBoard);
+
+router.put("/:id/members", updateBoardMembers);
 
 router.delete("/:id", deleteBoard);
 

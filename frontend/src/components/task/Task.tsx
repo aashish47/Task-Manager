@@ -72,12 +72,12 @@ const Task: React.FC<TaskProps> = ({ boardId, task, index, listName }) => {
                                     justifyContent="space-between"
                                 >
                                     <Typography variant="body2">{inputTName}</Typography>
-                                    {/* <TaskActions boardId={boardId} taskId={taskId} /> */}
                                 </Stack>
                             </CardContent>
                         ) : (
                             <ClickAwayListener onClickAway={handleClickAway}>
                                 <TextField
+                                    onClick={(e) => e.stopPropagation()}
                                     inputProps={{ style: { fontWeight: "400", fontSize: "0.875rem", lineHeight: "1.43", letterSpacing: "0.01071em" } }}
                                     onKeyDown={handleKeyDown}
                                     value={changeValue}
