@@ -23,7 +23,7 @@ const TaskDelete: React.FC<TaskDeleteProps> = ({ task }) => {
 
     return (
         <div>
-            <Button onClick={() => setOpen(true)} color="secondary" fullWidth variant="outlined">
+            <Button onClick={() => setOpen(true)} color="inherit" fullWidth variant="outlined">
                 Delete
             </Button>
             <DeleteDialog type="task" name={name} handleDelete={handleDelete} open={open} setOpen={setOpen} />

@@ -6,10 +6,11 @@ import * as React from "react";
 import { useState } from "react";
 import useSearchPhotos from "../../hooks/photo/useSearchPhotos";
 import { TaskType } from "../../types/taskTypes";
-import CoverImages from "../common/CoverImages";
 import SearchCover from "./SearchCover";
+import CoverImages from "./TaskCoverImages";
 // @ts-ignore
 import { MuiColorInput, MuiColorInputFormat, MuiColorInputValue } from "mui-color-input";
+import useUpdateTaskMutation from "../../hooks/task/useUpdateTaskMutation";
 
 type TaskDatesCoverProps = {
     task: TaskType;
@@ -18,6 +19,7 @@ type TaskDatesCoverProps = {
 const TaskCoverMenu: React.FC<TaskDatesCoverProps> = ({ task }) => {
     // const defaultPhotos = useGetDefaultPhotos()?.response?.results;
     const searchPhotos = useSearchPhotos("Wallpapers")?.response?.results;
+    const updateTaskMutation = useUpdateTaskMutation();
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -34,10 +36,21 @@ const TaskCoverMenu: React.FC<TaskDatesCoverProps> = ({ task }) => {
         setValue(newValue);
     };
 
+    const handleRemoveCover = async () => {
+        try {
+            const { _id: taskId, boardId } = task;
+            const newTask = { ...task, cover: "" };
+            await updateTaskMutation.mutateAsync({ boardId, taskId, newTask });
+        } catch (error) {
+            console.log(error);
+        }
+        handleClose();
+    };
+
     return (
         <div>
             <Button
-                color="secondary"
+                color="inherit"
                 fullWidth
                 variant="outlined"
                 id="basic-button"
@@ -67,7 +80,7 @@ const TaskCoverMenu: React.FC<TaskDatesCoverProps> = ({ task }) => {
                         </IconButton>
                     </Stack>
                     <Stack sx={{ mt: 1 }} gap={1.5}>
-                        <Button variant="contained" size="small" color="secondary" fullWidth>
+                        <Button onClick={handleRemoveCover} variant="contained" size="small" color="secondary" fullWidth>
                             remove cover
                         </Button>
                         <Box>

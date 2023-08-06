@@ -49,7 +49,7 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
                         <IconButton sx={{ display: { sm: "none" } }}>
                             <MoreHorizIcon />
                         </IconButton>
-                        <IconButton onClick={handleClose}>
+                        <IconButton color="inherit" onClick={handleClose}>
                             <CloseIcon />
                         </IconButton>
                     </DialogActions>
@@ -75,15 +75,15 @@ const TaskDialog: React.FC<TaskdialogProps> = ({ open, setOpen, listName, task }
 
                     <Grid sx={{ display: { xs: "none", sm: "block" } }} sm={3}>
                         <Stack gap={1}>
-                            <Button color="secondary" fullWidth variant="outlined">
+                            <Button color="inherit" fullWidth variant="outlined">
                                 members
                             </Button>
-                            <Button color="secondary" fullWidth variant="outlined">
+                            <Button color="inherit" fullWidth variant="outlined">
                                 labels
                             </Button>
                             <TaskDatesMenu task={task} />
                             <TaskCoverMenu task={task} />
-                            <Button color="secondary" fullWidth variant="outlined">
+                            <Button color="inherit" fullWidth variant="outlined">
                                 checklist
                             </Button>
                             <TaskDelete task={task} />

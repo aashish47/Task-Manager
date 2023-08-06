@@ -28,7 +28,7 @@ const WorkspaceVisibility = () => {
                 onClick={handleClick}
                 sx={{ alignItems: "flex-start" }}
                 size="small"
-                color="secondary"
+                color="inherit"
                 variant="outlined"
             >
                 Change
@@ -48,7 +48,7 @@ const WorkspaceVisibility = () => {
                         <Typography variant="subtitle2" sx={{ flexGrow: 2, textAlign: "center" }}>
                             Select Workspace Visibility
                         </Typography>
-                        <IconButton onClick={handleClose}>
+                        <IconButton color="inherit" onClick={handleClose}>
                             <CloseIcon fontSize="small" />
                         </IconButton>
                     </Stack>

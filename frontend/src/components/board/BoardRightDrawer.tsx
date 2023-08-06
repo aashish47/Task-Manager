@@ -46,7 +46,9 @@ const BoardRightDrawer: React.FC<BoardRightDrawerProps> = ({ open, setOpen, boar
             open={open}
         >
             <DrawerHeader sx={{ justifyContent: "space-between", minHeight: "49px!important" }}>
-                <IconButton onClick={handleDrawerClose}>{theme.direction === "rtl" ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
+                <IconButton color="inherit" onClick={handleDrawerClose}>
+                    {theme.direction === "rtl" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                </IconButton>
 
                 <Typography variant="subtitle1">Menu</Typography>
                 <Box sx={{ width: 40, height: 40 }} />

@@ -6,7 +6,7 @@ import Menu from "@mui/material/Menu";
 import * as React from "react";
 import useSearchPhotos from "../../hooks/photo/useSearchPhotos";
 import { TaskType } from "../../types/taskTypes";
-import CoverImages from "../common/CoverImages";
+import CoverImages from "./TaskCoverImages";
 
 type SearchCoverProps = {
     task: TaskType;

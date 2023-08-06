@@ -13,6 +13,7 @@ import BoardCoverImages from "./BoardCoverImages";
 import BoardSearchCover from "./BoardSearchCover";
 // @ts-ignore
 import { MuiColorInput, MuiColorInputFormat, MuiColorInputValue } from "mui-color-input";
+import useUpdateBoardMutation from "../../hooks/board/useUpdateBoardMutation";
 
 type BoardChangeBackgroundProps = {
     board: BoardType;
@@ -21,6 +22,7 @@ type BoardChangeBackgroundProps = {
 const BoardChangeBackground: React.FC<BoardChangeBackgroundProps> = ({ board }) => {
     // const defaultPhotos = useGetDefaultPhotos()?.response?.results;
     const searchPhotos = useSearchPhotos("Wallpapers")?.response?.results;
+    const updateBoardMutation = useUpdateBoardMutation();
     const [open, setOpen] = React.useState<boolean>(false);
     const theme = useTheme();
     const [value, setValue] = useState<MuiColorInputValue>("");
@@ -37,6 +39,17 @@ const BoardChangeBackground: React.FC<BoardChangeBackgroundProps> = ({ board }) 
 
     const handleChange = (newValue: string) => {
         setValue(newValue);
+    };
+
+    const handleRemoveCover = async () => {
+        try {
+            const { _id: boardId } = board;
+            const newBoard = { ...board, coverUrls: { full: "", raw: "", small: "", regular: "", thumb: "" } };
+            await updateBoardMutation.mutateAsync({ boardId, newBoard });
+        } catch (error) {
+            console.log(error);
+        }
+        handleClose();
     };
 
     return (
@@ -76,7 +89,7 @@ const BoardChangeBackground: React.FC<BoardChangeBackgroundProps> = ({ board }) 
 
                 <Container fixed>
                     <Stack sx={{ mt: 1 }} gap={1.5}>
-                        <Button variant="contained" size="small" color="secondary" fullWidth>
+                        <Button onClick={handleRemoveCover} variant="contained" size="small" color="secondary" fullWidth>
                             remove cover
                         </Button>
                         <Box>

@@ -3,14 +3,14 @@ import { Basic } from "unsplash-js/dist/methods/photos/types";
 import useUpdateTaskMutation from "../../hooks/task/useUpdateTaskMutation";
 import { TaskType } from "../../types/taskTypes";
 
-type CoverImages = {
+type TaskCoverImages = {
     task: TaskType;
     photos: Basic[] | undefined;
     variant: "masonry" | "quilted" | "standard" | "woven";
     handleClose: () => void;
 };
 
-const CoverImages: React.FC<CoverImages> = ({ task, photos, variant, handleClose }) => {
+const TaskCoverImages: React.FC<TaskCoverImages> = ({ task, photos, variant, handleClose }) => {
     const { _id: taskId, boardId } = task;
     const updateTaskMutation = useUpdateTaskMutation();
 
@@ -36,4 +36,4 @@ const CoverImages: React.FC<CoverImages> = ({ task, photos, variant, handleClose
     );
 };
 
-export default CoverImages;
+export default TaskCoverImages;

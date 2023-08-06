@@ -51,7 +51,7 @@ const WorkspaceDetailsBar: React.FC<WorkspaceDetailsBarProps> = ({ workspace }) 
             <Typography variant="caption">{description}</Typography>
 
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Edit Workpspace</DialogTitle>
+                <DialogTitle alignSelf="center">Edit Workspace</DialogTitle>
                 <DialogContent>
                     <TextField
                         InputLabelProps={{

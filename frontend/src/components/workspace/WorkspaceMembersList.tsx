@@ -21,7 +21,7 @@ const WorkspaceMembersList: React.FC<WorkspaceMembersListProps> = ({ member, but
                 </Avatar>
                 <Typography ml={1}>{user.name}</Typography>
                 <Box sx={{ flexGrow: 1 }} />
-                <Button onClick={onClick} size="small" variant="outlined" color="secondary">
+                <Button onClick={onClick} size="small" variant="outlined" color="inherit">
                     {button}
                 </Button>
             </Stack>

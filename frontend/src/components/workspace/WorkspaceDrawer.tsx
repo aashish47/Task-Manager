@@ -92,7 +92,9 @@ const WorkspaceDrawer: React.FC<WorkspaceDrawerProps> = ({ open, setOpen }) => {
                     {workspaceName && <WorkspaceAvatar wname={workspaceName} size={{ width: 30, height: 30 }} />}
                     <Typography variant="subtitle1">{workspaceName}</Typography>
                 </Stack>
-                <IconButton onClick={handleDrawerClose}>{theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
+                <IconButton color="inherit" onClick={handleDrawerClose}>
+                    {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                </IconButton>
             </DrawerHeader>
             <Divider />
             {isWorkspaceMember && (

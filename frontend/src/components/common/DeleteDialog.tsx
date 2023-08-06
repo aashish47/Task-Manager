@@ -19,7 +19,7 @@ const DeleteDialog: React.FC<DeleteDialogProps> = ({ type, name, handleDelete, o
         setOpen(false);
     };
 
-    const handleAgree = () => {
+    const handleConfirm = () => {
         handleDelete();
         handleClose();
     };
@@ -32,9 +32,9 @@ const DeleteDialog: React.FC<DeleteDialogProps> = ({ type, name, handleDelete, o
                     <DialogContentText id="alert-dialog-description">{`This is permanent and cannot be undone. Delete the ${type} ${name}?`}</DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={handleAgree} autoFocus>
-                        Agree
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleConfirm} autoFocus>
+                        Delete
                     </Button>
                 </DialogActions>
             </Dialog>

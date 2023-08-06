@@ -49,7 +49,7 @@ const TaskDatesMenu: React.FC<TaskDatesMenuProps> = ({ task }) => {
     return (
         <div>
             <Button
-                color="secondary"
+                color="inherit"
                 fullWidth
                 variant="outlined"
                 id="basic-button"
