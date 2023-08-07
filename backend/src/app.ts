@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import http from "http";
 import mongoose from "mongoose";
+import path from "path";
 import { Server } from "socket.io";
 import { config } from "./config/config";
 import { authenticateFirebaseToken, authenticateToken } from "./middlewares/authenticateFirebaseToken";
@@ -32,13 +33,6 @@ export let io = new Server(server, {
 const environment = process.env.NODE_ENV || "development";
 console.log(`Current Environment: ${environment}`);
 
-if (environment === "production") {
-    app.use(express.static("public"));
-    io = new Server(server);
-} else if (environment === "development") {
-    app.use(cors());
-}
-
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 app.use((req, res, next) => {
@@ -53,6 +47,16 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/comments", commentRoutes);
+
+if (environment === "production") {
+    app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+    app.get("*", (_req, res) => {
+        res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+    });
+    io = new Server(server);
+} else if (environment === "development") {
+    app.use(cors());
+}
 
 export const connected = new Map<string, Set<string>>();
 
