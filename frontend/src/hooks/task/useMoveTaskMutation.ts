@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { moveTask } from "../../api/api";
-import useSocketContext from "../context/useSocketContext";
 import { ListType } from "../../types/listTypes";
 import { TaskType } from "../../types/taskTypes";
+import useSocketContext from "../context/useSocketContext";
 
 const useMoveTaskMutation = () => {
     const queryClient = useQueryClient();
@@ -44,7 +44,7 @@ const useMoveTaskMutation = () => {
 
             return { previousData, newData };
         },
-        onSettled: (data, error, variables, context) => {
+        onSettled: (_data, error, variables, context) => {
             const { boardId } = variables;
             if (error) {
                 console.log(error);
@@ -52,8 +52,6 @@ const useMoveTaskMutation = () => {
                 queryClient.setQueryData(["Lists", boardId], context?.previousData.previousListData);
             }
 
-            // queryClient.invalidateQueries(["Tasks", boardId]);
-            // queryClient.invalidateQueries(["Lists", boardId]);
             socket?.emit("invalidateTasks", boardId);
             socket?.emit("invalidateLists", boardId);
         },

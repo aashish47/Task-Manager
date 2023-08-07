@@ -192,7 +192,7 @@ export const createList = async (List: CreateListType) => {
 
 export const updateList = async ({ boardId, listId, newList }: { boardId: string; listId: string; newList: ListType }) => {
     try {
-        const response = await api.put(`/lists/${listId}`, { newList });
+        const response = await api.put(`/lists/${listId}`, { newList, boardId });
 
         return response.data;
     } catch (error) {
@@ -205,6 +205,7 @@ export const deleteList = async ({ boardId, listId }: { boardId: string; listId:
         const response = await api.delete(`/lists/${listId}`);
         return response.data;
     } catch (error) {
+        console.log(boardId);
         await checkErrorType(error);
     }
 };
@@ -240,7 +241,7 @@ export const createTask = async (task: CreateTaskType) => {
 
 export const updateTask = async ({ boardId, taskId, newTask }: { boardId: string; taskId: string; newTask: TaskType }) => {
     try {
-        const response = await api.put(`/tasks/${taskId}`, { newTask });
+        const response = await api.put(`/tasks/${taskId}`, { newTask, boardId });
         return response.data;
     } catch (error) {
         await checkErrorType(error);
@@ -268,6 +269,7 @@ export const moveTask = async ({
             finishListId,
             newStartList,
             newFinishList,
+            boardId,
         });
         return response.data;
     } catch (error) {
@@ -280,6 +282,7 @@ export const deleteTask = async ({ boardId, taskId }: { boardId: string; taskId:
         const response = await api.delete(`/tasks/${taskId}`);
         return response.data;
     } catch (error) {
+        console.log(boardId);
         await checkErrorType(error);
     }
 };
@@ -352,6 +355,7 @@ export const deleteComment = async ({ commentId, taskId }: { commentId: string; 
         const response = await api.delete(`/comments/${commentId}`);
         return response.data;
     } catch (error) {
+        console.log(taskId);
         await checkErrorType(error);
     }
 };

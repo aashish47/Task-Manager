@@ -5,8 +5,7 @@ const useDeleteWorkspaceMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: deleteWorkspace,
-        onSettled: (data, error, variables, context) => {
-            const { workspaceId } = variables;
+        onSettled: (_data, _error, _variables, _context) => {
             queryClient.invalidateQueries({ queryKey: ["Workspaces"] });
         },
     });

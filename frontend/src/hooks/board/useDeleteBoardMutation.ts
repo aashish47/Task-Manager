@@ -5,8 +5,7 @@ const useDeleteBoardMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: deleteBoard,
-        onSettled: (data, error, variables, context) => {
-            const { boardId } = variables;
+        onSettled: (_data, _error, _variables, _context) => {
             queryClient.invalidateQueries({ queryKey: ["Boards"] });
         },
     });

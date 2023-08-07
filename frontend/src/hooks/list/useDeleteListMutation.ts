@@ -1,18 +1,14 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { deleteList } from "../../api/api";
-import { Socket } from "socket.io-client";
 import useSocketContext from "../context/useSocketContext";
 
 const useDeleteListMutation = () => {
-    const queryClient = useQueryClient();
     const socket = useSocketContext();
 
     return useMutation({
         mutationFn: deleteList,
-        onSettled: (data, error, variables, context) => {
+        onSettled: (_data, _error, variables, _context) => {
             const { boardId } = variables;
-            // queryClient.invalidateQueries({ queryKey: ["Lists", boardId] });
-            // queryClient.invalidateQueries({ queryKey: ["Boards"] });
             socket?.emit("invalidateLists", boardId);
             socket?.emit("invalidateBoards", boardId);
         },

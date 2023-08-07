@@ -10,12 +10,11 @@ export type option = {
 type UserAutoCompleteProps = {
     name: string;
     setName: React.Dispatch<React.SetStateAction<string>>;
-    tags: string[];
     setTags: React.Dispatch<React.SetStateAction<string[]>>;
     members: string[];
 };
 
-const UserAutocomplete: React.FC<UserAutoCompleteProps> = ({ name, setName, tags, setTags, members }) => {
+const UserAutocomplete: React.FC<UserAutoCompleteProps> = ({ name, setName, setTags, members }) => {
     const users = useSearchUsersByName(name) ?? [];
 
     const options: option[] = [];
@@ -29,15 +28,15 @@ const UserAutocomplete: React.FC<UserAutoCompleteProps> = ({ name, setName, tags
         }
     }
 
-    const handleInputChange = (event: SyntheticEvent<Element, Event>, value: string, reason: AutocompleteInputChangeReason) => {
+    const handleInputChange = (_event: SyntheticEvent<Element, Event>, value: string, _reason: AutocompleteInputChangeReason) => {
         setName(value);
     };
 
     const handleTagChange = (
-        event: SyntheticEvent<Element, Event>,
+        _event: SyntheticEvent<Element, Event>,
         value: (string | option)[],
-        reason: AutocompleteChangeReason,
-        details?: AutocompleteChangeDetails<unknown> | undefined
+        _reason: AutocompleteChangeReason,
+        _details?: AutocompleteChangeDetails<unknown> | undefined
     ) => {
         if (value) {
             const tagValues = value.map((user) => (typeof user === "string" ? user : user.value));

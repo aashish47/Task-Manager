@@ -1,16 +1,14 @@
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { createList } from "../../api/api";
 import useSocketContext from "../context/useSocketContext";
 
 const useCreateListMutation = () => {
-    const queryClient = useQueryClient();
     const socket = useSocketContext();
     return useMutation({
         mutationFn: createList,
-        onSuccess: (data, variables, context) => {
+        onSuccess: (_data, variables, _context) => {
             const { boardId } = variables;
-            // queryClient.invalidateQueries({ queryKey: ["Lists", boardId] });
-            // queryClient.invalidateQueries({ queryKey: ["Boards"] });
+
             socket?.emit("invalidateLists", boardId);
             socket?.emit("invalidateBoards", boardId);
         },

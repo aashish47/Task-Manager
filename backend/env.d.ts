@@ -1,9 +1,11 @@
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            SERVER_PORT: number;
+            NODE_ENV: "development" | "production" | "test";
+            SERVER_PORT: string;
             MONGO_USERNAME: string;
             MONGO_PASSWORD: string;
+            SERVICE_ACCOUNT_KEY: string;
         }
     }
 }

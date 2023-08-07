@@ -23,13 +23,12 @@ const useUpdateWorkspaceMutation = () => {
             );
             return { previousWorkspaceData, newWorkspaceData };
         },
-        onSettled: (data, error, variables, context) => {
+        onSettled: (_data, error, variables, context) => {
             const { workspaceId } = variables;
             if (error) {
                 console.log(error);
                 queryClient.setQueryData(["Workspaces"], context?.previousWorkspaceData);
             }
-            // queryClient.invalidateQueries(["Workspaces"]);
             socket?.emit("invalidateWorkspaces", workspaceId);
         },
     });

@@ -23,13 +23,12 @@ const useUpdateBoardMutation = () => {
             );
             return { previousBoardData, newBoardData };
         },
-        onSettled: (data, error, variables, context) => {
+        onSettled: (_data, error, variables, context) => {
             const { boardId } = variables;
             if (error) {
                 console.log(error);
                 queryClient.setQueryData(["Boards"], context?.previousBoardData);
             }
-            // queryClient.invalidateQueries(["Boards"]);
             socket?.emit("invalidateBoards", boardId);
         },
     });

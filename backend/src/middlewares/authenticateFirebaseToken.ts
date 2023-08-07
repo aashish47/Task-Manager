@@ -1,10 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import * as admin from "firebase-admin";
-import * as serviceAccount from "../../keys/serviceAccountKey.json";
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
-});
+const serviceAccountKeyString = process.env.SERVICE_ACCOUNT_KEY;
+
+if (serviceAccountKeyString) {
+    const serviceAccount = JSON.parse(serviceAccountKeyString);
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+    });
+} else {
+    console.error("SERVICE_ACCOUNT_KEY is not set in the environment.");
+}
 
 export interface CustomRequest extends Request {
     user?: admin.auth.DecodedIdToken;

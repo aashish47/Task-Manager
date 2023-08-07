@@ -1,15 +1,13 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { createComment } from "../../api/api";
 import useSocketContext from "../context/useSocketContext";
 
 const useCreateCommentMutation = () => {
-    const queryClient = useQueryClient();
     const socket = useSocketContext();
     return useMutation({
         mutationFn: createComment,
-        onSuccess: (data, variables, context) => {
+        onSuccess: (_data, variables, _context) => {
             const { taskId } = variables;
-            // queryClient.invalidateQueries({ queryKey: ["Comments", taskId] });
             socket?.emit("invalidateComments", taskId);
         },
     });

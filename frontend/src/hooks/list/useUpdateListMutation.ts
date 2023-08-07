@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateList } from "../../api/api";
-import useSocketContext from "../context/useSocketContext";
 import { ListType } from "../../types/listTypes";
+import useSocketContext from "../context/useSocketContext";
 
 const useUpdateListMutation = () => {
     const queryClient = useQueryClient();
@@ -21,13 +21,12 @@ const useUpdateListMutation = () => {
             );
             return { previousListData, newListData };
         },
-        onSettled: (data, error, variables, context) => {
+        onSettled: (_data, error, variables, context) => {
             const { boardId } = variables;
             if (error) {
                 console.log(error);
                 queryClient.setQueryData(["Lists", boardId], context?.previousListData);
             }
-            // queryClient.invalidateQueries(["Lists", boardId]);
             socket?.emit("invalidateLists", boardId);
         },
     });

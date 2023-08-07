@@ -21,13 +21,12 @@ const useUpdateTaskMutation = () => {
             );
             return { previousTaskData, newTaskData };
         },
-        onSettled: (data, error, variables, context) => {
+        onSettled: (_data, error, variables, context) => {
             const { boardId } = variables;
             if (error) {
                 console.log(error);
                 queryClient.setQueryData(["Tasks", boardId], context?.previousTaskData);
             }
-            // queryClient.invalidateQueries(["Tasks", boardId]);
             socket?.emit("invalidateTasks", boardId);
         },
     });

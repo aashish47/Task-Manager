@@ -45,7 +45,7 @@ const WorkspaceInvite = () => {
                 <DialogTitle>Share Workspace</DialogTitle>
                 <form autoComplete="off">
                     <DialogContent>
-                        <UserAutocomplete members={members} tags={tags} setTags={setTags} name={name} setName={setName} />
+                        <UserAutocomplete members={members} setTags={setTags} name={name} setName={setName} />
                     </DialogContent>
 
                     <DialogActions>
