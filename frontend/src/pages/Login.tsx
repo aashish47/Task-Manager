@@ -1,12 +1,15 @@
+import { Auth, getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
 import { useEffect } from "react";
-import { auth } from "../firebase/firebase";
+// import { auth } from "../firebase/firebase";
 
 const Login = () => {
+    const auth = getAuth();
+    console.log(auth);
     useEffect(() => {
-        const loadFirebaseUI = async () => {
+        const loadFirebaseUI = async (auth: Auth) => {
             const uiConfig = {
                 signInOptions: [
                     firebase.auth.EmailAuthProvider.PROVIDER_ID,
@@ -27,8 +30,8 @@ const Login = () => {
             ui.start("#firebaseui-auth-container", uiConfig);
         };
 
-        loadFirebaseUI();
-    }, []);
+        loadFirebaseUI(auth);
+    }, [auth]);
 
     return <div id="firebaseui-auth-container" style={{ marginTop: "25vh" }}></div>;
 };

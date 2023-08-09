@@ -16,7 +16,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { auth } from "../../firebase/firebase";
+// import { auth } from "../../firebase/firebase";
+import { getFirebaseAuth } from "../../firebase/firebase";
 import CreateMenu from "./CreateMenu";
 import NotificationMenu from "./NotificationsMenu";
 import RecentMenu from "./RecentMenu";
@@ -59,11 +60,15 @@ const PrimarySearchAppBar: React.FC<PrimarySearchAppBarProps> = ({ newNotificati
 
     const navigate = useNavigate();
     const handleLogout = async () => {
-        try {
-            await auth.signOut();
-            navigate("/");
-        } catch (error) {
-            console.log("Error signing out:", error);
+        const auth = getFirebaseAuth();
+        console.log(auth);
+        if (auth) {
+            try {
+                await auth.signOut();
+                navigate("/");
+            } catch (error) {
+                console.log("Error signing out:", error);
+            }
         }
         handleMenuClose();
     };

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getRefreshApiKey } from "../helpers/refreshTokenHelper";
 import { updateToken } from "../helpers/tokenManager";
 import { BoardType, CreateBoardType } from "../types/boardTypes";
 import { CreateCommentType } from "../types/commentTypes";
@@ -29,7 +30,7 @@ const checkErrorType = async (error: any) => {
 export const handleTokenExpireError = async () => {
     console.log("firebase token expire");
     try {
-        const apiKey = import.meta.env.VITE_API_KEY;
+        const apiKey = getRefreshApiKey();
         const refreshToken = localStorage.getItem("REFRESH_TOKEN");
 
         const url = `https://securetoken.googleapis.com/v1/token?key=${apiKey}`;
@@ -357,5 +358,16 @@ export const deleteComment = async ({ commentId, taskId }: { commentId: string; 
     } catch (error) {
         console.log(taskId);
         await checkErrorType(error);
+    }
+};
+
+// Config request
+
+export const getConfig = async () => {
+    try {
+        const response = await axios.get(`http://localhost:3000/config`);
+        return response.data;
+    } catch (error) {
+        console.log(error);
     }
 };

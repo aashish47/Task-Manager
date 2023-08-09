@@ -1,15 +1,16 @@
-import { createApi } from "unsplash-js";
-
-const api = createApi({
-    accessKey: import.meta.env.VITE_UNSPLASH_ACCESS_KEY,
-});
+import { getUnspalshApi } from "../helpers/unspalshHelper";
 
 export const searchPhotos = async ({ query }: { query: string }) => {
+    const api = getUnspalshApi();
     try {
         console.log(`Request : ${query}`);
-        const response = await api.search.getPhotos({ query, perPage: 30, orientation: "landscape" });
+        if (api) {
+            const response = await api.search.getPhotos({ query, perPage: 30, orientation: "landscape" });
 
-        return response;
+            return response;
+        } else {
+            return "";
+        }
     } catch (error) {
         console.log("something went wrong!", error);
     }
