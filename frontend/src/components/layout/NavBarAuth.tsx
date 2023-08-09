@@ -61,7 +61,6 @@ const PrimarySearchAppBar: React.FC<PrimarySearchAppBarProps> = ({ newNotificati
     const navigate = useNavigate();
     const handleLogout = async () => {
         const auth = getFirebaseAuth();
-        console.log(auth);
         if (auth) {
             try {
                 await auth.signOut();

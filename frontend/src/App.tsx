@@ -1,8 +1,8 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Location, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { getConfig, handleTokenExpireError } from "./api/api";
+import { handleTokenExpireError } from "./api/api";
 import AllBoards from "./components/home/AllBoards";
 import Home from "./components/home/Home";
 import NavBar from "./components/layout/NavBar";
@@ -14,7 +14,6 @@ import WorkspaceMembers from "./components/workspace/WorkspaceMembers";
 import WorkspaceMembersLayout from "./components/workspace/WorkspaceMembersLayout";
 import WorkspaceRequests from "./components/workspace/WorkspaceRequests";
 import WorkspaceSettings from "./components/workspace/WorkspaceSettings";
-import { setKeys } from "./config/config";
 import useAuthContext from "./hooks/context/useAuthContext";
 import useSocketContext from "./hooks/context/useSocketContext";
 import Board from "./pages/Board";
@@ -24,7 +23,6 @@ import Login from "./pages/Login";
 import WorkspaceLayout from "./pages/WorkpaceLayout";
 import "./styles/App.css";
 import { createCustomTheme } from "./theme/theme";
-import { ConfigType } from "./types/configTypes";
 
 const checkBoardPage = (location: Location) => {
     const isBoardPage = location.pathname.startsWith("/b");
@@ -47,16 +45,6 @@ const App = () => {
     const location = useLocation();
     const queryClient = useQueryClient();
     const socket = useSocketContext();
-
-    const { data: configData } = useQuery<ConfigType>({ queryKey: ["Config"], queryFn: () => getConfig() });
-    const [config, setConfig] = useState<ConfigType | undefined>(configData);
-
-    useEffect(() => {
-        setConfig(configData);
-        if (configData) {
-            setKeys(configData);
-        }
-    }, [configData]);
 
     useEffect(() => {
         checkBoardPage(location);
@@ -119,130 +107,123 @@ const App = () => {
     }, [queryClient, socket, user]);
 
     return (
-        config && (
-            <ThemeProvider theme={theme}>
-                <CssBaseline enableColorScheme />
-                <main>
-                    {user ? (
-                        <NavBarAuth
-                            newNotifications={newNotifications}
-                            setNewNotifications={setNewNotifications}
-                            darkmode={darkmode}
-                            setDarkmode={setDarkmode}
-                        />
-                    ) : (
-                        <NavBar />
-                    )}
+        <ThemeProvider theme={theme}>
+            <CssBaseline enableColorScheme />
+            <main>
+                {user ? (
+                    <NavBarAuth newNotifications={newNotifications} setNewNotifications={setNewNotifications} darkmode={darkmode} setDarkmode={setDarkmode} />
+                ) : (
+                    <NavBar />
+                )}
 
-                    <Routes>
-                        <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
-                        <Route
-                            path="/"
-                            element={
-                                user ? (
-                                    <LayoutHome>
-                                        <Home />
-                                    </LayoutHome>
-                                ) : (
-                                    <Landing />
-                                )
-                            }
-                        />
-                        <Route
-                            path="/w/:wname/:wid/home"
-                            element={
-                                user ? (
-                                    <LayoutHome>
-                                        <WorkspaceHome />
-                                    </LayoutHome>
-                                ) : (
-                                    <Navigate to="/login" />
-                                )
-                            }
-                        />
-                        <Route
-                            path="/u/:user/boards"
-                            element={
-                                user ? (
-                                    <LayoutHome>
-                                        <AllBoards />
-                                    </LayoutHome>
-                                ) : (
-                                    <Navigate to="/login" />
-                                )
-                            }
-                        />
-                        <Route path="/b/:bname/:bid" element={user ? <Board /> : <Navigate to="/login" />} />
-                        <Route
-                            path="/w/:wname/:wid"
-                            element={
-                                user ? (
-                                    <WorkspaceLayout>
-                                        <WorkspaceBoardsWithHeading />
-                                    </WorkspaceLayout>
-                                ) : (
-                                    <Navigate to="/login" />
-                                )
-                            }
-                        />
-                        <Route
-                            path="/w/:wname/:wid/members"
-                            element={
-                                user ? (
-                                    <WorkspaceLayout>
-                                        <WorkspaceMembersLayout>
-                                            <WorkspaceMembers />
-                                        </WorkspaceMembersLayout>
-                                    </WorkspaceLayout>
-                                ) : (
-                                    <Navigate to="/login" />
-                                )
-                            }
-                        />
-                        <Route
-                            path="/w/:wname/:wid/members/guests"
-                            element={
-                                user ? (
-                                    <WorkspaceLayout>
-                                        <WorkspaceMembersLayout>
-                                            <WorkspaceGuests />
-                                        </WorkspaceMembersLayout>
-                                    </WorkspaceLayout>
-                                ) : (
-                                    <Navigate to="/login" />
-                                )
-                            }
-                        />
-                        <Route
-                            path="/w/:wname/:wid/members/requests"
-                            element={
-                                user ? (
-                                    <WorkspaceLayout>
-                                        <WorkspaceMembersLayout>
-                                            <WorkspaceRequests />
-                                        </WorkspaceMembersLayout>
-                                    </WorkspaceLayout>
-                                ) : (
-                                    <Navigate to="/login" />
-                                )
-                            }
-                        />
-                        <Route
-                            path="/w/:wname/:wid/settings"
-                            element={
-                                user ? (
-                                    <WorkspaceLayout>
-                                        <WorkspaceSettings />
-                                    </WorkspaceLayout>
-                                ) : (
-                                    <Navigate to="/login" />
-                                )
-                            }
-                        />
-                    </Routes>
-                </main>
-            </ThemeProvider>
-        )
+                <Routes>
+                    <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+                    <Route
+                        path="/"
+                        element={
+                            user ? (
+                                <LayoutHome>
+                                    <Home />
+                                </LayoutHome>
+                            ) : (
+                                <Landing />
+                            )
+                        }
+                    />
+                    <Route
+                        path="/w/:wname/:wid/home"
+                        element={
+                            user ? (
+                                <LayoutHome>
+                                    <WorkspaceHome />
+                                </LayoutHome>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <Route
+                        path="/u/:user/boards"
+                        element={
+                            user ? (
+                                <LayoutHome>
+                                    <AllBoards />
+                                </LayoutHome>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <Route path="/b/:bname/:bid" element={user ? <Board /> : <Navigate to="/login" />} />
+                    <Route
+                        path="/w/:wname/:wid"
+                        element={
+                            user ? (
+                                <WorkspaceLayout>
+                                    <WorkspaceBoardsWithHeading />
+                                </WorkspaceLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <Route
+                        path="/w/:wname/:wid/members"
+                        element={
+                            user ? (
+                                <WorkspaceLayout>
+                                    <WorkspaceMembersLayout>
+                                        <WorkspaceMembers />
+                                    </WorkspaceMembersLayout>
+                                </WorkspaceLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <Route
+                        path="/w/:wname/:wid/members/guests"
+                        element={
+                            user ? (
+                                <WorkspaceLayout>
+                                    <WorkspaceMembersLayout>
+                                        <WorkspaceGuests />
+                                    </WorkspaceMembersLayout>
+                                </WorkspaceLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <Route
+                        path="/w/:wname/:wid/members/requests"
+                        element={
+                            user ? (
+                                <WorkspaceLayout>
+                                    <WorkspaceMembersLayout>
+                                        <WorkspaceRequests />
+                                    </WorkspaceMembersLayout>
+                                </WorkspaceLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <Route
+                        path="/w/:wname/:wid/settings"
+                        element={
+                            user ? (
+                                <WorkspaceLayout>
+                                    <WorkspaceSettings />
+                                </WorkspaceLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                </Routes>
+            </main>
+        </ThemeProvider>
     );
 };
 

@@ -7,7 +7,6 @@ import { useEffect } from "react";
 
 const Login = () => {
     const auth = getAuth();
-    console.log(auth);
     useEffect(() => {
         const loadFirebaseUI = async (auth: Auth) => {
             const uiConfig = {
