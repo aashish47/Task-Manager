@@ -2,6 +2,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Location, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { createCustomTheme } from "./Theme/theme";
 import { handleTokenExpireError } from "./api/api";
 import AllBoards from "./components/home/AllBoards";
 import Home from "./components/home/Home";
@@ -22,7 +23,6 @@ import LayoutHome from "./pages/LayoutHome";
 import Login from "./pages/Login";
 import WorkspaceLayout from "./pages/WorkpaceLayout";
 import "./styles/App.css";
-import { createCustomTheme } from "./theme/theme";
 
 const checkBoardPage = (location: Location) => {
     const isBoardPage = location.pathname.startsWith("/b");
