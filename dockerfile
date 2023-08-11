@@ -2,12 +2,16 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package.json .
+COPY backend/package.json .
 
-RUN npm install
+RUN npm install --only=prod
 
-RUN npm prune --production
+RUN mkdir dist
 
-COPY . .
+RUN mkdir public
+
+COPY backend/dist dist/
+
+COPY frontend/dist public/
 
 CMD [ "npm", "start" ]
