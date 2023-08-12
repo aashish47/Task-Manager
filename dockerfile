@@ -18,7 +18,7 @@ WORKDIR /app
 COPY --from=builder app/backend/package.json .
 
 COPY --from=builder app/backend/node_modules node_modules
-RUN npm prune --production
+RUN npm prune --omit=dev
 
 COPY --from=builder app/backend/dist dist
 
