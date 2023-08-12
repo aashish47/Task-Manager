@@ -7,8 +7,12 @@ import { CreateListType, ListType } from "../types/listTypes";
 import { CreateTaskType, TaskType } from "../types/taskTypes";
 import { CreateWorkspaceType, WorkspaceType } from "../types/workspaceTypes";
 
+const baseURL = "https://task-manager-dt0i.onrender.com";
+// const baseURL = "http://localhost:3000";
+
 const api = axios.create({
-    baseURL: "http://localhost:3000/api",
+    // baseURL: "http://localhost:3000/api",
+    baseURL: `${baseURL}/api`,
 });
 
 api.interceptors.request.use((config) => {
@@ -365,7 +369,7 @@ export const deleteComment = async ({ commentId, taskId }: { commentId: string; 
 
 export const getConfig = async () => {
     try {
-        const response = await axios.get(`http://localhost:3000/config`);
+        const response = await axios.get(`${baseURL}/config`);
         return response.data;
     } catch (error) {
         console.log(error);
