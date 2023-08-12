@@ -7,7 +7,7 @@ import { CreateListType, ListType } from "../types/listTypes";
 import { CreateTaskType, TaskType } from "../types/taskTypes";
 import { CreateWorkspaceType, WorkspaceType } from "../types/workspaceTypes";
 
-const baseURL = "https://task-manager-dt0i.onrender.com";
+export const baseURL = "https://task-manager-dt0i.onrender.com";
 // const baseURL = "http://localhost:3000";
 
 const api = axios.create({
