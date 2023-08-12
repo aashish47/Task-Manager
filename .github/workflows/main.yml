@@ -33,4 +33,4 @@ jobs:
                   context: .
                   file: ./dockerfile
                   push: true
-                  tags: ${{ secrets.DOCKERHUB_USERNAME }}/task-manager:v2
+                  tags: ${{ secrets.DOCKERHUB_USERNAME }}/task-manager:v3
