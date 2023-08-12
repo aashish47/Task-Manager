@@ -1,17 +1,27 @@
+FROM node:18:alpine as builder
+
+WORKDIR /app
+
+COPY . .
+
+RUN cd backend && npm install
+RUN cd frontend && npm install
+
+RUN cd backend && npm run build
+RUN cd frontend && npm run build
+
+
 FROM node:18-alpine
 
 WORKDIR /app
 
-COPY backend/package.json .
+COPY --from=builder app/package.json .
 
-RUN npm install --only=prod
+COPY --from=builder app/backend/node_modules node_modules
+RUN npm prune --production
 
-RUN mkdir dist
+COPY --from=builder app/backend/dist dist
 
-RUN mkdir public
-
-COPY backend/dist dist/
-
-COPY frontend/dist public/
+COPY --from=builder app/frontend/dist public
 
 CMD [ "npm", "start" ]
