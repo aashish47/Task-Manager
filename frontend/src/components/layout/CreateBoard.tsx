@@ -70,7 +70,7 @@ const CreateBoard: React.FC<CreateBoardProps> = ({ open, setOpen }) => {
             <Divider variant="middle" />
 
             <div style={{ textAlign: "center", margin: "28px 0px 8px 0px" }}>
-                <img src="http://localhost:5173/board.svg" alt="" />
+                <img src="/board.svg" alt="" />
             </div>
 
             <form autoComplete="off" onSubmit={handleSubmit}>

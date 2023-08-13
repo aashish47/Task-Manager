@@ -27,10 +27,13 @@ jobs:
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v2
 
-            - name: Build and push
+            - name: Build and push image to docker hub
               uses: docker/build-push-action@v4
               with:
                   context: .
                   file: ./dockerfile
                   push: true
                   tags: ${{ secrets.DOCKERHUB_USERNAME }}/task-manager:latest
+
+            - name: Deploy new image to render
+              run: curl ${{ secrets.DEPLOYHOOK }}
