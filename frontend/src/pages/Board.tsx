@@ -11,6 +11,7 @@ import { StrictModeDroppable as Droppable } from "../components/common/StrictMod
 import CreateList from "../components/list/CreateList";
 import TaskList from "../components/list/TaskList";
 import WorkspaceDrawer from "../components/workspace/WorkspaceDrawer";
+import { navbarHeight } from "../constants/constants";
 import { onDragEnd } from "../helpers/dragHelpers";
 import useBoardsContext from "../hooks/board/useBoardsContext";
 import useUpdateBoardMutation from "../hooks/board/useUpdateBoardMutation";
@@ -70,11 +71,15 @@ const Board = () => {
                     board={board}
                 />
 
-                <Main left={openLeftDrawer} right={openRightDrawer} sx={{ overflow: "auto", height: "calc(100vh - 99px)" }}>
+                <Main
+                    left={openLeftDrawer}
+                    right={openRightDrawer}
+                    sx={{ overflowX: "auto", overflowY: "hidden", height: `calc(100vh - ${2 * navbarHeight}px)` }}
+                >
                     <DragDropContext onDragEnd={(result) => onDragEnd(result, moveTaskMutation, updateListMutation, updateBoardMutation, lists, board)}>
                         <Droppable droppableId={boardId} direction="horizontal" type="lists">
                             {(provided) => (
-                                <Stack ref={provided.innerRef} {...provided.droppableProps} direction="row" spacing={1}>
+                                <Stack p={1} pb={0} ref={provided.innerRef} {...provided.droppableProps} direction="row" spacing={1}>
                                     {lists &&
                                         lists.map((list, index) => {
                                             return list && <TaskList key={list._id} index={index} list={list} boardId={boardId} />;

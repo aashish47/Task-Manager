@@ -1,7 +1,7 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { Location, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { createCustomTheme } from "./Theme/theme";
 import { handleTokenExpireError } from "./api/api";
 import AllBoards from "./components/home/AllBoards";
@@ -24,31 +24,18 @@ import Login from "./pages/Login";
 import WorkspaceLayout from "./pages/WorkpaceLayout";
 import "./styles/App.css";
 
-const checkBoardPage = (location: Location) => {
-    const isBoardPage = location.pathname.startsWith("/b");
-    const html = document.querySelector("html");
-    const body = document.querySelector("body");
-    if (isBoardPage && html && body) {
-        html.classList.add("overflow-hidden");
-        body.classList.add("overflow-hidden");
-    } else {
-        html?.classList.remove("overflow-hidden");
-        body?.classList.remove("overflow-hidden");
-    }
-};
-
 const App = () => {
     const [darkmode, setDarkmode] = useState(true);
     const [newNotifications, setNewNotifications] = useState(0);
     const user = useAuthContext();
     const theme = createCustomTheme(darkmode);
-    const location = useLocation();
     const queryClient = useQueryClient();
     const socket = useSocketContext();
 
     useEffect(() => {
-        checkBoardPage(location);
-    }, [location]);
+        const body = document.querySelector("body");
+        body?.classList.add("overflow-hidden");
+    }, []);
 
     useEffect(() => {
         if (!socket || !user) {

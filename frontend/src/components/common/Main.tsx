@@ -6,8 +6,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "left" && pr
     right?: boolean;
 }>(({ theme, left, right }) => ({
     flexGrow: 1,
-    padding: theme.spacing(1),
-    paddingBottom: 0,
     transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,

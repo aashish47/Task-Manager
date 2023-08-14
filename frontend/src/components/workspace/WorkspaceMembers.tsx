@@ -40,7 +40,7 @@ const WorkspaceMembers = () => {
             <Typography variant="h6">Workspace members</Typography>
             <Typography variant="body2">Workspace members can view and join all Workspace visible boards and create new boards in the Workspace.</Typography>
             <Divider />
-            <Stack direction="row" justifyContent="space-between">
+            <Stack flexWrap="wrap" direction="row" justifyContent="space-between">
                 <Typography variant="h6">Invite members to join you</Typography>
                 <WorkspaceInvite />
             </Stack>

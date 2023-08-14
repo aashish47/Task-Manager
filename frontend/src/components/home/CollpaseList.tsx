@@ -4,7 +4,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Box, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -72,7 +72,7 @@ const CollapseList: React.FC<CollapseListProps> = ({ selectedIndex, setSelectedI
     };
 
     return (
-        <div>
+        <Box sx={{ overflowY: "auto", maxHeight: "calc(100vh - 254px)" }}>
             {workspaces &&
                 workspaces.map((workspace, index) => {
                     const { _id: workspaceId, name: workspaceName } = workspace;
@@ -140,7 +140,7 @@ const CollapseList: React.FC<CollapseListProps> = ({ selectedIndex, setSelectedI
                         </div>
                     );
                 })}
-        </div>
+        </Box>
     );
 };
 

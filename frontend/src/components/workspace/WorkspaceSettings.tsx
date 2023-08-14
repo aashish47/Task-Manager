@@ -52,7 +52,7 @@ const WorkspaceSettings = () => {
                     <Typography my={1} variant="body2">
                         Link your Slack and Trello Workspaces together to collaborate on Trello projects from within Slack.
                     </Typography>
-                    <Button sx={{ alignItems: "flex-start" }} size="small" color="inherit" variant="outlined">
+                    <Button sx={{ flexShrink: 0, alignItems: "flex-start" }} size="small" color="inherit" variant="outlined">
                         Add to slack
                     </Button>
                 </Box>

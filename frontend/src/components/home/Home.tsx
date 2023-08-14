@@ -1,11 +1,11 @@
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { List, ListSubheader } from "@mui/material";
+import { List, ListSubheader, Stack } from "@mui/material";
 import HomeTasksCards from "./HomeTasksCards";
 import SidebarRight from "./SidebarRight";
 
 const Home = () => {
     return (
-        <>
+        <Stack direction="row" gap={2}>
             <List
                 sx={{ mx: { xs: 1, md: 0 }, width: "100%", maxWidth: 500 }}
                 aria-labelledby="nested-list-subheader"
@@ -19,7 +19,7 @@ const Home = () => {
                 <HomeTasksCards />
             </List>
             <SidebarRight />
-        </>
+        </Stack>
     );
 };
 

@@ -7,7 +7,7 @@ const AllBoards = () => {
     const workspaces = useWorkspacesContext();
 
     return (
-        <Stack spacing={4} sx={{ width: "100%", maxWidth: { xs: 500, sm: 800 } }}>
+        <Stack spacing={4}>
             <Typography variant="h6">Your Workspaces</Typography>
             {workspaces &&
                 workspaces.map((workspace) => {

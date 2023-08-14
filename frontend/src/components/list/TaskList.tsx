@@ -2,6 +2,7 @@ import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { Box, Stack, TextField, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { navbarHeight } from "../../constants/constants";
 import useUpdateListMutation from "../../hooks/list/useUpdateListMutation";
 import useTasksContext from "../../hooks/task/useTasksContext";
 import { ListType } from "../../types/listTypes";
@@ -38,7 +39,7 @@ const TaskList: React.FC<TaskListProps> = ({ index, boardId, list }) => {
     const tasks = tasksIds.map((taskId) => taskLookup?.get(taskId));
 
     const [first, setFirst] = React.useState(true);
-    const maxHeight = first ? "calc(100vh - 230px)" : "calc(100vh - 200px)";
+    const maxHeight = first ? `calc(100vh - ${4.5 * navbarHeight + 6.25}px)` : `calc(100vh - ${4 * navbarHeight}px)`;
     const containerRef = useRef<HTMLElement | null>(null);
 
     useEffect(() => {

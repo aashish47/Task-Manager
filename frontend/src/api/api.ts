@@ -9,7 +9,7 @@ import { CreateWorkspaceType, WorkspaceType } from "../types/workspaceTypes";
 
 const mode = import.meta.env.MODE;
 export const baseURL = mode === "production" ? "https://task-manager-dt0i.onrender.com" : "http://localhost:3000";
-console.log(baseURL, mode);
+
 const api = axios.create({
     baseURL: `${baseURL}/api`,
 });

@@ -3,7 +3,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Box, Container, Divider, Drawer, IconButton, TextField, Typography, useTheme } from "@mui/material";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import { drawerWidth } from "../../constants/constants";
+import { drawerWidth, navbarHeight } from "../../constants/constants";
 import useSearchPhotos from "../../hooks/photo/useSearchPhotos";
 import { BoardType } from "../../types/boardTypes";
 import DrawerHeader from "../common/DrawerHeader";
@@ -20,7 +20,6 @@ const BoardSearchCover: React.FC<SearchCoverProps> = ({ board, handleCloseBackgr
     const searchPhotos = useSearchPhotos(query)?.response?.results;
     const [open, setOpen] = React.useState<boolean>(false);
     const theme = useTheme();
-    // const open = Boolean(anchorEl);
 
     const handleClick = () => {
         setOpen(true);
@@ -65,7 +64,6 @@ const BoardSearchCover: React.FC<SearchCoverProps> = ({ board, handleCloseBackgr
                     "& .MuiDrawer-paper": {
                         width: drawerWidth,
                         boxSizing: "border-box",
-                        top: "48px",
                         height: "100%",
                     },
                 }}
@@ -81,7 +79,7 @@ const BoardSearchCover: React.FC<SearchCoverProps> = ({ board, handleCloseBackgr
                 <Divider />
 
                 <Container fixed>
-                    <Box id="fix" sx={{ position: "sticky" }}>
+                    <Box>
                         <TextField
                             sx={{ mt: 1 }}
                             fullWidth
@@ -93,7 +91,7 @@ const BoardSearchCover: React.FC<SearchCoverProps> = ({ board, handleCloseBackgr
                         />
                     </Box>
 
-                    <Box id="scroll" sx={{ mt: 1, maxHeight: "calc(100vh - 160px)", overflowY: "auto" }}>
+                    <Box id="scroll" sx={{ mt: 1, maxHeight: `calc(100vh - ${3 * navbarHeight + 16}px)`, overflowY: "auto" }}>
                         <BoardCoverImages handleClose={handleCloseAll} board={board} variant="standard" photos={searchPhotos} />
                     </Box>
                 </Container>

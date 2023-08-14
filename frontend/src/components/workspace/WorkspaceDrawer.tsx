@@ -6,7 +6,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { Avatar, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate, useParams } from "react-router-dom";
-import { drawerWidth } from "../../constants/constants";
+import { drawerWidth, navbarHeight } from "../../constants/constants";
 import useBoardsContext from "../../hooks/board/useBoardsContext";
 import useAuthContext from "../../hooks/context/useAuthContext";
 import useGetWorkspaceById from "../../hooks/workspace/useGetWorkspaceById";
@@ -69,7 +69,6 @@ const WorkspaceDrawer: React.FC<WorkspaceDrawerProps> = ({ open, setOpen }) => {
     return (
         <Drawer
             sx={{
-                // zIndex: 2,
                 width: drawerWidth,
                 flexShrink: 0,
                 "& .MuiPaper-root": {
@@ -80,7 +79,7 @@ const WorkspaceDrawer: React.FC<WorkspaceDrawerProps> = ({ open, setOpen }) => {
                     width: drawerWidth,
                     boxSizing: "border-box",
                     top: "auto",
-                    height: "calc(100% - 48px)",
+                    height: `calc(100% - ${navbarHeight}px)`,
                 },
             }}
             variant="persistent"

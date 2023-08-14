@@ -6,7 +6,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { drawerWidth } from "../../constants/constants";
+import { drawerWidth, navbarHeight } from "../../constants/constants";
 import { BoardType } from "../../types/boardTypes";
 import DrawerHeader from "../common/DrawerHeader";
 import BoardChangeBackground from "./BoardChangeBackground";
@@ -36,16 +36,15 @@ const BoardRightDrawer: React.FC<BoardRightDrawerProps> = ({ open, setOpen, boar
                 "& .MuiDrawer-paper": {
                     width: drawerWidth,
                     boxSizing: "border-box",
-                    overflow: "hidden",
-                    top: "48px",
-                    height: "calc(100% - 48px)",
+                    top: `${navbarHeight}px`,
+                    height: `calc(100vh - ${navbarHeight}px)`,
                 },
             }}
             variant="persistent"
             anchor="right"
             open={open}
         >
-            <DrawerHeader sx={{ justifyContent: "space-between", minHeight: "49px!important" }}>
+            <DrawerHeader sx={{ justifyContent: "space-between", minHeight: `${navbarHeight}px!important` }}>
                 <IconButton color="inherit" onClick={handleDrawerClose}>
                     {theme.direction === "rtl" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                 </IconButton>

@@ -4,6 +4,7 @@ import { Box, Container, IconButton, Stack, TextField, Typography } from "@mui/m
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import * as React from "react";
+import { navbarHeight } from "../../constants/constants";
 import useSearchPhotos from "../../hooks/photo/useSearchPhotos";
 import { TaskType } from "../../types/taskTypes";
 import CoverImages from "./TaskCoverImages";
@@ -98,7 +99,7 @@ const SearchCover: React.FC<SearchCoverProps> = ({ task, handleCloseCoverMenu })
                         />
                     </Box>
 
-                    <Box id="scroll" sx={{ mt: 1, maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}>
+                    <Box id="scroll" sx={{ mt: 1, maxHeight: `calc(100vh - ${4 * navbarHeight}px)`, overflowY: "auto" }}>
                         <CoverImages handleClose={handleCloseCoverMenu} task={task} variant="standard" photos={searchPhotos} />
                     </Box>
                 </Container>

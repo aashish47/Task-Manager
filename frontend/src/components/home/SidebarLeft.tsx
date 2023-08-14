@@ -36,7 +36,7 @@ const SideBarLeft = () => {
 
     return (
         <List
-            sx={{ p: 0, display: { xs: "none", sm: "block" }, width: "100%", maxWidth: 250, bgcolor: "background.paper" }}
+            sx={{ pt: 5, display: { xs: "none", sm: "block" }, width: "100%", maxWidth: 250, bgcolor: "background.paper" }}
             component="nav"
             aria-labelledby="nested-list-subheader"
         >

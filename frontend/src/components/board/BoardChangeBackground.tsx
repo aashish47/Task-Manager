@@ -5,7 +5,7 @@ import { Box, Container, Divider, Drawer, IconButton, ListItem, ListItemButton, 
 import Button from "@mui/material/Button";
 import * as React from "react";
 import { useState } from "react";
-import { drawerWidth } from "../../constants/constants";
+import { drawerWidth, navbarHeight } from "../../constants/constants";
 import useSearchPhotos from "../../hooks/photo/useSearchPhotos";
 import { BoardType } from "../../types/boardTypes";
 import DrawerHeader from "../common/DrawerHeader";
@@ -20,7 +20,6 @@ type BoardChangeBackgroundProps = {
 };
 
 const BoardChangeBackground: React.FC<BoardChangeBackgroundProps> = ({ board }) => {
-    // const defaultPhotos = useGetDefaultPhotos()?.response?.results;
     const searchPhotos = useSearchPhotos("Wallpapers")?.response?.results;
     const updateBoardMutation = useUpdateBoardMutation();
     const [open, setOpen] = React.useState<boolean>(false);
@@ -70,7 +69,6 @@ const BoardChangeBackground: React.FC<BoardChangeBackgroundProps> = ({ board }) 
                     "& .MuiDrawer-paper": {
                         width: drawerWidth,
                         boxSizing: "border-box",
-                        top: "48px",
                         height: "100%",
                         overflowY: "hidden",
                     },
@@ -79,7 +77,7 @@ const BoardChangeBackground: React.FC<BoardChangeBackgroundProps> = ({ board }) 
                 anchor="right"
                 open={open}
             >
-                <DrawerHeader sx={{ justifyContent: "space-between", minHeight: "49px!important" }}>
+                <DrawerHeader sx={{ justifyContent: "space-between", minHeight: `${navbarHeight}px!important` }}>
                     <IconButton onClick={handleClose}>{theme.direction === "rtl" ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
 
                     <Typography variant="subtitle1">Background Cover</Typography>
@@ -88,7 +86,7 @@ const BoardChangeBackground: React.FC<BoardChangeBackgroundProps> = ({ board }) 
                 <Divider />
 
                 <Container fixed>
-                    <Stack sx={{ mt: 1 }} gap={1.5}>
+                    <Stack sx={{ mt: 1, maxHeight: `calc(100vh - ${2 * navbarHeight + 16}px)`, overflowY: "auto" }} gap={1.5}>
                         <Button onClick={handleRemoveCover} variant="contained" size="small" color="secondary" fullWidth>
                             remove cover
                         </Button>

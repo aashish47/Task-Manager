@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import Main from "../components/common/Main";
 import WorkspaceDetailsBar from "../components/workspace/WorkspaceDetailsBar";
 import WorkspaceDrawer from "../components/workspace/WorkspaceDrawer";
+import { navbarHeight } from "../constants/constants";
 import useWorkspacesContext from "../hooks/workspace/useWorkspaceContext";
 
 type WorkspaceLayoutProps = {
@@ -27,8 +28,9 @@ const WorkspaceLayout: React.FC<WorkspaceLayoutProps> = ({ children }) => {
                             <ArrowCircleRightIcon fontSize="large" />
                         </IconButton>
                     )}
-                    <Box sx={{ m: 5, width: "100vw" }}>
-                        <Stack>
+
+                    <Box sx={{ p: 5, width: "100vw", overflowY: "auto", height: `calc(100vh - ${navbarHeight}px)` }}>
+                        <Stack sx={{ minWidth: "250px" }}>
                             {workspace && <WorkspaceDetailsBar workspace={workspace} />}
                             <Divider sx={{ my: 2 }} />
                             {children}

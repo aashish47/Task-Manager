@@ -39,7 +39,7 @@ const WorkspaceMembersLayout: React.FC<WorkspaceMembersLayoutProps> = ({ childre
         <Stack justifyContent="center" gap={2} direction="row" mt={3} flexWrap={flexWrap}>
             <Box flexShrink={0}>
                 <Typography variant="h6">Members</Typography>
-                <List dense subheader={<ListSubheader sx={{ mt: 1, lineHeight: 2 }}>Members of workspace boards</ListSubheader>}>
+                <List dense subheader={<ListSubheader sx={{ position: "static", mt: 1, lineHeight: 2 }}>Members of workspace boards</ListSubheader>}>
                     <ListItemButton onClick={handleMembersClick}>
                         <ListItemText>Workspace members ({totalMembers}) </ListItemText>
                     </ListItemButton>
@@ -51,9 +51,7 @@ const WorkspaceMembersLayout: React.FC<WorkspaceMembersLayoutProps> = ({ childre
                     </ListItemButton>
                 </List>
             </Box>
-            <Box flexGrow={1} sx={{ minWidth: "250px" }}>
-                {children}
-            </Box>
+            <Box flexGrow={1}>{children}</Box>
         </Stack>
     );
 };
