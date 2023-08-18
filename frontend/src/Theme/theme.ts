@@ -20,7 +20,7 @@ export const createCustomTheme = (darkmode: boolean) => {
             MuiAppBar: {
                 styleOverrides: {
                     root: {
-                        backgroundColor: darkmode ? "black" : "white",
+                        backgroundColor: darkmode ? "" : "white",
                         color: textColor,
                         boxShadow: "none",
                     },

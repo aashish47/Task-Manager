@@ -1,19 +1,28 @@
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
 
-const pages = ["Features", "Solutions", "Plans", "Pricing", "Resources"];
+import { NavLink, useNavigate } from "react-router-dom";
 
-function ResponsiveAppBar() {
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import Logo from "./Logo";
+
+type NavBarProps = {
+    darkmode: boolean;
+    setDarkmode: (value: boolean) => void;
+};
+
+const NavBar: React.FC<NavBarProps> = ({ darkmode, setDarkmode }) => {
+    const pages = ["Features", "Solutions", "Plans", "Pricing", "Resources"];
     const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
@@ -27,114 +36,110 @@ function ResponsiveAppBar() {
 
     const handleClickLogin = () => {
         navigate("/login");
+        handleCloseNavMenu();
     };
 
     return (
-        <AppBar position="static">
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component={Link}
-                        to="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: "none", md: "flex" },
-                            fontFamily: "monospace",
-                            fontWeight: 700,
-                            letterSpacing: ".3rem",
-
-                            textDecoration: "none",
-                        }}
-                    >
-                        LOGO
-                    </Typography>
-
-                    <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "left",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "left",
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
+        <Box>
+            <AppBar position="static">
+                <Container sx={{ pr: { md: "0!important" } }} maxWidth="xl">
+                    <Toolbar sx={{ pr: { md: "0!important" } }} variant="regular">
+                        <Link
+                            mr={2}
+                            component={NavLink}
+                            to="/"
                             sx={{
-                                display: { xs: "block", md: "none" },
+                                flexGrow: { xs: 1, md: 0 },
+                                fontFamily: "monospace",
+                                fontWeight: 700,
+                                letterSpacing: ".3rem",
+                                textDecoration: "none",
                             }}
                         >
+                            <Logo />
+                        </Link>
+
+                        {/* Mobile Menu */}
+                        <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                            <IconButton color="inherit" size="large" onClick={handleOpenNavMenu}>
+                                <MenuIcon />
+                            </IconButton>
+                            <Drawer anchor={"top"} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}>
+                                <Container maxWidth="xl">
+                                    <Toolbar disableGutters>
+                                        <Typography
+                                            my={2}
+                                            variant="h6"
+                                            noWrap
+                                            component={NavLink}
+                                            onClick={handleCloseNavMenu}
+                                            to="/"
+                                            sx={{
+                                                flexGrow: { xs: 1, md: 0 },
+                                                fontFamily: "monospace",
+                                                fontWeight: 700,
+                                                letterSpacing: ".3rem",
+                                                textDecoration: "none",
+                                            }}
+                                        >
+                                            LOGO
+                                        </Typography>
+                                        <IconButton color="inherit" sx={{ mr: 1 }} onClick={() => setDarkmode(!darkmode)}>
+                                            {darkmode ? <Brightness7Icon /> : <Brightness4Icon />}
+                                        </IconButton>
+                                        <IconButton color="inherit" size="large" onClick={handleCloseNavMenu}>
+                                            <CloseIcon />
+                                        </IconButton>
+                                    </Toolbar>
+                                </Container>
+                                <Divider variant="middle" />
+                                <List disablePadding>
+                                    {pages.map((page) => (
+                                        <Box key={page}>
+                                            <ListItem disableGutters>
+                                                <ListItemButton onClick={handleCloseNavMenu}>
+                                                    <ListItemText primaryTypographyProps={{ variant: "h6", fontWeight: 400 }} primary={page} />
+                                                </ListItemButton>
+                                            </ListItem>
+                                            <Divider variant="middle" />
+                                        </Box>
+                                    ))}
+                                </List>
+                                <Button onClick={handleClickLogin} size="large" variant="contained" sx={{ py: 2, m: 2, borderRadius: 0 }}>
+                                    login
+                                </Button>
+                            </Drawer>
+                        </Box>
+
+                        {/* desktop and tab navbar options */}
+                        <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
+                                <Button
+                                    key={page}
+                                    color="inherit"
+                                    onClick={handleCloseNavMenu}
+                                    sx={{
+                                        display: "block",
+                                    }}
+                                >
+                                    {page}
+                                </Button>
                             ))}
-                        </Menu>
-                    </Box>
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href=""
-                        sx={{
-                            mr: 2,
-                            display: { xs: "flex", md: "none" },
-                            flexGrow: 1,
-                            fontFamily: "monospace",
-                            fontWeight: 700,
-                            letterSpacing: ".3rem",
-
-                            textDecoration: "none",
-                        }}
-                    >
-                        LOGO
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{
-                                    my: 2,
-
-                                    display: "block",
-                                    "&:hover": {
-                                        color: "blue",
-                                    },
-                                }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
-                    </Box>
-                    <Button
-                        onClick={handleClickLogin}
-                        sx={{
-                            "&:hover": {
-                                color: "blue",
-                            },
-                        }}
-                    >
-                        log in
-                    </Button>
-                </Toolbar>
-            </Container>
-        </AppBar>
+                        </Box>
+                        <IconButton sx={{ display: { xs: "none", md: "flex" } }} onClick={() => setDarkmode(!darkmode)} color="inherit">
+                            {darkmode ? <Brightness7Icon /> : <Brightness4Icon />}
+                        </IconButton>
+                        <Button sx={{ mx: 1, display: { xs: "none", md: "flex" } }} color="inherit" onClick={handleClickLogin}>
+                            login
+                        </Button>
+                        <Button sx={{ py: "19.5px", borderRadius: 0, display: { xs: "none", md: "flex" } }} variant="contained">
+                            get trello for free
+                        </Button>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            <Divider />
+        </Box>
     );
-}
-export default ResponsiveAppBar;
+};
+export default NavBar;

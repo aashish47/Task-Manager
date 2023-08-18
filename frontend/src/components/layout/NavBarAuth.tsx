@@ -13,12 +13,12 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 // import { auth } from "../../firebase/firebase";
 import { getFirebaseAuth } from "../../firebase/firebase";
 import CreateMenu from "./CreateMenu";
+import Logo from "./Logo";
 import NotificationMenu from "./NotificationsMenu";
 import RecentMenu from "./RecentMenu";
 import Search from "./Search";
@@ -27,14 +27,14 @@ import StarredMenu from "./StarredMenu";
 import StyledInputBase from "./StyledInputBase";
 import WorkspaceMenu from "./WorkspaceMenu";
 
-type PrimarySearchAppBarProps = {
+type NavBarAuthProps = {
     newNotifications: number;
     setNewNotifications: React.Dispatch<React.SetStateAction<number>>;
     darkmode: boolean;
     setDarkmode: (value: boolean) => void;
 };
 
-const PrimarySearchAppBar: React.FC<PrimarySearchAppBarProps> = ({ newNotifications, setNewNotifications, darkmode, setDarkmode }) => {
+const NavBarAuth: React.FC<NavBarAuthProps> = ({ newNotifications, setNewNotifications, darkmode, setDarkmode }) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -142,7 +142,7 @@ const PrimarySearchAppBar: React.FC<PrimarySearchAppBarProps> = ({ newNotificati
             <AppBar position="static">
                 <Toolbar variant="dense">
                     <Link component={NavLink} to={"/"}>
-                        <Typography variant="h6">MUI</Typography>
+                        <Logo />
                     </Link>
                     <Box sx={{ flexGrow: 1, gap: 1.2, display: "flex", ml: 2, alignItems: "center" }}>
                         <WorkspaceMenu />
@@ -197,4 +197,4 @@ const PrimarySearchAppBar: React.FC<PrimarySearchAppBarProps> = ({ newNotificati
     );
 };
 
-export default PrimarySearchAppBar;
+export default NavBarAuth;

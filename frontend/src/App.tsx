@@ -34,6 +34,10 @@ const App = () => {
 
     useEffect(() => {
         const body = document.querySelector("body");
+        const html = document.querySelector("html");
+        const root = document.querySelector("#root");
+        root?.classList.add("overflow-hidden");
+        html?.classList.add("overflow-hidden");
         body?.classList.add("overflow-hidden");
     }, []);
 
@@ -100,7 +104,7 @@ const App = () => {
                 {user ? (
                     <NavBarAuth newNotifications={newNotifications} setNewNotifications={setNewNotifications} darkmode={darkmode} setDarkmode={setDarkmode} />
                 ) : (
-                    <NavBar />
+                    <NavBar darkmode={darkmode} setDarkmode={setDarkmode} />
                 )}
 
                 <Routes>
