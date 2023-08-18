@@ -35,7 +35,7 @@ export let io = new Server(server, {
 });
 
 const environment = process.env.NODE_ENV || "development";
-export const baseURL = environment === "production" ? "https://task-manager-dt0i.onrender.com" : origin;
+export const baseURL = environment === "production" ? "https://trello-wjbn.onrender.com" : origin;
 console.log(`Current Environment: ${environment} BaseUrl: ${baseURL}`);
 
 app.use(express.json({ limit: "50mb" }));

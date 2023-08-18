@@ -11,12 +11,11 @@ import UseCasesHeading from "../components/landing/UseCasesHeading";
 import Views from "../components/landing/Views";
 import Workflows from "../components/landing/Workflows";
 import WorkflowsHeading from "../components/landing/WorkflowsHeading";
+import { navHeightLanding } from "../constants/constants";
 
 const Landing = () => {
-    const navHeight = 65;
-
     return (
-        <Box sx={{ overflowX: "hidden", overflowY: "auto", maxHeight: `calc(100vh - ${navHeight}px)` }}>
+        <Box sx={{ overflowX: "hidden", overflowY: "auto", maxHeight: `calc(100vh - ${navHeightLanding}px)` }}>
             <Header />
             <IntroHeading />
             <IntroList />

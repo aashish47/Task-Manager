@@ -43,7 +43,7 @@ const NavBar: React.FC<NavBarProps> = ({ darkmode, setDarkmode }) => {
         <Box>
             <AppBar position="static">
                 <Container sx={{ pr: { md: "0!important" } }} maxWidth="xl">
-                    <Toolbar sx={{ pr: { md: "0!important" } }} variant="regular">
+                    <Toolbar sx={{ height: "64px", pr: { md: "0!important" } }} variant="regular">
                         <Link
                             mr={2}
                             component={NavLink}
