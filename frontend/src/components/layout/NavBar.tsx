@@ -7,13 +7,13 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import * as React from "react";
 
 import { NavLink, useNavigate } from "react-router-dom";
 
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { navHeightLanding } from "../../constants/constants";
 import Logo from "./Logo";
 
 type NavBarProps = {
@@ -43,7 +43,7 @@ const NavBar: React.FC<NavBarProps> = ({ darkmode, setDarkmode }) => {
         <Box>
             <AppBar position="static">
                 <Container sx={{ pr: { md: "0!important" } }} maxWidth="xl">
-                    <Toolbar sx={{ height: "64px", pr: { md: "0!important" } }} variant="regular">
+                    <Toolbar sx={{ height: `calc(${navHeightLanding - 1}px)`, pr: { md: "0!important" } }}>
                         <Link
                             mr={2}
                             component={NavLink}
@@ -66,13 +66,10 @@ const NavBar: React.FC<NavBarProps> = ({ darkmode, setDarkmode }) => {
                             </IconButton>
                             <Drawer anchor={"top"} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}>
                                 <Container maxWidth="xl">
-                                    <Toolbar disableGutters>
-                                        <Typography
-                                            my={2}
-                                            variant="h6"
-                                            noWrap
+                                    <Toolbar sx={{ height: `calc(${navHeightLanding - 1}px)` }} disableGutters>
+                                        <Link
+                                            mr={2}
                                             component={NavLink}
-                                            onClick={handleCloseNavMenu}
                                             to="/"
                                             sx={{
                                                 flexGrow: { xs: 1, md: 0 },
@@ -82,8 +79,8 @@ const NavBar: React.FC<NavBarProps> = ({ darkmode, setDarkmode }) => {
                                                 textDecoration: "none",
                                             }}
                                         >
-                                            LOGO
-                                        </Typography>
+                                            <Logo />
+                                        </Link>
                                         <IconButton color="inherit" sx={{ mr: 1 }} onClick={() => setDarkmode(!darkmode)}>
                                             {darkmode ? <Brightness7Icon /> : <Brightness4Icon />}
                                         </IconButton>

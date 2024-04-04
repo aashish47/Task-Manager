@@ -7,6 +7,7 @@ const Views = () => {
     const theme = useTheme();
     const mode = theme.palette.mode;
     const isScreenMd = useMediaQuery(theme.breakpoints.down("md"));
+    const color = mode === "dark" ? "#eceff1" : "white";
     const views = [
         {
             title: "HIT DEADLINES EVERY TIME",
@@ -35,14 +36,14 @@ const Views = () => {
             }}
         >
             <Stack position="relative" top="50px" gap={2} maxWidth="sm">
-                <Typography sx={{ color: "#eceff1" }} fontWeight={500} variant={isScreenMd ? "h5" : "h4"} textAlign="center">
+                <Typography sx={{ color }} fontWeight={500} variant={isScreenMd ? "h5" : "h4"} textAlign="center">
                     See work in a whole new way
                 </Typography>
-                <Typography sx={{ color: "#eceff1" }} variant="h6" fontWeight={300} textAlign="center">
+                <Typography sx={{ color }} variant="h6" fontWeight={300} textAlign="center">
                     View your team’s projects from every angle and bring a fresh perspective to the task at hand.
                 </Typography>
                 <Button
-                    sx={{ "&:hover": { backgroundColor: grey[400] }, py: 2, alignSelf: "center", backgroundColor: "#eceff1", color: "#263238" }}
+                    sx={{ "&:hover": { backgroundColor: grey[400] }, py: 2, alignSelf: "center", backgroundColor: color, color: "#263238" }}
                     variant="contained"
                 >
                     discover all the views
