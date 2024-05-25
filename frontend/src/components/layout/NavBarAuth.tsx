@@ -63,9 +63,6 @@ const NavBarAuth: React.FC<NavBarAuthProps> = ({ newNotifications, setNewNotific
         navigate(`/u/${displayName}/boards`);
         handleMobileMenuClose();
     };
-    const handleMobileCreate = () => {
-        handleMobileMenuClose();
-    };
 
     const handleLogout = async () => {
         const auth = getFirebaseAuth();
