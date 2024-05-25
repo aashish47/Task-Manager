@@ -102,13 +102,24 @@ const App = () => {
             <CssBaseline enableColorScheme />
             <main>
                 {user ? (
-                    <NavBarAuth newNotifications={newNotifications} setNewNotifications={setNewNotifications} darkmode={darkmode} setDarkmode={setDarkmode} />
+                    <NavBarAuth
+                        newNotifications={newNotifications}
+                        setNewNotifications={setNewNotifications}
+                        darkmode={darkmode}
+                        setDarkmode={setDarkmode}
+                    />
                 ) : (
-                    <NavBar darkmode={darkmode} setDarkmode={setDarkmode} />
+                    <NavBar
+                        darkmode={darkmode}
+                        setDarkmode={setDarkmode}
+                    />
                 )}
 
                 <Routes>
-                    <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+                    <Route
+                        path="/login"
+                        element={!user ? <Login /> : <Navigate to="/" />}
+                    />
                     <Route
                         path="/"
                         element={
@@ -145,7 +156,10 @@ const App = () => {
                             )
                         }
                     />
-                    <Route path="/b/:bname/:bid" element={user ? <Board /> : <Navigate to="/login" />} />
+                    <Route
+                        path="/b/:bname/:bid"
+                        element={user ? <Board /> : <Navigate to="/login" />}
+                    />
                     <Route
                         path="/w/:wname/:wid"
                         element={

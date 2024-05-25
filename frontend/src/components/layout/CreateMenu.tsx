@@ -45,7 +45,7 @@ export default function CreateMenu() {
         <div>
             <Button
                 size="small"
-                sx={{ display: { xs: "none", sm: "block" } }}
+                fullWidth
                 variant="contained"
                 id="basic-button"
                 aria-controls={open ? "basic-menu" : undefined}
@@ -65,7 +65,10 @@ export default function CreateMenu() {
                     "aria-labelledby": "basic-button",
                 }}
             >
-                <MenuItem onClick={handleCreateWokspace} sx={stylesMenu}>
+                <MenuItem
+                    onClick={handleCreateWokspace}
+                    sx={stylesMenu}
+                >
                     <div style={{ display: "flex", gap: "5px" }}>
                         <WorkspacesIcon />
                         <Typography variant="subtitle1">Create Workspace</Typography>
@@ -74,7 +77,10 @@ export default function CreateMenu() {
                         A Workspace is a group of boards and people. Use it to organize your company, side hustle, family, or friends.{" "}
                     </Typography>
                 </MenuItem>
-                <MenuItem onClick={handleCreateBoard} sx={stylesMenu}>
+                <MenuItem
+                    onClick={handleCreateBoard}
+                    sx={stylesMenu}
+                >
                     <div style={{ display: "flex", gap: "5px" }}>
                         <DashboardIcon />
                         <Typography variant="subtitle1">Create Board</Typography>
@@ -85,8 +91,18 @@ export default function CreateMenu() {
                     </Typography>
                 </MenuItem>
             </Menu>
-            {openCreateWorkspace && <CreateWorkspace open={openCreateWorkspace} setOpen={setOpenCreateWorkspace} />}
-            {openCreateBoard && <CreateBoard open={openCreateBoard} setOpen={setOpenCreateBoard} />}
+            {openCreateWorkspace && (
+                <CreateWorkspace
+                    open={openCreateWorkspace}
+                    setOpen={setOpenCreateWorkspace}
+                />
+            )}
+            {openCreateBoard && (
+                <CreateBoard
+                    open={openCreateBoard}
+                    setOpen={setOpenCreateBoard}
+                />
+            )}
         </div>
     );
 }

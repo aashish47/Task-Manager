@@ -1,6 +1,4 @@
 import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 
 export default function RecentMenu() {
@@ -9,9 +7,9 @@ export default function RecentMenu() {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
 
     return (
         <div>
@@ -26,7 +24,7 @@ export default function RecentMenu() {
             >
                 Recent
             </Button>
-            <Menu
+            {/* <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}
                 open={open}
@@ -39,7 +37,7 @@ export default function RecentMenu() {
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
+            </Menu> */}
         </div>
     );
 }
